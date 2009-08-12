@@ -169,6 +169,7 @@ namespace OneStoryProjectEditor
             this.textBoxVernacular.Size = new System.Drawing.Size(176, 20);
             this.textBoxVernacular.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBoxVernacular, "Enter the name of the language that the stories are going to be crafted into");
+            this.textBoxVernacular.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // textBoxNationalBTLanguage
             // 
@@ -179,6 +180,7 @@ namespace OneStoryProjectEditor
             this.textBoxNationalBTLanguage.TabIndex = 2;
             this.toolTip.SetToolTip(this.textBoxNationalBTLanguage, "Enter the name of the language that the stories will be back-translated into by t" +
                     "he UNSs (i.e. typically, the National language)");
+            this.textBoxNationalBTLanguage.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // textBoxVernacularEthCode
             // 
@@ -189,6 +191,7 @@ namespace OneStoryProjectEditor
             this.textBoxVernacularEthCode.TabIndex = 6;
             this.toolTip.SetToolTip(this.textBoxVernacularEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
+            this.textBoxVernacularEthCode.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // textBoxNationalBTEthCode
             // 
@@ -199,6 +202,7 @@ namespace OneStoryProjectEditor
             this.textBoxNationalBTEthCode.TabIndex = 7;
             this.toolTip.SetToolTip(this.textBoxNationalBTEthCode, "Enter the 2-3 letter code for this language (e.g. English is \'en\', Hindi is \'hi\')" +
                     "");
+            this.textBoxVernacularEthCode.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // buttonVernacularFont
             // 
@@ -439,6 +443,7 @@ namespace OneStoryProjectEditor
             this.textBoxProjectName.Name = "textBoxProjectName";
             this.textBoxProjectName.Size = new System.Drawing.Size(358, 20);
             this.textBoxProjectName.TabIndex = 16;
+            this.textBoxProjectName.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // fontDialog
             // 
@@ -467,6 +472,7 @@ namespace OneStoryProjectEditor
             this.textBoxVernSentFullStop.TabIndex = 18;
             this.toolTip.SetToolTip(this.textBoxVernSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. Engl" +
                     "ish is \'.\', Hindi is \'।\')");
+            this.textBoxVernSentFullStop.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // textBoxNationalBTSentFullStop
             // 
@@ -477,6 +483,7 @@ namespace OneStoryProjectEditor
             this.textBoxNationalBTSentFullStop.TabIndex = 18;
             this.toolTip.SetToolTip(this.textBoxNationalBTSentFullStop, "Enter the punctional character used in this language to end a sentence (e.g. Engl" +
                     "ish is \'.\', Hindi is \'।\')");
+            this.textBoxNationalBTSentFullStop.TextChanged += new System.EventHandler(textBox_TextChanged);
             // 
             // TeamMemberForm
             // 
