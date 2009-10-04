@@ -433,6 +433,7 @@ namespace OneStoryProjectEditor
 		*/
 	}
 
+	/*
 	/// <summary>
 	/// Build the HTML text for the Biblical Terms list
 	/// </summary>
@@ -503,7 +504,7 @@ namespace OneStoryProjectEditor
 		public BiblicalTermsListHTMLBuilder()
 		{
 		}
-		/*
+
 		/// <summary>
 		/// Build the HTML text for a list of references.
 		/// </summary>
@@ -605,6 +606,6 @@ namespace OneStoryProjectEditor
 
 			return builder.ToString();
 		}
-		*/
 	}
+	*/
 }

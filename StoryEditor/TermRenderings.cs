@@ -27,7 +27,6 @@ namespace OneStoryProjectEditor
 		private static Dictionary<string, TermRenderingsList> globalDictionary = new Dictionary<string, TermRenderingsList>();
 
 		private string scrTextName;
-		private CharacterCategorizer characterCategorizer;
 
 		private List<TermRendering> renderings = new List<TermRendering>();
 		private Dictionary<string, TermRendering> renderingsDict = null;
@@ -211,7 +210,7 @@ namespace OneStoryProjectEditor
 					if (!renderingsDict.ContainsKey(rend.Id))
 					{
 						// Normal case, add to dictionary
-						rend.CharacterCategorizer = characterCategorizer;
+						// rend.CharacterCategorizer = characterCategorizer;
 						renderingsDict[rend.Id] = rend;
 						++i;
 					}
@@ -233,7 +232,7 @@ namespace OneStoryProjectEditor
 
 			rendering = new TermRendering();
 			rendering.Id = id;
-			rendering.CharacterCategorizer = characterCategorizer;
+			// rendering.CharacterCategorizer = characterCategorizer;
 
 			renderings.Add(rendering);
 			renderingsDict[rendering.Id] = rendering;
