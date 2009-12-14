@@ -6,16 +6,16 @@ using System.Drawing;
 
 namespace OneStoryProjectEditor
 {
-	public class CommInstance : StringTransfer
+	public class CommInstance : Dictionary<string, StringTransfer>
 	{
 		public ConsultNoteDataConverter.CommunicationDirections Direction;
 		public string Guid;
 		public DateTime TimeStamp;
 
-		public CommInstance(string strValue,
-			ConsultNoteDataConverter.CommunicationDirections direction,
+		public static List<ProjectSettings.LanguageInfo> ConsultantNoteLanguages = new List<ProjectSettings.LanguageInfo>();
+
+		public CommInstance(ConsultNoteDataConverter.CommunicationDirections direction,
 			string strGuid, DateTime timeStamp)
-			: base(strValue)
 		{
 			Direction = direction;
 			Guid = strGuid ?? System.Guid.NewGuid().ToString();
@@ -23,13 +23,33 @@ namespace OneStoryProjectEditor
 		}
 
 		public CommInstance(CommInstance rhs)
-			: base(rhs.ToString())
 		{
 			Direction = rhs.Direction;
 
 			// the guid shouldn't be replicated
 			Guid = System.Guid.NewGuid().ToString();  // rhs.Guid;
 			TimeStamp = rhs.TimeStamp;
+
+			// replicate the map contents
+			foreach (KeyValuePair<string, StringTransfer> kvp in rhs)
+				Add(kvp.Key, kvp.Value);
+		}
+
+		public bool HasData
+		{
+			get { return (Count > 0); }
+		}
+
+		public StringTransfer StringTransferOfFirstLanguage
+		{
+			get
+			{
+				System.Diagnostics.Debug.Assert(ConsultantNoteLanguages.Count > 0);
+				StringTransfer st;
+				if (TryGetValue(ConsultantNoteLanguages[0].LangCode, out st))
+					return st;
+				return null;
+			}
 		}
 	}
 
@@ -72,6 +92,14 @@ namespace OneStoryProjectEditor
 				Add(new CommInstance(aCI));
 		}
 
+		protected void Add(CommInstance ci, NewDataSet.TextRow[] theTextRows)
+		{
+			foreach (NewDataSet.TextRow aTextRow in theTextRows)
+				ci.Add(aTextRow.lang, new StringTransfer(aTextRow.Text_text));
+
+			Add(ci);
+		}
+
 		protected static Dictionary<string, CommunicationDirections> CmapDirectionStringToEnumType = new Dictionary<string, CommunicationDirections>()
 		{
 			{ "ConsultantToProjFac", CommunicationDirections.eConsultantToProjFac },
@@ -102,9 +130,19 @@ namespace OneStoryProjectEditor
 					RemoveAt(Count - 1);
 
 			if ((eLoggedOnMember == eMentorType) && ((Count == 0) || (this[Count - 1].Direction == MenteeDirection)))
-				Add(new CommInstance(strValue, MentorDirection, null, DateTime.Now));
+				AddNewCIWithFirstLanguageValue(strValue, MentorDirection);
 			else if ((eLoggedOnMember == eMenteeType) && ((Count == 0) || (this[Count - 1].Direction == MentorDirection)))
-				Add(new CommInstance(strValue, MenteeDirection, null, DateTime.Now));
+				AddNewCIWithFirstLanguageValue(strValue, MenteeDirection);
+		}
+
+		protected void AddNewCIWithFirstLanguageValue(string strValue, CommunicationDirections ciDirection)
+		{
+			CommInstance ci = new CommInstance(ciDirection, null, DateTime.Now);
+			System.Diagnostics.Debug.Assert(CommInstance.ConsultantNoteLanguages.Count > 0);
+			ci.Add(CommInstance.ConsultantNoteLanguages[0].LangCode, new StringTransfer(strValue));
+			for (int i = 1; i < CommInstance.ConsultantNoteLanguages.Count; i++)
+				ci.Add(CommInstance.ConsultantNoteLanguages[i].LangCode, null);
+			Add(ci);
 		}
 
 		// do this here, because we need to sub-class it to allow for FirstPassMentor working as well in addition to CIT
@@ -182,12 +220,16 @@ namespace OneStoryProjectEditor
 
 				foreach (CommInstance aCI in this)
 					if (aCI.HasData)
+					{
 						eleNote.Add(new XElement(SubElementName,
 							new XAttribute("Direction", GetDirectionString(aCI.Direction)),
 							new XAttribute("guid", aCI.Guid),
-							new XAttribute("timeStamp", aCI.TimeStamp),
-							aCI.ToString()));
+							new XAttribute("timeStamp", aCI.TimeStamp)));
 
+						foreach (KeyValuePair<string, StringTransfer> kvp in aCI)
+							eleNote.Add(new XElement("Text", new XAttribute("lang", kvp.Key),
+								kvp.Value.ToString()));
+					}
 				return eleNote;
 			}
 		}
@@ -196,7 +238,8 @@ namespace OneStoryProjectEditor
 			SearchForm.StringTransferSearchIndex lstBoxesToSearch)
 		{
 			foreach (CommInstance aCI in this)
-				lstBoxesToSearch.AddNewVerseString(aCI, AssociatedPane);
+				foreach (StringTransfer st in aCI.Values)
+					lstBoxesToSearch.AddNewVerseString(st, AssociatedPane);
 		}
 	}
 
@@ -207,13 +250,25 @@ namespace OneStoryProjectEditor
 		{
 			NewDataSet.ConsultantNoteRow[] theNoteRows = aConRow.GetConsultantNoteRows();
 			foreach (NewDataSet.ConsultantNoteRow aNoteRow in theNoteRows)
-				Add(new CommInstance(aNoteRow.ConsultantNote_text,
-					GetDirectionFromString(aNoteRow.Direction),
+			{
+				CommInstance ci = new CommInstance(GetDirectionFromString(aNoteRow.Direction),
 					aNoteRow.guid, (aNoteRow.IstimeStampNull()) ?
-						DateTime.Now : aNoteRow.timeStamp));
+						DateTime.Now : aNoteRow.timeStamp);
+
+				Add(ci, aNoteRow.GetTextRows());
+
+				InsureAllConsultingLanguages(ci);
+			}
 
 			// make sure that there are at least two (we can't save them if they're empty)
 			System.Diagnostics.Debug.Assert(Count != 0, "It looks like you have an empty Consultant Note field that shouldn't be there. For now, you can just 'Ignore' this error (but perhaps let bob_eaton@sall.com know)");
+		}
+
+		private static void InsureAllConsultingLanguages(CommInstance ci)
+		{
+			foreach (ProjectSettings.LanguageInfo li in CommInstance.ConsultantNoteLanguages)
+				if (!ci.ContainsKey(li.LangCode))
+					ci.Add(li.LangCode, new StringTransfer(null));
 		}
 
 		public ConsultantNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,
@@ -310,11 +365,16 @@ namespace OneStoryProjectEditor
 		{
 			NewDataSet.CoachNoteRow[] theNoteRows = aCoaCRow.GetCoachNoteRows();
 			foreach (NewDataSet.CoachNoteRow aNoteRow in theNoteRows)
-				Add(new CommInstance(aNoteRow.CoachNote_text,
-					GetDirectionFromString(aNoteRow.Direction),
-					aNoteRow.guid,
-					(aNoteRow.IstimeStampNull()) ? DateTime.Now :
-					aNoteRow.timeStamp));
+			{
+				CommInstance ci = new CommInstance(GetDirectionFromString(aNoteRow.Direction),
+					aNoteRow.guid, (aNoteRow.IstimeStampNull())
+					? DateTime.Now : aNoteRow.timeStamp);
+
+				// coach notes only have the zeroth language (which is normally English BT)
+				System.Diagnostics.Debug.Assert(CommInstance.ConsultantNoteLanguages.Count > 0);
+				ci.Add(CommInstance.ConsultantNoteLanguages[0].LangCode, new StringTransfer(aNoteRow.CoachNote_text));
+				Add(ci);
+			}
 		}
 
 		public CoachNoteData(int nRound, TeamMemberData.UserTypes eLoggedOnMember,

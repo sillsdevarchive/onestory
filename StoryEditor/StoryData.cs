@@ -484,8 +484,10 @@ namespace OneStoryProjectEditor
 			//  project file as well (which will supercede the above information)
 			if (loggedOnMember != null)
 			{
-				strUsername = loggedOnMember.HgUsername;
-				strPassword = loggedOnMember.HgPassword;
+				if (!String.IsNullOrEmpty(loggedOnMember.HgUsername))
+					strUsername = loggedOnMember.HgUsername;
+				if (!String.IsNullOrEmpty(loggedOnMember.HgPassword))
+					strPassword = loggedOnMember.HgPassword;
 			}
 
 			return !String.IsNullOrEmpty(strHgUrlBase);

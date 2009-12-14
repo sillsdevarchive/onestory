@@ -12,8 +12,8 @@ namespace OneStoryProjectEditor
 	{
 		protected const string CstrRoundLabel = "Round: ";
 		protected int m_nRoundNum = -1;
-		internal ConsultNoteDataConverter _myCNDC = null;
-		internal ConsultNotesDataConverter _myCollection = null;
+		internal ConsultNoteDataConverter _myCNDC;
+		internal ConsultNotesDataConverter _myCollection;
 
 		public ConsultNoteControl(VerseControl ctrlVerse, StoryStageLogic storyStageLogic, ConsultNotesDataConverter theCollection,
 			ConsultNoteDataConverter aCNDC, TeamMemberData.UserTypes eLoggedOnMemberType)
@@ -30,31 +30,51 @@ namespace OneStoryProjectEditor
 
 			InsertColumn(2);
 
-			labelRound.Text = CstrRoundLabel + m_nRoundNum.ToString();
+			labelRound.Text = CstrRoundLabel + m_nRoundNum;
 			tableLayoutPanel.SetColumnSpan(labelRound, 2);
 			tableLayoutPanel.Controls.Add(labelRound, 0, 0);
 			tableLayoutPanel.Controls.Add(buttonDragDropHandle, 1, 0);
 
 			System.Diagnostics.Debug.Assert(tableLayoutPanel.RowCount == 1, "otherwise, fix this assumption: ConsultNoteControl.cs.28");
+			System.Diagnostics.Debug.Assert(CommInstance.ConsultantNoteLanguages.Count > 0);
 
 			// finally populate the buttons on that tool strip
 			theCollection.InsureExtraBox(aCNDC, eLoggedOnMemberType);
 			int nNumRows = 1;
 			foreach (CommInstance aCI in aCNDC)
-				if ((aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
-					|| (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant))
-					InitRow(ctrlVerse, aCNDC.MentorLabel, aCI, aCNDC.CommentColor, aCNDC.ThrowIfWrongEditor,
-						aCNDC.MentorRequiredEditor, ref nNumRows);
+			{
+				if (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eConsultantToProjFac)
+				{
+					foreach (ProjectSettings.LanguageInfo li in CommInstance.ConsultantNoteLanguages)
+					{
+						System.Diagnostics.Debug.Assert(aCI.ContainsKey(li.LangCode));
+						StringTransfer st = aCI[li.LangCode];
+						InitRow(ctrlVerse, aCNDC.MentorLabel, st, aCNDC.CommentColor, li, aCNDC.ThrowIfWrongEditor,
+							aCNDC.MentorRequiredEditor, ref nNumRows);
+					}
+				}
+				else if (aCI.Direction == ConsultNoteDataConverter.CommunicationDirections.eCoachToConsultant)
+				{
+					InitRow(ctrlVerse, aCNDC.MentorLabel, aCI.StringTransferOfFirstLanguage, aCNDC.CommentColor,
+						CommInstance.ConsultantNoteLanguages[0], aCNDC.ThrowIfWrongEditor, aCNDC.MentorRequiredEditor,
+						ref nNumRows);
+				}
 				else
-					InitRow(ctrlVerse, aCNDC.MenteeLabel, aCI, aCNDC.ResponseColor, aCNDC.ThrowIfWrongEditor,
-						aCNDC.MenteeRequiredEditor, ref nNumRows);
+				{
+					// else this is mentor to mentee (which is always just the English comment)
+					InitRow(ctrlVerse, aCNDC.MenteeLabel, aCI.StringTransferOfFirstLanguage, aCNDC.ResponseColor,
+						CommInstance.ConsultantNoteLanguages[0], aCNDC.ThrowIfWrongEditor, aCNDC.MenteeRequiredEditor,
+						ref nNumRows);
+				}
+			}
 
 			tableLayoutPanel.ResumeLayout(false);
 			ResumeLayout(false);
 		}
 
 		protected void InitRow(VerseControl ctrlVerse, string strRowLabel, StringTransfer strRowData, Color clrText,
-			CtrlTextBox.ThrowIfNotCorrectEditor delegateCheckEditor, TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
+			ProjectSettings.LanguageInfo li, CtrlTextBox.ThrowIfNotCorrectEditor delegateCheckEditor,
+			TeamMemberData.UserTypes eReqEditor, ref int nNumRows)
 		{
 			int nLayoutRow = nNumRows++;
 
@@ -64,9 +84,8 @@ namespace OneStoryProjectEditor
 			label.Name = strRowLabel + nNumRows;
 			label.Text = strRowLabel;
 
-			CtrlTextBox tb = new CtrlTextBox(
-				strRowLabel + CstrSuffixTextBox + nNumRows,
-				ctrlVerse, this, strRowData, delegateCheckEditor, eReqEditor);
+			CtrlTextBox tb = new CtrlTextBox(strRowLabel + CstrSuffixTextBox + nNumRows,
+				ctrlVerse, this, strRowData, li, strRowLabel, delegateCheckEditor, eReqEditor);
 			tb.ForeColor = clrText;
 
 			// add the label and tool strip as a new row to the table layout panel

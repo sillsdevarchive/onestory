@@ -94,16 +94,8 @@ namespace OneStoryProjectEditor
 				HgPassword = strPassword;
 
 				InitLanguageControls(tabPageLanguageVernacular, ProjSettings.Vernacular);
-				if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideVernacularKeyboard)))
-					comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideVernacularKeyboard;
-
 				InitLanguageControls(tabPageLanguageNationalBT, ProjSettings.NationalBT);
-				if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideNationalBTKeyboard)))
-					comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideNationalBTKeyboard;
-
 				InitLanguageControls(tabPageLanguageEnglishBT, ProjSettings.InternationalBT);
-				if ((LoggedInMember != null) && (!String.IsNullOrEmpty(LoggedInMember.OverrideInternationalBTKeyboard)))
-					comboBoxKeyboardVernacular.SelectedItem = LoggedInMember.OverrideInternationalBTKeyboard;
 
 				tabControl.SelectedIndex++;
 			}
@@ -169,7 +161,7 @@ namespace OneStoryProjectEditor
 					textBoxLanguageNameVernacular, textBoxEthCodeVernacular, textBoxSentFullStopVernacular,
 					ref strKeyboardOverride);
 				if (LoggedInMember != null)
-					LoggedInMember.OverrideVernacularKeyboard = strKeyboardOverride;
+					LoggedInMember.SetVernacularKeyboardOverride(strKeyboardOverride);
 			}
 			else if (tabControl.SelectedTab == tabPageLanguageNationalBT)
 			{
@@ -178,7 +170,7 @@ namespace OneStoryProjectEditor
 					textBoxLanguageNameNationalBT, textBoxEthCodeNationalBT, textBoxSentFullStopNationalBT,
 					ref strKeyboardOverride);
 				if (LoggedInMember != null)
-					LoggedInMember.OverrideNationalBTKeyboard = strKeyboardOverride;
+					LoggedInMember.SetNationalBTKeyboardOverride(strKeyboardOverride);
 			}
 			else if (tabControl.SelectedTab == tabPageLanguageEnglishBT)
 			{
@@ -187,7 +179,7 @@ namespace OneStoryProjectEditor
 					textBoxLanguageNameEnglishBT, textBoxEthCodeEnglishBT, textBoxSentFullStopEnglishBT,
 					ref strKeyboardOverride);
 				if (LoggedInMember != null)
-					LoggedInMember.OverrideInternationalBTKeyboard = strKeyboardOverride;
+					LoggedInMember.SetInternationalBTKeyboardOverride(strKeyboardOverride);
 			}
 			else if (tabControl.SelectedTab == tabPageMemberRoles)
 			{
@@ -246,7 +238,8 @@ namespace OneStoryProjectEditor
 				TextBox textBoxEthCode = tlp.GetControlFromPosition(1, 1) as TextBox;
 				textBoxEthCode.Text = languageInfo.LangCode;
 
-				comboBoxKeyboard.SelectedItem = languageInfo.DefaultKeyboard;
+				comboBoxKeyboard.SelectedItem = (String.IsNullOrEmpty(languageInfo.OverrideKeyboard))
+					? languageInfo.DefaultKeyboard : languageInfo.OverrideKeyboard;
 
 				System.Diagnostics.Debug.Assert(tlp.GetControlFromPosition(2, 3) is CheckBox);
 				CheckBox checkBoxIsRTL = tlp.GetControlFromPosition(2, 3) as CheckBox;
@@ -404,6 +397,7 @@ namespace OneStoryProjectEditor
 			li.LangCode = ThrowIfTextNullOrEmpty(textBoxEthCode, "Ethnologue Code");
 			li.FullStop = ThrowIfTextNullOrEmpty(textBoxSentFullStop, "Sentence Final Punctuation");
 			li.IsRTL = cbRtl.Checked;
+			li.OverrideKeyboard = strKeyboardOverride;
 
 			tabControl.SelectedIndex++;
 		}
@@ -447,6 +441,8 @@ namespace OneStoryProjectEditor
 			}
 			else
 				tabControl.TabPages.Remove(tabPageLanguageVernacular);
+
+			checkBoxConNotesInVernacular.Enabled = checkBoxStoryLanguage.Checked;
 			Modified = true;
 		}
 
@@ -460,6 +456,8 @@ namespace OneStoryProjectEditor
 			}
 			else
 				tabControl.TabPages.Remove(tabPageLanguageNationalBT);
+
+			checkBoxConNotesInNationalBT.Enabled = checkBoxNationalBT.Checked;
 			Modified = true;
 		}
 
@@ -473,6 +471,8 @@ namespace OneStoryProjectEditor
 			}
 			else
 				tabControl.TabPages.Remove(tabPageLanguageEnglishBT);
+
+			checkBoxConNotesInInternationalBT.Enabled = checkBoxEnglishBT.Checked;
 			Modified = true;
 		}
 

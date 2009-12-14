@@ -15,7 +15,7 @@ namespace OneStoryProjectEditor
 		// default is to have all 3, but the user might disable one or the other bt languages
 		public LanguageInfo Vernacular = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Maroon);
 		public LanguageInfo NationalBT = new LanguageInfo(new Font("Arial Unicode MS", 12), Color.Green);
-		public LanguageInfo InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue);
+		public LanguageInfo InternationalBT;
 
 		public bool IsConfigured;
 		public string HgRepoUrl = null;
@@ -30,55 +30,24 @@ namespace OneStoryProjectEditor
 				System.Diagnostics.Debug.Assert(strProjectFolderDefaultIfNull[strProjectFolderDefaultIfNull.Length-1] != '\\');
 				_strProjectFolder = strProjectFolderDefaultIfNull;
 			}
+
+			// just in case the user starts a new project, we always have to default back to having an EnglishBT (our minimal)
+			// (if this is a project file, we'll change this when we serialize, but for now...)
+			InternationalBT = new LanguageInfo("English", "en", new Font("Times New Roman", 10), Color.Blue, true);
+
+			// we're going to initialize this here, so clear out any previous contents
+			CommInstance.ConsultantNoteLanguages.Clear();
+			CommInstance.ConsultantNoteLanguages.Add(InternationalBT);
 		}
 
 		public void SerializeProjectSettings(NewDataSet projFile)
 		{
 			System.Diagnostics.Debug.Assert((projFile != null) && (projFile.StoryProject[0].ProjectName == ProjectName));
 
+			// since we're serializing in (possibly) new languages, clear out any previous contents
+			CommInstance.ConsultantNoteLanguages.Clear();
+
 			NewDataSet.LanguagesRow theLangRow = InsureLanguagesRow(projFile);
-
-			// if there is no vernacular row, we must add it (it's required)
-			if (projFile.VernacularLang.Count == 1)
-			{
-				// otherwise, read in the details
-				System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
-				NewDataSet.VernacularLangRow theVernRow = projFile.VernacularLang[0];
-				Vernacular.LangName = theVernRow.name;
-				Vernacular.LangCode = theVernRow.code;
-				Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
-
-				// save what was in the actual file so we don't overwrite when the font isn't present
-				if (Vernacular.LangFont.Name != theVernRow.FontName)
-					Vernacular.FontName = theVernRow.FontName;
-
-				Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
-				Vernacular.FullStop = theVernRow.SentenceFinalPunct;
-				Vernacular.IsRTL = (!theVernRow.IsRTLNull() && theVernRow.RTL);
-				Vernacular.DefaultKeyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
-					? theVernRow.Keyboard : null;
-			}
-
-			// the national language BT isn't strictly necessary...
-			//  so only initialize if there's one in the file (shouldn't be more than 1)
-			if (projFile.NationalBTLang.Count == 1)
-			{
-				System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
-				NewDataSet.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
-				NationalBT.LangName = rowNatlRow.name;
-				NationalBT.LangCode = rowNatlRow.code;
-				NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
-
-				// save what was in the actual file so we don't overwrite when the font isn't present
-				if (NationalBT.LangFont.Name != rowNatlRow.FontName)
-					NationalBT.FontName = rowNatlRow.FontName;
-
-				NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
-				NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
-				NationalBT.IsRTL = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
-				NationalBT.DefaultKeyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
-					? rowNatlRow.Keyboard : null;
-			}
 
 			// the international language BT isn't strictly necessary... (e.g. if they're only doing
 			//  national lang BTs) (but have to have one or the other; neither is not acceptable)
@@ -100,6 +69,14 @@ namespace OneStoryProjectEditor
 				InternationalBT.IsRTL = (!rowEngRow.IsRTLNull() && rowEngRow.RTL);
 				InternationalBT.DefaultKeyboard = (!rowEngRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowEngRow.Keyboard))
 					? rowEngRow.Keyboard : null;
+				InternationalBT.IsConsultantNotes = rowEngRow.ConsultantNotes;
+
+				if (InternationalBT.IsConsultantNotes)
+				{
+					System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(InternationalBT.LangCode)
+						&& (CommInstance.ConsultantNoteLanguages.Count == 0));
+					CommInstance.ConsultantNoteLanguages.Add(InternationalBT);
+				}
 			}
 			else
 			{
@@ -107,6 +84,62 @@ namespace OneStoryProjectEditor
 				//  so clear out the default language name in this case:
 				InternationalBT.LangName = null;
 				System.Diagnostics.Debug.Assert(!InternationalBT.HasData);
+			}
+
+			// the national language BT isn't strictly necessary...
+			//  so only initialize if there's one in the file (shouldn't be more than 1)
+			if (projFile.NationalBTLang.Count == 1)
+			{
+				System.Diagnostics.Debug.Assert(projFile.NationalBTLang.Count == 1);
+				NewDataSet.NationalBTLangRow rowNatlRow = projFile.NationalBTLang[0];
+				NationalBT.LangName = rowNatlRow.name;
+				NationalBT.LangCode = rowNatlRow.code;
+				NationalBT.LangFont = new Font(rowNatlRow.FontName, rowNatlRow.FontSize);
+
+				// save what was in the actual file so we don't overwrite when the font isn't present
+				if (NationalBT.LangFont.Name != rowNatlRow.FontName)
+					NationalBT.FontName = rowNatlRow.FontName;
+
+				NationalBT.FontColor = Color.FromName(rowNatlRow.FontColor);
+				NationalBT.FullStop = rowNatlRow.SentenceFinalPunct;
+				NationalBT.IsRTL = (!rowNatlRow.IsRTLNull() && rowNatlRow.RTL);
+				NationalBT.DefaultKeyboard = (!rowNatlRow.IsKeyboardNull() && !String.IsNullOrEmpty(rowNatlRow.Keyboard))
+					? rowNatlRow.Keyboard : null;
+
+				NationalBT.IsConsultantNotes = rowNatlRow.ConsultantNotes;
+				if (NationalBT.IsConsultantNotes)
+				{
+					System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(NationalBT.LangCode));
+					CommInstance.ConsultantNoteLanguages.Add(NationalBT);
+				}
+			}
+
+			// if there is no vernacular row, we must add it (it's required)
+			if (projFile.VernacularLang.Count == 1)
+			{
+				// otherwise, read in the details
+				System.Diagnostics.Debug.Assert(projFile.VernacularLang.Count == 1);
+				NewDataSet.VernacularLangRow theVernRow = projFile.VernacularLang[0];
+				Vernacular.LangName = theVernRow.name;
+				Vernacular.LangCode = theVernRow.code;
+				Vernacular.LangFont = new Font(theVernRow.FontName, theVernRow.FontSize);
+
+				// save what was in the actual file so we don't overwrite when the font isn't present
+				if (Vernacular.LangFont.Name != theVernRow.FontName)
+					Vernacular.FontName = theVernRow.FontName;
+
+				Vernacular.FontColor = Color.FromName(theVernRow.FontColor);
+				Vernacular.FullStop = theVernRow.SentenceFinalPunct;
+				Vernacular.IsRTL = (!theVernRow.IsRTLNull() && theVernRow.RTL);
+				Vernacular.DefaultKeyboard = (!theVernRow.IsKeyboardNull() && !String.IsNullOrEmpty(theVernRow.Keyboard))
+					? theVernRow.Keyboard : null;
+
+				Vernacular.IsConsultantNotes = theVernRow.ConsultantNotes;
+				if (Vernacular.IsConsultantNotes)
+				{
+					System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Vernacular.LangCode));
+					CommInstance.ConsultantNoteLanguages.Add(Vernacular);
+				}
 			}
 
 			// if we're setting this up from the file, then we're "configured"
@@ -124,7 +157,9 @@ namespace OneStoryProjectEditor
 			public Color FontColor;
 			public string FullStop = CstrSentenceFinalPunctuation;
 			public string DefaultKeyboard = null;
+			public string OverrideKeyboard { get; set; } // only available at run-time
 			public bool IsRTL = false;
+			public bool IsConsultantNotes;
 
 			public LanguageInfo(Font font, Color fontColor)
 			{
@@ -132,12 +167,13 @@ namespace OneStoryProjectEditor
 				FontColor = fontColor;
 			}
 
-			public LanguageInfo(string strLangName, string strLangCode, Font font, Color fontColor)
+			public LanguageInfo(string strLangName, string strLangCode, Font font, Color fontColor, bool bConsultantNotes)
 			{
 				LangName = strLangName;
 				LangCode = strLangCode;
 				LangFont = font;
 				FontColor = fontColor;
+				IsConsultantNotes = bConsultantNotes;
 			}
 
 			public bool HasData
@@ -163,7 +199,8 @@ namespace OneStoryProjectEditor
 						new XAttribute("code", LangCode),
 						new XAttribute("FontName", strFontName),
 						new XAttribute("FontSize", LangFont.Size),
-						new XAttribute("FontColor", FontColor.Name));
+						new XAttribute("FontColor", FontColor.Name),
+						new XAttribute("ConsultantNotes", IsConsultantNotes));
 
 				if (!String.IsNullOrEmpty(FullStop))
 					elemLang.Add(new XAttribute("SentenceFinalPunct", FullStop));

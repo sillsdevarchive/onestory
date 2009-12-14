@@ -27,9 +27,9 @@
 							</xs:element>
 						</xs:choice>
 						<xs:attribute name="HasOutsideEnglishBTer" type="xs:boolean" use="optional" />
-			<xs:attribute name="HasFirstPassMentor" type="xs:boolean" use="optional" />
-			<xs:attribute name="HasIndependentConsultant" type="xs:boolean" use="optional" />
-		  </xs:complexType>
+						<xs:attribute name="HasFirstPassMentor" type="xs:boolean" use="optional" />
+						<xs:attribute name="HasIndependentConsultant" type="xs:boolean" use="optional" />
+					</xs:complexType>
 				</xs:element>
 				<xs:element name="Languages" minOccurs="0" maxOccurs="1">
 					<xs:complexType>
@@ -165,7 +165,24 @@
 																			<xs:element name="ConsultantConversation" minOccurs="1" maxOccurs="unbounded">
 																				<xs:complexType>
 																					<xs:sequence>
-																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded" type="Comment" />
+																						<xs:element name="ConsultantNote" minOccurs="1" maxOccurs="unbounded">
+																							<xs:complexType>
+																								<xs:sequence>
+																									<xs:element name="Text" minOccurs="1" maxOccurs="unbounded">
+																										<xs:complexType>
+																											<xs:simpleContent>
+																												<xs:extension base="xs:string">
+																													<xs:attribute name="lang" type="xs:string" />
+																												</xs:extension>
+																											</xs:simpleContent>
+																										</xs:complexType>
+																									</xs:element>
+																								</xs:sequence>
+																								<xs:attribute name="Direction" type="FromTo" use="required" />
+																								<xs:attribute name="guid" type="xs:string" use="required" />
+																								<xs:attribute name="timeStamp" type="xs:dateTime" />
+																							</xs:complexType>
+																						</xs:element>
 																					</xs:sequence>
 																					<xs:attribute name="round" type="xs:unsignedByte" use="required" />
 																					<xs:attribute name="guid" type="xs:string" use="required" />
@@ -332,6 +349,7 @@
 		<xs:attribute name="SentenceFinalPunct" type="xs:string" use="required" />
 		<xs:attribute name="Keyboard" type="xs:string" />
 		<xs:attribute name="RTL" type="xs:boolean" />
+		<xs:attribute name="ConsultantNotes" type="xs:boolean" use="required" />
 	</xs:complexType>
 	<xs:simpleType name="FromTo">
 		<xs:restriction base="xs:string">

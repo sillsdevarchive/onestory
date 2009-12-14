@@ -45,8 +45,7 @@ namespace OneStoryProjectEditor
 					|| (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
 				InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText,
-					aSE.StoryProject.ProjSettings.Vernacular, aSE.LoggedOnMember.OverrideVernacularKeyboard,
-					bDisableTabStopVernacular, nNumColumns);
+					aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, nNumColumns);
 				nNumColumns++;
 			}
 
@@ -63,8 +62,7 @@ namespace OneStoryProjectEditor
 					|| (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
 
 				InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText,
-					aSE.StoryProject.ProjSettings.NationalBT, aSE.LoggedOnMember.OverrideNationalBTKeyboard,
-					bDisableTabStopNationalBT, nNumColumns);
+					aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, nNumColumns);
 
 				nNumColumns++;
 			}
@@ -76,7 +74,7 @@ namespace OneStoryProjectEditor
 					InitLabel(aSE.StoryProject.ProjSettings.InternationalBT.LangName, nNumColumns);
 
 				InitTextBox(ctrlVerse, CstrFieldNameInternationalBt, _aVerseData.InternationalBTText,
-					aSE.StoryProject.ProjSettings.InternationalBT, null, false, nNumColumns);
+					aSE.StoryProject.ProjSettings.InternationalBT, false, nNumColumns);
 				nNumColumns++;
 			}
 
@@ -132,11 +130,11 @@ namespace OneStoryProjectEditor
 		}
 
 		protected void InitTextBox(VerseControl ctrlVerse, string strTbName, StringTransfer strTbText,
-			ProjectSettings.LanguageInfo li, string strOverrideKeyboard, bool bDisableTabStop, int nLayoutColumn)
+			ProjectSettings.LanguageInfo li, bool bDisableTabStop, int nLayoutColumn)
 		{
 			System.Diagnostics.Debug.Assert(!tableLayoutPanel.Controls.ContainsKey(strTbName + CstrSuffixTextBox), "otherwise, fix wrong assumption");
 			CtrlTextBox tb = new CtrlTextBox(strTbName + CstrSuffixTextBox, ctrlVerse, this,
-				strTbText, li, strOverrideKeyboard, li.LangCode);
+				strTbText, li, li.LangCode);
 			tb.TabStop = !bDisableTabStop;
 			tableLayoutPanel.Controls.Add(tb, nLayoutColumn, 1);
 		}

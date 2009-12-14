@@ -47,9 +47,9 @@ namespace OneStoryProjectEditor
 		public string Phone;
 		public string AltPhone;
 		public string BioData;
-		public string OverrideVernacularKeyboard;
-		public string OverrideNationalBTKeyboard;
-		public string OverrideInternationalBTKeyboard;
+		protected string OverrideVernacularKeyboard;
+		protected string OverrideNationalBTKeyboard;
+		protected string OverrideInternationalBTKeyboard;
 		public string HgUsername;
 		public string HgPassword;
 
@@ -218,6 +218,28 @@ namespace OneStoryProjectEditor
 
 				return eleMember;
 			}
+		}
+
+		public void InitKeyboardOverrides(ProjectSettings projSettings)
+		{
+			projSettings.Vernacular.OverrideKeyboard = OverrideVernacularKeyboard;
+			projSettings.NationalBT.OverrideKeyboard = OverrideNationalBTKeyboard;
+			projSettings.InternationalBT.OverrideKeyboard = OverrideInternationalBTKeyboard;
+		}
+
+		public void SetVernacularKeyboardOverride(string strOverrideKeyboard)
+		{
+			OverrideVernacularKeyboard = strOverrideKeyboard;
+		}
+
+		public void SetNationalBTKeyboardOverride(string strOverrideKeyboard)
+		{
+			OverrideNationalBTKeyboard = strOverrideKeyboard;
+		}
+
+		public void SetInternationalBTKeyboardOverride(string strOverrideKeyboard)
+		{
+			OverrideInternationalBTKeyboard = strOverrideKeyboard;
 		}
 	}
 

@@ -380,8 +380,11 @@ namespace OneStoryProjectEditor
 
 		protected static void ShowErrorFocus(StoryEditor theSE, CtrlTextBox tb, string strStatusMessage)
 		{
-			tb.Focus();
-			tb.SelectAll();
+			if (tb != null)
+			{
+				tb.Focus();
+				tb.SelectAll();
+			}
 			ShowError(theSE, strStatusMessage);
 		}
 
@@ -633,7 +636,7 @@ namespace OneStoryProjectEditor
 				if ((theLastCI.Direction == aConNote.MentorDirection)
 					&& !theLastCI.HasData)
 				{
-					ShowErrorFocus(theSE, theLastCI.TextBox,
+					ShowErrorFocus(theSE, theLastCI.StringTransferOfFirstLanguage.TextBox,
 						String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
 						nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MenteeRequiredEditor)));
 					return false;
@@ -651,7 +654,7 @@ namespace OneStoryProjectEditor
 				if ((theLastCI.Direction == aConNote.MenteeDirection)
 					&& !theLastCI.HasData)
 				{
-					ShowErrorFocus(theSE, theLastCI.TextBox,
+					ShowErrorFocus(theSE, theLastCI.StringTransferOfFirstLanguage.TextBox,
 						String.Format("Error: in line {0}, the {1} made a comment, which you didn't respond to. Did you forget it?",
 						nVerseNumber, TeamMemberData.GetMemberTypeAsDisplayString(aConNote.MentorRequiredEditor)));
 					return false;

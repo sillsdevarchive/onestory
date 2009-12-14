@@ -35,11 +35,15 @@ namespace OneStoryProjectEditor
 		}
 
 		public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
+			ProjectSettings.LanguageInfo li, string strLabel,
 			ThrowIfNotCorrectEditor delegateRequiredEditorCheck, TeamMemberData.UserTypes eRequiredEditor)
 		{
 			InitComponent();
-			Font = new Font("Arial Unicode MS", 12);
 			Name = strName;
+			_strLabel = strLabel;
+			Font = li.LangFont;
+			if (li.IsRTL)
+				RightToLeft = RightToLeft.Yes;
 			stData.SetAssociation(this);
 			TextChanged += new EventHandler(ctrlParent.textBox_TextChanged);
 			System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
@@ -47,10 +51,11 @@ namespace OneStoryProjectEditor
 			_ctrlVerseParent = ctrlVerseParent;
 			_delegateRequiredEditorCheck = delegateRequiredEditorCheck; // call to check if the proper member is logged in!
 			_eRequiredEditor = eRequiredEditor;
+			_strKeyboardName = (String.IsNullOrEmpty(li.OverrideKeyboard)) ? li.DefaultKeyboard : li.OverrideKeyboard;
 		}
 
 		public CtrlTextBox(string strName, VerseControl ctrlVerseParent, ResizableControl ctrlParent, StringTransfer stData,
-			ProjectSettings.LanguageInfo li, string strOverrideKeyboard, string strLabel)
+			ProjectSettings.LanguageInfo li, string strLabel)
 		{
 			InitComponent();
 			Name = strName;
@@ -64,7 +69,7 @@ namespace OneStoryProjectEditor
 			System.Diagnostics.Debug.Assert(ctrlParent.StageLogic != null);
 			_stageLogic = ctrlParent.StageLogic;
 			_ctrlVerseParent = ctrlVerseParent;
-			_strKeyboardName = (String.IsNullOrEmpty(strOverrideKeyboard)) ? li.DefaultKeyboard : strOverrideKeyboard;
+			_strKeyboardName = (String.IsNullOrEmpty(li.OverrideKeyboard)) ? li.DefaultKeyboard : li.OverrideKeyboard;
 		}
 
 		public new bool Focus()

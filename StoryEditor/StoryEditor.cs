@@ -27,7 +27,18 @@ namespace OneStoryProjectEditor
 		protected string _strStoriesSet;
 
 		// we keep a copy of this, because it ought to persist across multiple files
-		internal TeamMemberData LoggedOnMember;
+		private TeamMemberData _loggedOnMember;
+		internal TeamMemberData LoggedOnMember
+		{
+			get { return _loggedOnMember; }
+		}
+
+		internal void SetLoggedOnMember(TeamMemberData loggedOnMember, StoryProjectData storyProjectData)
+		{
+			_loggedOnMember = loggedOnMember;
+			_loggedOnMember.InitKeyboardOverrides(storyProjectData.ProjSettings);
+		}
+
 		internal bool Modified;
 		internal Timer myFocusTimer = new Timer();
 
@@ -260,7 +271,7 @@ namespace OneStoryProjectEditor
 
 			// for a new project, we don't want to automatically log in (since this will be the first
 			//  time editing the new project and we need to add at least the current user)
-			LoggedOnMember = null;
+			_loggedOnMember = null;
 			Debug.Assert(StoryProject == null);
 			projectLoginToolStripMenuItem_Click(null, null);
 
@@ -359,7 +370,8 @@ namespace OneStoryProjectEditor
 					if (LoggedOnMember != null)
 						strMemberName = LoggedOnMember.Name;
 
-					LoggedOnMember = StoryProject.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel);
+					SetLoggedOnMember(StoryProject.EditTeamMembers(strMemberName, TeamMemberForm.CstrDefaultOKLabel), StoryProject);
+
 					Modified = true;
 					if (theCurrentStory != null)
 					{
@@ -478,7 +490,7 @@ namespace OneStoryProjectEditor
 		protected void CheckForLogon(StoryProjectData theStoryProject)
 		{
 			if (LoggedOnMember == null)
-				LoggedOnMember = theStoryProject.GetLogin(ref Modified);
+				SetLoggedOnMember(theStoryProject.GetLogin(ref Modified), theStoryProject);
 		}
 
 		protected StoryProjectData GetOldStoryProjectData(NewDataSet projFile, ProjectSettings projSettings)
@@ -2509,7 +2521,7 @@ namespace OneStoryProjectEditor
 			ToolStripItem tsi = sender as ToolStripItem;
 			StoryEditor theOldStoryEditor = new StoryEditor(Properties.Resources.IDS_ObsoleteStoriesSet);
 			theOldStoryEditor.StoryProject = StoryProject;
-			theOldStoryEditor.LoggedOnMember = LoggedOnMember;
+			theOldStoryEditor._loggedOnMember = _loggedOnMember;
 			theOldStoryEditor.Show();
 			theOldStoryEditor.LoadComboBox();
 			theOldStoryEditor.comboBoxStorySelector.SelectedItem = tsi.Text;
