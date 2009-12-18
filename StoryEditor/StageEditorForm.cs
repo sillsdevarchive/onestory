@@ -76,11 +76,11 @@ namespace OneStoryProjectEditor
 			dgcb.Value = stateTransition.StageDisplayString;
 		}
 
-		protected StoryStageLogic.StateTransitions StateTransitions
+		protected StoryStageLogic.StateTransitionMap StateTransitions
 		{
 			get
 			{
-				return StoryStageLogic.stateTransitions;
+				return _storyProjectData.StateTransitionLogic.StateTransitions;
 			}
 		}
 

@@ -348,7 +348,7 @@ namespace OneStoryProjectEditor
 				Program.ClearHgParameters(ProjectName);
 
 			// this is now configured!
-			_storyProjectData.ProjSettings.IsConfigured = true;
+			ProjSettings.IsConfigured = true;
 			DialogResult = DialogResult.OK;
 			Close();
 		}

@@ -218,13 +218,64 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="name" type="xs:string" use="required" />
-									<xs:attribute name="stage" type="ProjectStages" use="required" />
+									<xs:attribute name="stage" type="xs:string" use="required" />
 									<xs:attribute name="guid" type="xs:string" use="required" />
 									<xs:attribute name="stageDateTimeStamp" type="xs:dateTime" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute name="SetName" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProjectStates" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="StateTransition" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="StageDisplayString" type="xs:string" minOccurs="1" maxOccurs="1" />
+										<xs:element name="StageInstructions" type="xs:string" minOccurs="1" maxOccurs="1" />
+										<xs:element name="ViewSettings" minOccurs="1" maxOccurs="1">
+											<xs:complexType>
+												<xs:attribute name="viewVernacularLangField" type="xs:boolean" />
+												<xs:attribute name="viewNationalLangField" type="xs:boolean" />
+												<xs:attribute name="viewEnglishBTField" type="xs:boolean" />
+												<xs:attribute name="viewAnchorField" type="xs:boolean" />
+												<xs:attribute name="viewStoryTestingQuestionField" type="xs:boolean" />
+												<xs:attribute name="viewRetellingField" type="xs:boolean" />
+												<xs:attribute name="viewConsultantNoteField" type="xs:boolean" />
+												<xs:attribute name="viewCoachNotesField" type="xs:boolean" />
+												<xs:attribute name="viewNetBible" type="xs:boolean" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AllowableBackwardsTransitions" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="AllowableBackwardsTransition" minOccurs="1" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute name="RequiresUsingVernacular" type="xs:boolean" />
+																	<xs:attribute name="RequiresUsingNationalBT" type="xs:boolean" />
+																	<xs:attribute name="RequiresUsingEnglishBT" type="xs:boolean" />
+																	<xs:attribute name="RequiresUsingOtherEnglishBTer" type="xs:boolean" />
+																	<xs:attribute name="RequiresBiblicalStory" type="xs:boolean" />
+																	<xs:attribute name="RequiresFirstPassMentor" type="xs:boolean" />
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="stage" type="xs:string" use="required" />
+									<xs:attribute name="MemberTypeWithEditToken" type="MemberType" use="required" />
+									<xs:attribute name="NextState" type="xs:string" use="required" />
+									<xs:attribute name="FixedState" type="xs:boolean" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -300,43 +351,6 @@
 			<xs:enumeration value="IndependentConsultant" />
 			<xs:enumeration value="Coach" />
 			<xs:enumeration value="JustLooking" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="ProjectStages">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="ProjFacTypeVernacular" />
-			<xs:enumeration value="ProjFacTypeNationalBT" />
-			<xs:enumeration value="ProjFacTypeInternationalBT" />
-			<xs:enumeration value="ProjFacAddAnchors" />
-			<xs:enumeration value="ProjFacAddStoryQuestions" />
-			<xs:enumeration value="BackTranslatorTypeInternationalBT" />
-			<xs:enumeration value="ConsultantCheckNonBiblicalStory" />
-			<xs:enumeration value="FirstPassMentorCheck1" />
-			<xs:enumeration value="ConsultantCheckStoryInfo" />
-			<xs:enumeration value="ConsultantCheckAnchors" />
-			<xs:enumeration value="ConsultantCheckStoryQuestions" />
-			<xs:enumeration value="CoachReviewRound1Notes" />
-			<xs:enumeration value="ConsultantReviseRound1Notes" />
-			<xs:enumeration value="BackTranslatorTranslateConNotes" />
-			<xs:enumeration value="ProjFacReviseBasedOnRound1Notes" />
-			<xs:enumeration value="ProjFacOnlineReview1WithConsultant" />
-			<xs:enumeration value="ProjFacReadyForTest1" />
-			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest1" />
-			<xs:enumeration value="ProjFacEnterRetellingOfTest1" />
-			<xs:enumeration value="FirstPassMentorCheck2" />
-			<xs:enumeration value="ConsultantCheck2" />
-			<xs:enumeration value="CoachReviewRound2Notes" />
-			<xs:enumeration value="ConsultantReviseRound2Notes" />
-			<xs:enumeration value="BackTranslatorTranslateConNotes2" />
-			<xs:enumeration value="ProjFacReviseBasedOnRound2Notes" />
-			<xs:enumeration value="ProjFacOnlineReview2WithConsultant" />
-			<xs:enumeration value="ProjFacReadyForTest2" />
-			<xs:enumeration value="ProjFacEnterAnswersToStoryQuestionsOfTest2" />
-			<xs:enumeration value="ProjFacEnterRetellingOfTest2" />
-			<xs:enumeration value="FirstPassMentorReviewTest2" />
-			<xs:enumeration value="ConsultantReviewTest2" />
-			<xs:enumeration value="CoachReviewTest2Notes" />
-			<xs:enumeration value="TeamComplete" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="LanguageInfo">

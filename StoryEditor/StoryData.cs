@@ -11,6 +11,7 @@ namespace OneStoryProjectEditor
 	{
 		public string Name;
 		public string guid;
+		public string ProjectStage { get; set; }
 		public DateTime StageTimeStamp;
 		public StoryStageLogic ProjStage;
 		public CraftingInfoData CraftingInfo;
@@ -21,7 +22,7 @@ namespace OneStoryProjectEditor
 			Name = strStoryName;
 			guid = Guid.NewGuid().ToString();
 			StageTimeStamp = DateTime.Now;
-			ProjStage = new StoryStageLogic(projSettings);
+			ProjectStage = StoryStageLogic.GetInitialStoryStage(projSettings);
 			CraftingInfo = new CraftingInfoData(strCrafterMemberGuid, strLoggedOnMemberGuid, bIsBiblicalStory);
 			Verses = new VersesData();
 			Verses.InsureFirstVerse();
@@ -32,7 +33,7 @@ namespace OneStoryProjectEditor
 			Name = theStoryRow.name;
 			guid = theStoryRow.guid;
 			StageTimeStamp = (theStoryRow.IsstageDateTimeStampNull()) ? DateTime.Now : theStoryRow.stageDateTimeStamp;
-			ProjStage = new StoryStageLogic(theStoryRow.stage);
+			ProjectStage = theStoryRow.stage;
 			CraftingInfo = new CraftingInfoData(theStoryRow);
 			Verses = new VersesData(theStoryRow, projFile);
 		}
@@ -45,7 +46,7 @@ namespace OneStoryProjectEditor
 			guid = Guid.NewGuid().ToString();  // rhs.guid;
 
 			StageTimeStamp = rhs.StageTimeStamp;
-			ProjStage = new StoryStageLogic(rhs.ProjStage);
+			ProjectStage = rhs.ProjectStage;
 			CraftingInfo = new CraftingInfoData(rhs.CraftingInfo);
 			Verses = new VersesData(rhs.Verses);
 		}
@@ -55,12 +56,12 @@ namespace OneStoryProjectEditor
 			get
 			{
 				System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(Name)
-					&& !String.IsNullOrEmpty(ProjStage.ProjectStage.ToString())
+					&& !String.IsNullOrEmpty(ProjectStage)
 					&& !String.IsNullOrEmpty(guid));
 
 				XElement elemStory = new XElement("story",
 						new XAttribute("name", Name),
-						new XAttribute("stage", ProjStage.ToString()),
+						new XAttribute("stage", ProjectStage),
 						new XAttribute("guid", guid),
 						new XAttribute("stageDateTimeStamp", StageTimeStamp),
 						CraftingInfo.GetXml);
@@ -273,6 +274,7 @@ namespace OneStoryProjectEditor
 		public ProjectSettings ProjSettings;
 		public string PanoramaFrontMatter;
 		public string XmlDataVersion = "1.1";
+		public StoryStageLogic StateTransitionLogic;
 
 		/// <summary>
 		/// This version of the constructor should *always* be followed by a call to InitializeProjectSettings()
@@ -281,6 +283,7 @@ namespace OneStoryProjectEditor
 		{
 			TeamMembers = new TeamMembersData();
 			PanoramaFrontMatter = Properties.Resources.IDS_DefaultPanoramaFrontMatter;
+			StateTransitionLogic = new StoryStageLogic();
 
 			// start with to stories sets (the current one and the obsolete ones)
 			Add(Properties.Resources.IDS_MainStoriesSet, new StoriesData(Properties.Resources.IDS_MainStoriesSet));
@@ -318,6 +321,12 @@ namespace OneStoryProjectEditor
 			// finally, if it's not new, then it might (should) have stories as well
 			foreach (NewDataSet.storiesRow aStoriesRow in projFile.StoryProject[0].GetstoriesRows())
 				Add(aStoriesRow.SetName, new StoriesData(aStoriesRow, projFile));
+
+			// finally, if there's a specialization of the state logic...
+			if (projFile.ProjectStates.Count == 1)
+				StateTransitionLogic = new StoryStageLogic(projFile.ProjectStates[0], projFile);
+			else
+				StateTransitionLogic = new StoryStageLogic();
 		}
 
 		// if this is "new", then we won't have a project name yet, so query the user for it
@@ -415,8 +424,9 @@ namespace OneStoryProjectEditor
 					//  if we have an English Back-translator person in the team, then we have to set the
 					//  member with the edit token when we get to the EnglishBT state as that person
 					//  otherwise, it's a crafter
-					StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-						(TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+					// TODO: does this matter anymore?
+					//  StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
+					//     (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
 					return true;
 				}
 			}
@@ -448,8 +458,9 @@ namespace OneStoryProjectEditor
 			//  If we have an English Back-translator person in the team, then we have to set the
 			//  member with the edit token when we get to the EnglishBT state as that person
 			//  otherwise, it's a crafter
-			StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
-				(TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
+			// TODO: does this matter anymore?
+			//  StoryStageLogic.stateTransitions[StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT].MemberTypeWithEditToken =
+			//    (TeamMembers.HasOutsideEnglishBTer) ? TeamMemberData.UserTypes.eEnglishBacktranslator : TeamMemberData.UserTypes.eProjectFacilitator;
 
 			return TeamMembers[dlg.SelectedMember];
 		}

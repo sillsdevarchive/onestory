@@ -83,12 +83,15 @@ namespace OneStoryProjectEditor
 			if (!_theCNsDC.CheckAddNotePrivilege(theSE, theSE.LoggedOnMember.MemberType))
 				return;
 
-			StoryStageLogic.ProjectStages eCurState = theSE.theCurrentStory.ProjStage.ProjectStage;
+			string strCurState = theSE.theCurrentStory.ProjectStage;
+			int nIndexCurrentState = StageLogic.StateTransitions.ProjectStates.IndexOf(strCurState);
+			int nIndexEndOfRound1 = StageLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacOnlineReview1WithConsultant);
+			int nIndexEndOfRound2 = StageLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacOnlineReview2WithConsultant);
 			int round = 1;
-			if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound1Notes)
+			if (nIndexCurrentState > nIndexEndOfRound1)
 			{
 				round = 2;
-				if (eCurState > StoryStageLogic.ProjectStages.eConsultantReviseRound2Notes)
+				if (nIndexCurrentState > nIndexEndOfRound2)
 					round = 3;
 			}
 

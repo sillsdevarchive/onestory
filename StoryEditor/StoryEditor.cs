@@ -340,11 +340,8 @@ namespace OneStoryProjectEditor
 
 					if (theCurrentStory != null)
 					{
-						// reload the state transitions so that we can possible support a new
-						//  configuration (e.g. there might now be a FPM)
-						StoryStageLogic.stateTransitions = new StoryStageLogic.StateTransitions();
 						ReInitMenuVisibility();
-						SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+						SetViewBasedOnProjectStage(theCurrentStory.ProjectStage);
 					}
 				}
 
@@ -694,7 +691,7 @@ namespace OneStoryProjectEditor
 			// initialize the project stage details (which might hide certain views)
 			//  (do this *after* initializing the whole thing, because if we save, we'll
 			//  want to save even the hidden pieces)
-			SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+			SetViewBasedOnProjectStage(theCurrentStory.ProjectStage);
 
 			// finally, initialize the verse controls
 			InitAllPanes();
@@ -1093,9 +1090,10 @@ namespace OneStoryProjectEditor
 			Modified = true;
 		}
 
-		internal void SetViewBasedOnProjectStage(StoryStageLogic.ProjectStages eStage)
+		internal void SetViewBasedOnProjectStage(string strStage)
 		{
-			StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[eStage];
+			Debug.Assert((StoryProject != null) && (StoryProject.StateTransitionLogic != null) && (StoryProject.StateTransitionLogic.StateTransitions != null));
+			StoryStageLogic.StateTransition st = StoryProject.StateTransitionLogic.StateTransitions[strStage];
 
 			st.SetView(this);
 			helpProvider.SetHelpString(this, st.StageInstructions);
@@ -1301,7 +1299,6 @@ namespace OneStoryProjectEditor
 				{
 					Debug.Assert(theCurrentStory.CraftingInfo != null);
 					if (theCurrentStory.CraftingInfo.IsBiblicalStory
-						&&  (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
 						&&  (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
 						|| String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
 						QueryStoryPurpose();
@@ -1546,7 +1543,7 @@ namespace OneStoryProjectEditor
 			buttonsStoryStage.DropDown.Items.Clear();
 
 			// get the current StateTransition object and find all of the allowable transition states
-			StoryStageLogic.StateTransition theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+			StoryStageLogic.StateTransition theCurrentST = StoryProject.StateTransitionLogic.StateTransitions[theCurrentStory.ProjectStage];
 			Debug.Assert(theCurrentST != null);
 
 			AddListOfButtons(theCurrentST.AllowableBackwardsTransitions);
@@ -1570,7 +1567,8 @@ namespace OneStoryProjectEditor
 							StoryProject.TeamMembers.HasOutsideEnglishBTer))
 					)
 				{
-					StoryStageLogic.StateTransition aST = StoryStageLogic.stateTransitions[aps.ProjectStage];
+					Debug.Assert((StoryProject != null) && (StoryProject.StateTransitionLogic != null) && (StoryProject.StateTransitionLogic.StateTransitions != null));
+					StoryStageLogic.StateTransition aST = StoryProject.StateTransitionLogic.StateTransitions[aps.ProjectStage];
 					ToolStripItem tsi = buttonsStoryStage.DropDown.Items.Add(
 						aST.StageDisplayString, null, OnSelectOtherState);
 					tsi.Tag = aST;
@@ -1592,14 +1590,16 @@ namespace OneStoryProjectEditor
 			if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
 				return;
 
-			// NOTE: the new state may actually be a previous state
+			// NOTE: the new state may actually (no... will) be a previous state
 			StoryStageLogic.StateTransition theCurrentST = null;
 			do
 			{
-				theCurrentST = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
+				theCurrentST = StoryProject.StateTransitionLogic.StateTransitions[theCurrentStory.ProjectStage];
+				int nIndexCurrentState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(theCurrentST.CurrentStage);
+				int nIndexNewState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(theNewST.CurrentStage);
 
 				// if we're going backwards, then just set the new state and update the view
-				if ((int)theCurrentST.CurrentStage > (int)theNewST.CurrentStage)
+				if (nIndexCurrentState > nIndexNewState)
 				{
 					Debug.Assert(theCurrentST.IsTransitionValid(theNewST.CurrentStage));
 					// if this is the last transition before they lose edit privilege, then make
@@ -1613,8 +1613,8 @@ namespace OneStoryProjectEditor
 							 Properties.Resources.IDS_Caption, MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
 							return;
 
-					theCurrentStory.ProjStage.ProjectStage = theNewST.CurrentStage;
-					SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+					theCurrentStory.ProjectStage = theNewST.CurrentStage;
+					SetViewBasedOnProjectStage(theCurrentStory.ProjectStage);
 					Modified = true;
 					break;
 				}
@@ -1639,7 +1639,7 @@ namespace OneStoryProjectEditor
 
 			if (SetNextStateIfReady())
 			{
-				SetViewBasedOnProjectStage(theCurrentStory.ProjStage.ProjectStage);
+				SetViewBasedOnProjectStage(theCurrentStory.ProjectStage);
 				if (bDoUpdateCtrls)
 					InitAllPanes();    // just in case there were changes
 				Modified = true;
@@ -1653,14 +1653,14 @@ namespace OneStoryProjectEditor
 			if (!theCurrentStory.ProjStage.IsChangeOfStateAllowed(LoggedOnMember))
 				return false;
 
-			StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[theCurrentStory.ProjStage.ProjectStage];
-			StoryStageLogic.ProjectStages eProposedNextState = st.NextState;
-			bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, ref eProposedNextState);
+			StoryStageLogic.StateTransition st = StoryProject.StateTransitionLogic.StateTransitions[theCurrentStory.ProjectStage];
+			string strProposedNextState = st.NextState;
+			bool bRet = st.IsReadyForTransition(this, StoryProject, theCurrentStory, ref strProposedNextState);
 			if (bRet)
 			{
-				StoryStageLogic.StateTransition stNext = StoryStageLogic.stateTransitions[eProposedNextState];
+				StoryStageLogic.StateTransition stNext = StoryProject.StateTransitionLogic.StateTransitions[strProposedNextState];
 				bool bReqSave = false;
-				if (theCurrentStory.ProjStage.IsTerminalTransition(eProposedNextState))
+				if (theCurrentStory.ProjStage.IsTerminalTransition(strProposedNextState))
 				{
 					if (MessageBox.Show(
 							String.Format(Properties.Resources.IDS_TerminalTransitionMessage,
@@ -1670,7 +1670,7 @@ namespace OneStoryProjectEditor
 						return false;
 					bReqSave = true;  // request a save if we've just done a terminal transition
 				}
-				theCurrentStory.ProjStage.ProjectStage = eProposedNextState;  // if we are ready, then go ahead and transition
+				theCurrentStory.ProjectStage = strProposedNextState;  // if we are ready, then go ahead and transition
 				theCurrentStory.StageTimeStamp = DateTime.Now;
 				Modified = true;
 				if (bReqSave)
@@ -1696,8 +1696,7 @@ namespace OneStoryProjectEditor
 			if (   (theCurrentStory != null)
 				&& (theCurrentStory.Verses.Count > 0)
 				&& (theCurrentStory.CraftingInfo != null)
-				&& (    (theCurrentStory.CraftingInfo.IsBiblicalStory && !WillBeLossInVerse(theCurrentStory.Verses))
-					||  (!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
+				&& !WillBeLossInVerse(theCurrentStory.Verses))
 			{
 				// then we can do splitting and collapsing of the story
 				splitIntoLinesToolStripMenuItem.Enabled =
@@ -2473,30 +2472,31 @@ namespace OneStoryProjectEditor
 				else
 					viewVernacularLangFieldMenuItem.Visible = false;
 
+				int nIndexCurrentState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(theCurrentStory.ProjectStage);
 				if (StoryProject.ProjSettings.NationalBT.HasData)
 				{
 					viewNationalLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_StoryLanguageField,
 																	   StoryProject.ProjSettings.NationalBT.LangName);
 
+					int nIndexProjFacTypeNationalBTState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacTypeNationalBT);
 					viewNationalLangFieldMenuItem.Enabled = ((theCurrentStory != null)
-															 && (((int)theCurrentStory.ProjStage.ProjectStage)
-																 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeNationalBT));
+															 && (nIndexCurrentState >= nIndexProjFacTypeNationalBTState));
 				}
 				else
 					viewNationalLangFieldMenuItem.Visible = false;
 
+				int nIndexProjFacTypeInternationalBTState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacTypeInternationalBT);
 				viewEnglishBTFieldMenuItem.Visible = (StoryProject.ProjSettings.InternationalBT.HasData);
 				viewEnglishBTFieldMenuItem.Enabled = ((theCurrentStory != null)
-															 && (((int)theCurrentStory.ProjStage.ProjectStage)
-																 >= (int)StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT));
+															 && (nIndexCurrentState >= nIndexProjFacTypeInternationalBTState));
 
+				int nIndexProjFacAddAnchorsState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacAddAnchors);
 				viewAnchorFieldMenuItem.Enabled = ((theCurrentStory != null)
-															 && (((int)theCurrentStory.ProjStage.ProjectStage)
-																 >= (int)StoryStageLogic.ProjectStages.eProjFacAddAnchors));
+															 && (nIndexCurrentState >= nIndexProjFacAddAnchorsState));
 
+				int nIndexProjFacAddStoryQuestionsState = StoryProject.StateTransitionLogic.StateTransitions.ProjectStates.IndexOf(StoryStageLogic.CstrFixedStateProjFacAddStoryQuestions);
 				viewStoryTestingQuestionFieldMenuItem.Enabled = ((theCurrentStory != null)
-															 && (((int)theCurrentStory.ProjStage.ProjectStage)
-																 > (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions));
+															 && (nIndexCurrentState > nIndexProjFacAddStoryQuestionsState));
 
 				viewConsultantNoteFieldMenuItem.Enabled =
 					viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);

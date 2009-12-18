@@ -40,9 +40,9 @@ namespace OneStoryProjectEditor
 				// if we're in the one of the states where the user is entering in the
 				//  national or international BT, then disable the Vernacular as a tab stop.
 				bool bDisableTabStopVernacular =
-					((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeNationalBT)
-					|| (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
-					|| (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
+					((aSE.theCurrentStory.ProjectStage == StoryStageLogic.CstrFixedStateProjFacTypeNationalBT)
+					|| (aSE.theCurrentStory.ProjectStage == StoryStageLogic.CstrFixedStateProjFacTypeInternationalBT)
+					|| (aSE.theCurrentStory.ProjectStage == StoryStageLogic.CstrFixedStateBackTranslatorTypeInternationalBT));
 
 				InitTextBox(ctrlVerse, CstrFieldNameVernacular, _aVerseData.VernacularText,
 					aSE.StoryProject.ProjSettings.Vernacular, bDisableTabStopVernacular, nNumColumns);
@@ -58,8 +58,8 @@ namespace OneStoryProjectEditor
 				// if we're in the one of the states where the user is entering in the
 				//  international BT, then disable the National BT as a tab stop.
 				bool bDisableTabStopNationalBT =
-					((aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eProjFacTypeInternationalBT)
-					|| (aSE.theCurrentStory.ProjStage.ProjectStage == StoryStageLogic.ProjectStages.eBackTranslatorTypeInternationalBT));
+					((aSE.theCurrentStory.ProjectStage == StoryStageLogic.CstrFixedStateProjFacTypeInternationalBT)
+					|| (aSE.theCurrentStory.ProjectStage == StoryStageLogic.CstrFixedStateBackTranslatorTypeInternationalBT));
 
 				InitTextBox(ctrlVerse, CstrFieldNameNationalBt, _aVerseData.NationalBTText,
 					aSE.StoryProject.ProjSettings.NationalBT, bDisableTabStopNationalBT, nNumColumns);

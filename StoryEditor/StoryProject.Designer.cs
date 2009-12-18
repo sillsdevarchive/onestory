@@ -93,6 +93,16 @@ namespace OneStoryProjectEditor {
         
         private CoachNoteDataTable tableCoachNote;
         
+        private ProjectStatesDataTable tableProjectStates;
+        
+        private StateTransitionDataTable tableStateTransition;
+        
+        private ViewSettingsDataTable tableViewSettings;
+        
+        private AllowableBackwardsTransitionsDataTable tableAllowableBackwardsTransitions;
+        
+        private AllowableBackwardsTransitionDataTable tableAllowableBackwardsTransition;
+        
         private global::System.Data.DataRelation relationStoryProject_Members;
         
         private global::System.Data.DataRelation relationMembers_Member;
@@ -158,6 +168,16 @@ namespace OneStoryProjectEditor {
         private global::System.Data.DataRelation relationCoachNotes_CoachConversation;
         
         private global::System.Data.DataRelation relationCoachConversation_CoachNote;
+        
+        private global::System.Data.DataRelation relationStoryProject_ProjectStates;
+        
+        private global::System.Data.DataRelation relationProjectStates_StateTransition;
+        
+        private global::System.Data.DataRelation relationStateTransition_ViewSettings;
+        
+        private global::System.Data.DataRelation relationStateTransition_AllowableBackwardsTransitions;
+        
+        private global::System.Data.DataRelation relationAllowableBackwardsTransitions_AllowableBackwardsTransition;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -286,6 +306,21 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["CoachNote"] != null)) {
                     base.Tables.Add(new CoachNoteDataTable(ds.Tables["CoachNote"]));
+                }
+                if ((ds.Tables["ProjectStates"] != null)) {
+                    base.Tables.Add(new ProjectStatesDataTable(ds.Tables["ProjectStates"]));
+                }
+                if ((ds.Tables["StateTransition"] != null)) {
+                    base.Tables.Add(new StateTransitionDataTable(ds.Tables["StateTransition"]));
+                }
+                if ((ds.Tables["ViewSettings"] != null)) {
+                    base.Tables.Add(new ViewSettingsDataTable(ds.Tables["ViewSettings"]));
+                }
+                if ((ds.Tables["AllowableBackwardsTransitions"] != null)) {
+                    base.Tables.Add(new AllowableBackwardsTransitionsDataTable(ds.Tables["AllowableBackwardsTransitions"]));
+                }
+                if ((ds.Tables["AllowableBackwardsTransition"] != null)) {
+                    base.Tables.Add(new AllowableBackwardsTransitionDataTable(ds.Tables["AllowableBackwardsTransition"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -612,6 +647,51 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ProjectStatesDataTable ProjectStates {
+            get {
+                return this.tableProjectStates;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public StateTransitionDataTable StateTransition {
+            get {
+                return this.tableStateTransition;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ViewSettingsDataTable ViewSettings {
+            get {
+                return this.tableViewSettings;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public AllowableBackwardsTransitionsDataTable AllowableBackwardsTransitions {
+            get {
+                return this.tableAllowableBackwardsTransitions;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public AllowableBackwardsTransitionDataTable AllowableBackwardsTransition {
+            get {
+                return this.tableAllowableBackwardsTransition;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -771,6 +851,21 @@ namespace OneStoryProjectEditor {
                 }
                 if ((ds.Tables["CoachNote"] != null)) {
                     base.Tables.Add(new CoachNoteDataTable(ds.Tables["CoachNote"]));
+                }
+                if ((ds.Tables["ProjectStates"] != null)) {
+                    base.Tables.Add(new ProjectStatesDataTable(ds.Tables["ProjectStates"]));
+                }
+                if ((ds.Tables["StateTransition"] != null)) {
+                    base.Tables.Add(new StateTransitionDataTable(ds.Tables["StateTransition"]));
+                }
+                if ((ds.Tables["ViewSettings"] != null)) {
+                    base.Tables.Add(new ViewSettingsDataTable(ds.Tables["ViewSettings"]));
+                }
+                if ((ds.Tables["AllowableBackwardsTransitions"] != null)) {
+                    base.Tables.Add(new AllowableBackwardsTransitionsDataTable(ds.Tables["AllowableBackwardsTransitions"]));
+                }
+                if ((ds.Tables["AllowableBackwardsTransition"] != null)) {
+                    base.Tables.Add(new AllowableBackwardsTransitionDataTable(ds.Tables["AllowableBackwardsTransition"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -1006,6 +1101,36 @@ namespace OneStoryProjectEditor {
                     this.tableCoachNote.InitVars();
                 }
             }
+            this.tableProjectStates = ((ProjectStatesDataTable)(base.Tables["ProjectStates"]));
+            if ((initTable == true)) {
+                if ((this.tableProjectStates != null)) {
+                    this.tableProjectStates.InitVars();
+                }
+            }
+            this.tableStateTransition = ((StateTransitionDataTable)(base.Tables["StateTransition"]));
+            if ((initTable == true)) {
+                if ((this.tableStateTransition != null)) {
+                    this.tableStateTransition.InitVars();
+                }
+            }
+            this.tableViewSettings = ((ViewSettingsDataTable)(base.Tables["ViewSettings"]));
+            if ((initTable == true)) {
+                if ((this.tableViewSettings != null)) {
+                    this.tableViewSettings.InitVars();
+                }
+            }
+            this.tableAllowableBackwardsTransitions = ((AllowableBackwardsTransitionsDataTable)(base.Tables["AllowableBackwardsTransitions"]));
+            if ((initTable == true)) {
+                if ((this.tableAllowableBackwardsTransitions != null)) {
+                    this.tableAllowableBackwardsTransitions.InitVars();
+                }
+            }
+            this.tableAllowableBackwardsTransition = ((AllowableBackwardsTransitionDataTable)(base.Tables["AllowableBackwardsTransition"]));
+            if ((initTable == true)) {
+                if ((this.tableAllowableBackwardsTransition != null)) {
+                    this.tableAllowableBackwardsTransition.InitVars();
+                }
+            }
             this.relationStoryProject_Members = this.Relations["StoryProject_Members"];
             this.relationMembers_Member = this.Relations["Members_Member"];
             this.relationStoryProject_Languages = this.Relations["StoryProject_Languages"];
@@ -1039,6 +1164,11 @@ namespace OneStoryProjectEditor {
             this.relationverse_CoachNotes = this.Relations["verse_CoachNotes"];
             this.relationCoachNotes_CoachConversation = this.Relations["CoachNotes_CoachConversation"];
             this.relationCoachConversation_CoachNote = this.Relations["CoachConversation_CoachNote"];
+            this.relationStoryProject_ProjectStates = this.Relations["StoryProject_ProjectStates"];
+            this.relationProjectStates_StateTransition = this.Relations["ProjectStates_StateTransition"];
+            this.relationStateTransition_ViewSettings = this.Relations["StateTransition_ViewSettings"];
+            this.relationStateTransition_AllowableBackwardsTransitions = this.Relations["StateTransition_AllowableBackwardsTransitions"];
+            this.relationAllowableBackwardsTransitions_AllowableBackwardsTransition = this.Relations["AllowableBackwardsTransitions_AllowableBackwardsTransition"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1116,6 +1246,16 @@ namespace OneStoryProjectEditor {
             base.Tables.Add(this.tableCoachConversation);
             this.tableCoachNote = new CoachNoteDataTable();
             base.Tables.Add(this.tableCoachNote);
+            this.tableProjectStates = new ProjectStatesDataTable();
+            base.Tables.Add(this.tableProjectStates);
+            this.tableStateTransition = new StateTransitionDataTable();
+            base.Tables.Add(this.tableStateTransition);
+            this.tableViewSettings = new ViewSettingsDataTable();
+            base.Tables.Add(this.tableViewSettings);
+            this.tableAllowableBackwardsTransitions = new AllowableBackwardsTransitionsDataTable();
+            base.Tables.Add(this.tableAllowableBackwardsTransitions);
+            this.tableAllowableBackwardsTransition = new AllowableBackwardsTransitionDataTable();
+            base.Tables.Add(this.tableAllowableBackwardsTransition);
             global::System.Data.ForeignKeyConstraint fkc;
             fkc = new global::System.Data.ForeignKeyConstraint("StoryProject_Members", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
@@ -1348,6 +1488,41 @@ namespace OneStoryProjectEditor {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.Cascade;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("StoryProject_ProjectStates", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectStates.StoryProject_IdColumn});
+            this.tableProjectStates.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("ProjectStates_StateTransition", new global::System.Data.DataColumn[] {
+                        this.tableProjectStates.ProjectStates_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.ProjectStates_IdColumn});
+            this.tableStateTransition.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("StateTransition_ViewSettings", new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.StateTransition_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableViewSettings.StateTransition_IdColumn});
+            this.tableViewSettings.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("StateTransition_AllowableBackwardsTransitions", new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.StateTransition_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransitions.StateTransition_IdColumn});
+            this.tableAllowableBackwardsTransitions.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("AllowableBackwardsTransitions_AllowableBackwardsTransition", new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransitions.AllowableBackwardsTransitions_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn});
+            this.tableAllowableBackwardsTransition.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.Cascade;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             this.relationStoryProject_Members = new global::System.Data.DataRelation("StoryProject_Members", new global::System.Data.DataColumn[] {
                         this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableMembers.StoryProject_IdColumn}, false);
@@ -1513,6 +1688,31 @@ namespace OneStoryProjectEditor {
                         this.tableCoachNote.CoachConversation_IdColumn}, false);
             this.relationCoachConversation_CoachNote.Nested = true;
             this.Relations.Add(this.relationCoachConversation_CoachNote);
+            this.relationStoryProject_ProjectStates = new global::System.Data.DataRelation("StoryProject_ProjectStates", new global::System.Data.DataColumn[] {
+                        this.tableStoryProject.StoryProject_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableProjectStates.StoryProject_IdColumn}, false);
+            this.relationStoryProject_ProjectStates.Nested = true;
+            this.Relations.Add(this.relationStoryProject_ProjectStates);
+            this.relationProjectStates_StateTransition = new global::System.Data.DataRelation("ProjectStates_StateTransition", new global::System.Data.DataColumn[] {
+                        this.tableProjectStates.ProjectStates_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.ProjectStates_IdColumn}, false);
+            this.relationProjectStates_StateTransition.Nested = true;
+            this.Relations.Add(this.relationProjectStates_StateTransition);
+            this.relationStateTransition_ViewSettings = new global::System.Data.DataRelation("StateTransition_ViewSettings", new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.StateTransition_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableViewSettings.StateTransition_IdColumn}, false);
+            this.relationStateTransition_ViewSettings.Nested = true;
+            this.Relations.Add(this.relationStateTransition_ViewSettings);
+            this.relationStateTransition_AllowableBackwardsTransitions = new global::System.Data.DataRelation("StateTransition_AllowableBackwardsTransitions", new global::System.Data.DataColumn[] {
+                        this.tableStateTransition.StateTransition_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransitions.StateTransition_IdColumn}, false);
+            this.relationStateTransition_AllowableBackwardsTransitions.Nested = true;
+            this.Relations.Add(this.relationStateTransition_AllowableBackwardsTransitions);
+            this.relationAllowableBackwardsTransitions_AllowableBackwardsTransition = new global::System.Data.DataRelation("AllowableBackwardsTransitions_AllowableBackwardsTransition", new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransitions.AllowableBackwardsTransitions_IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn}, false);
+            this.relationAllowableBackwardsTransitions_AllowableBackwardsTransition.Nested = true;
+            this.Relations.Add(this.relationAllowableBackwardsTransitions_AllowableBackwardsTransition);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1686,6 +1886,31 @@ namespace OneStoryProjectEditor {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeProjectStates() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeStateTransition() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeViewSettings() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeAllowableBackwardsTransitions() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeAllowableBackwardsTransition() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -1805,6 +2030,16 @@ namespace OneStoryProjectEditor {
         public delegate void CoachConversationRowChangeEventHandler(object sender, CoachConversationRowChangeEvent e);
         
         public delegate void CoachNoteRowChangeEventHandler(object sender, CoachNoteRowChangeEvent e);
+        
+        public delegate void ProjectStatesRowChangeEventHandler(object sender, ProjectStatesRowChangeEvent e);
+        
+        public delegate void StateTransitionRowChangeEventHandler(object sender, StateTransitionRowChangeEvent e);
+        
+        public delegate void ViewSettingsRowChangeEventHandler(object sender, ViewSettingsRowChangeEvent e);
+        
+        public delegate void AllowableBackwardsTransitionsRowChangeEventHandler(object sender, AllowableBackwardsTransitionsRowChangeEvent e);
+        
+        public delegate void AllowableBackwardsTransitionRowChangeEventHandler(object sender, AllowableBackwardsTransitionRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -11171,6 +11406,1502 @@ namespace OneStoryProjectEditor {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ProjectStatesDataTable : global::System.Data.TypedTableBase<ProjectStatesRow> {
+            
+            private global::System.Data.DataColumn columnProjectStates_Id;
+            
+            private global::System.Data.DataColumn columnStoryProject_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesDataTable() {
+                this.TableName = "ProjectStates";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ProjectStatesDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected ProjectStatesDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ProjectStates_IdColumn {
+                get {
+                    return this.columnProjectStates_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StoryProject_IdColumn {
+                get {
+                    return this.columnStoryProject_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow this[int index] {
+                get {
+                    return ((ProjectStatesRow)(this.Rows[index]));
+                }
+            }
+            
+            public event ProjectStatesRowChangeEventHandler ProjectStatesRowChanging;
+            
+            public event ProjectStatesRowChangeEventHandler ProjectStatesRowChanged;
+            
+            public event ProjectStatesRowChangeEventHandler ProjectStatesRowDeleting;
+            
+            public event ProjectStatesRowChangeEventHandler ProjectStatesRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddProjectStatesRow(ProjectStatesRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow AddProjectStatesRow(StoryProjectRow parentStoryProjectRowByStoryProject_ProjectStates) {
+                ProjectStatesRow rowProjectStatesRow = ((ProjectStatesRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentStoryProjectRowByStoryProject_ProjectStates != null)) {
+                    columnValuesArray[1] = parentStoryProjectRowByStoryProject_ProjectStates[3];
+                }
+                rowProjectStatesRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowProjectStatesRow);
+                return rowProjectStatesRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                ProjectStatesDataTable cln = ((ProjectStatesDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ProjectStatesDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnProjectStates_Id = base.Columns["ProjectStates_Id"];
+                this.columnStoryProject_Id = base.Columns["StoryProject_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnProjectStates_Id = new global::System.Data.DataColumn("ProjectStates_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnProjectStates_Id);
+                this.columnStoryProject_Id = new global::System.Data.DataColumn("StoryProject_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStoryProject_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnProjectStates_Id}, true));
+                this.columnProjectStates_Id.AutoIncrement = true;
+                this.columnProjectStates_Id.AllowDBNull = false;
+                this.columnProjectStates_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow NewProjectStatesRow() {
+                return ((ProjectStatesRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ProjectStatesRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(ProjectStatesRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ProjectStatesRowChanged != null)) {
+                    this.ProjectStatesRowChanged(this, new ProjectStatesRowChangeEvent(((ProjectStatesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ProjectStatesRowChanging != null)) {
+                    this.ProjectStatesRowChanging(this, new ProjectStatesRowChangeEvent(((ProjectStatesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ProjectStatesRowDeleted != null)) {
+                    this.ProjectStatesRowDeleted(this, new ProjectStatesRowChangeEvent(((ProjectStatesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ProjectStatesRowDeleting != null)) {
+                    this.ProjectStatesRowDeleting(this, new ProjectStatesRowChangeEvent(((ProjectStatesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveProjectStatesRow(ProjectStatesRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ProjectStatesDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class StateTransitionDataTable : global::System.Data.TypedTableBase<StateTransitionRow> {
+            
+            private global::System.Data.DataColumn columnstage;
+            
+            private global::System.Data.DataColumn columnMemberTypeWithEditToken;
+            
+            private global::System.Data.DataColumn columnNextState;
+            
+            private global::System.Data.DataColumn columnFixedState;
+            
+            private global::System.Data.DataColumn columnStageDisplayString;
+            
+            private global::System.Data.DataColumn columnStageInstructions;
+            
+            private global::System.Data.DataColumn columnStateTransition_Id;
+            
+            private global::System.Data.DataColumn columnProjectStates_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionDataTable() {
+                this.TableName = "StateTransition";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal StateTransitionDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected StateTransitionDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn stageColumn {
+                get {
+                    return this.columnstage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn MemberTypeWithEditTokenColumn {
+                get {
+                    return this.columnMemberTypeWithEditToken;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn NextStateColumn {
+                get {
+                    return this.columnNextState;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn FixedStateColumn {
+                get {
+                    return this.columnFixedState;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StageDisplayStringColumn {
+                get {
+                    return this.columnStageDisplayString;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StageInstructionsColumn {
+                get {
+                    return this.columnStageInstructions;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StateTransition_IdColumn {
+                get {
+                    return this.columnStateTransition_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn ProjectStates_IdColumn {
+                get {
+                    return this.columnProjectStates_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow this[int index] {
+                get {
+                    return ((StateTransitionRow)(this.Rows[index]));
+                }
+            }
+            
+            public event StateTransitionRowChangeEventHandler StateTransitionRowChanging;
+            
+            public event StateTransitionRowChangeEventHandler StateTransitionRowChanged;
+            
+            public event StateTransitionRowChangeEventHandler StateTransitionRowDeleting;
+            
+            public event StateTransitionRowChangeEventHandler StateTransitionRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddStateTransitionRow(StateTransitionRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow AddStateTransitionRow(string stage, string MemberTypeWithEditToken, string NextState, bool FixedState, string StageDisplayString, string StageInstructions, ProjectStatesRow parentProjectStatesRowByProjectStates_StateTransition) {
+                StateTransitionRow rowStateTransitionRow = ((StateTransitionRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        stage,
+                        MemberTypeWithEditToken,
+                        NextState,
+                        FixedState,
+                        StageDisplayString,
+                        StageInstructions,
+                        null,
+                        null};
+                if ((parentProjectStatesRowByProjectStates_StateTransition != null)) {
+                    columnValuesArray[7] = parentProjectStatesRowByProjectStates_StateTransition[0];
+                }
+                rowStateTransitionRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowStateTransitionRow);
+                return rowStateTransitionRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                StateTransitionDataTable cln = ((StateTransitionDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new StateTransitionDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnstage = base.Columns["stage"];
+                this.columnMemberTypeWithEditToken = base.Columns["MemberTypeWithEditToken"];
+                this.columnNextState = base.Columns["NextState"];
+                this.columnFixedState = base.Columns["FixedState"];
+                this.columnStageDisplayString = base.Columns["StageDisplayString"];
+                this.columnStageInstructions = base.Columns["StageInstructions"];
+                this.columnStateTransition_Id = base.Columns["StateTransition_Id"];
+                this.columnProjectStates_Id = base.Columns["ProjectStates_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnstage = new global::System.Data.DataColumn("stage", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnstage);
+                this.columnMemberTypeWithEditToken = new global::System.Data.DataColumn("MemberTypeWithEditToken", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnMemberTypeWithEditToken);
+                this.columnNextState = new global::System.Data.DataColumn("NextState", typeof(string), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnNextState);
+                this.columnFixedState = new global::System.Data.DataColumn("FixedState", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnFixedState);
+                this.columnStageDisplayString = new global::System.Data.DataColumn("StageDisplayString", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStageDisplayString);
+                this.columnStageInstructions = new global::System.Data.DataColumn("StageInstructions", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStageInstructions);
+                this.columnStateTransition_Id = new global::System.Data.DataColumn("StateTransition_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStateTransition_Id);
+                this.columnProjectStates_Id = new global::System.Data.DataColumn("ProjectStates_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnProjectStates_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnStateTransition_Id}, true));
+                this.columnstage.AllowDBNull = false;
+                this.columnstage.Namespace = "";
+                this.columnMemberTypeWithEditToken.AllowDBNull = false;
+                this.columnMemberTypeWithEditToken.Namespace = "";
+                this.columnNextState.AllowDBNull = false;
+                this.columnNextState.Namespace = "";
+                this.columnFixedState.AllowDBNull = false;
+                this.columnFixedState.Namespace = "";
+                this.columnStageDisplayString.AllowDBNull = false;
+                this.columnStageInstructions.AllowDBNull = false;
+                this.columnStateTransition_Id.AutoIncrement = true;
+                this.columnStateTransition_Id.AllowDBNull = false;
+                this.columnStateTransition_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow NewStateTransitionRow() {
+                return ((StateTransitionRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new StateTransitionRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(StateTransitionRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.StateTransitionRowChanged != null)) {
+                    this.StateTransitionRowChanged(this, new StateTransitionRowChangeEvent(((StateTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.StateTransitionRowChanging != null)) {
+                    this.StateTransitionRowChanging(this, new StateTransitionRowChangeEvent(((StateTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.StateTransitionRowDeleted != null)) {
+                    this.StateTransitionRowDeleted(this, new StateTransitionRowChangeEvent(((StateTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.StateTransitionRowDeleting != null)) {
+                    this.StateTransitionRowDeleting(this, new StateTransitionRowChangeEvent(((StateTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveStateTransitionRow(StateTransitionRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "StateTransitionDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ViewSettingsDataTable : global::System.Data.TypedTableBase<ViewSettingsRow> {
+            
+            private global::System.Data.DataColumn columnviewVernacularLangField;
+            
+            private global::System.Data.DataColumn columnviewNationalLangField;
+            
+            private global::System.Data.DataColumn columnviewEnglishBTField;
+            
+            private global::System.Data.DataColumn columnviewAnchorField;
+            
+            private global::System.Data.DataColumn columnviewStoryTestingQuestionField;
+            
+            private global::System.Data.DataColumn columnviewRetellingField;
+            
+            private global::System.Data.DataColumn columnviewConsultantNoteField;
+            
+            private global::System.Data.DataColumn columnviewCoachNotesField;
+            
+            private global::System.Data.DataColumn columnviewNetBible;
+            
+            private global::System.Data.DataColumn columnStateTransition_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsDataTable() {
+                this.TableName = "ViewSettings";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ViewSettingsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected ViewSettingsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewVernacularLangFieldColumn {
+                get {
+                    return this.columnviewVernacularLangField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewNationalLangFieldColumn {
+                get {
+                    return this.columnviewNationalLangField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewEnglishBTFieldColumn {
+                get {
+                    return this.columnviewEnglishBTField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewAnchorFieldColumn {
+                get {
+                    return this.columnviewAnchorField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewStoryTestingQuestionFieldColumn {
+                get {
+                    return this.columnviewStoryTestingQuestionField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewRetellingFieldColumn {
+                get {
+                    return this.columnviewRetellingField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewConsultantNoteFieldColumn {
+                get {
+                    return this.columnviewConsultantNoteField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewCoachNotesFieldColumn {
+                get {
+                    return this.columnviewCoachNotesField;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn viewNetBibleColumn {
+                get {
+                    return this.columnviewNetBible;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StateTransition_IdColumn {
+                get {
+                    return this.columnStateTransition_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRow this[int index] {
+                get {
+                    return ((ViewSettingsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event ViewSettingsRowChangeEventHandler ViewSettingsRowChanging;
+            
+            public event ViewSettingsRowChangeEventHandler ViewSettingsRowChanged;
+            
+            public event ViewSettingsRowChangeEventHandler ViewSettingsRowDeleting;
+            
+            public event ViewSettingsRowChangeEventHandler ViewSettingsRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddViewSettingsRow(ViewSettingsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRow AddViewSettingsRow(bool viewVernacularLangField, bool viewNationalLangField, bool viewEnglishBTField, bool viewAnchorField, bool viewStoryTestingQuestionField, bool viewRetellingField, bool viewConsultantNoteField, bool viewCoachNotesField, bool viewNetBible, StateTransitionRow parentStateTransitionRowByStateTransition_ViewSettings) {
+                ViewSettingsRow rowViewSettingsRow = ((ViewSettingsRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        viewVernacularLangField,
+                        viewNationalLangField,
+                        viewEnglishBTField,
+                        viewAnchorField,
+                        viewStoryTestingQuestionField,
+                        viewRetellingField,
+                        viewConsultantNoteField,
+                        viewCoachNotesField,
+                        viewNetBible,
+                        null};
+                if ((parentStateTransitionRowByStateTransition_ViewSettings != null)) {
+                    columnValuesArray[9] = parentStateTransitionRowByStateTransition_ViewSettings[6];
+                }
+                rowViewSettingsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowViewSettingsRow);
+                return rowViewSettingsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                ViewSettingsDataTable cln = ((ViewSettingsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ViewSettingsDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnviewVernacularLangField = base.Columns["viewVernacularLangField"];
+                this.columnviewNationalLangField = base.Columns["viewNationalLangField"];
+                this.columnviewEnglishBTField = base.Columns["viewEnglishBTField"];
+                this.columnviewAnchorField = base.Columns["viewAnchorField"];
+                this.columnviewStoryTestingQuestionField = base.Columns["viewStoryTestingQuestionField"];
+                this.columnviewRetellingField = base.Columns["viewRetellingField"];
+                this.columnviewConsultantNoteField = base.Columns["viewConsultantNoteField"];
+                this.columnviewCoachNotesField = base.Columns["viewCoachNotesField"];
+                this.columnviewNetBible = base.Columns["viewNetBible"];
+                this.columnStateTransition_Id = base.Columns["StateTransition_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnviewVernacularLangField = new global::System.Data.DataColumn("viewVernacularLangField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewVernacularLangField);
+                this.columnviewNationalLangField = new global::System.Data.DataColumn("viewNationalLangField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewNationalLangField);
+                this.columnviewEnglishBTField = new global::System.Data.DataColumn("viewEnglishBTField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewEnglishBTField);
+                this.columnviewAnchorField = new global::System.Data.DataColumn("viewAnchorField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewAnchorField);
+                this.columnviewStoryTestingQuestionField = new global::System.Data.DataColumn("viewStoryTestingQuestionField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewStoryTestingQuestionField);
+                this.columnviewRetellingField = new global::System.Data.DataColumn("viewRetellingField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewRetellingField);
+                this.columnviewConsultantNoteField = new global::System.Data.DataColumn("viewConsultantNoteField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewConsultantNoteField);
+                this.columnviewCoachNotesField = new global::System.Data.DataColumn("viewCoachNotesField", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewCoachNotesField);
+                this.columnviewNetBible = new global::System.Data.DataColumn("viewNetBible", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnviewNetBible);
+                this.columnStateTransition_Id = new global::System.Data.DataColumn("StateTransition_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStateTransition_Id);
+                this.columnviewVernacularLangField.Namespace = "";
+                this.columnviewNationalLangField.Namespace = "";
+                this.columnviewEnglishBTField.Namespace = "";
+                this.columnviewAnchorField.Namespace = "";
+                this.columnviewStoryTestingQuestionField.Namespace = "";
+                this.columnviewRetellingField.Namespace = "";
+                this.columnviewConsultantNoteField.Namespace = "";
+                this.columnviewCoachNotesField.Namespace = "";
+                this.columnviewNetBible.Namespace = "";
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRow NewViewSettingsRow() {
+                return ((ViewSettingsRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ViewSettingsRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(ViewSettingsRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ViewSettingsRowChanged != null)) {
+                    this.ViewSettingsRowChanged(this, new ViewSettingsRowChangeEvent(((ViewSettingsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ViewSettingsRowChanging != null)) {
+                    this.ViewSettingsRowChanging(this, new ViewSettingsRowChangeEvent(((ViewSettingsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ViewSettingsRowDeleted != null)) {
+                    this.ViewSettingsRowDeleted(this, new ViewSettingsRowChangeEvent(((ViewSettingsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ViewSettingsRowDeleting != null)) {
+                    this.ViewSettingsRowDeleting(this, new ViewSettingsRowChangeEvent(((ViewSettingsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveViewSettingsRow(ViewSettingsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ViewSettingsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class AllowableBackwardsTransitionsDataTable : global::System.Data.TypedTableBase<AllowableBackwardsTransitionsRow> {
+            
+            private global::System.Data.DataColumn columnAllowableBackwardsTransitions_Id;
+            
+            private global::System.Data.DataColumn columnStateTransition_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsDataTable() {
+                this.TableName = "AllowableBackwardsTransitions";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AllowableBackwardsTransitionsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected AllowableBackwardsTransitionsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AllowableBackwardsTransitions_IdColumn {
+                get {
+                    return this.columnAllowableBackwardsTransitions_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn StateTransition_IdColumn {
+                get {
+                    return this.columnStateTransition_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow this[int index] {
+                get {
+                    return ((AllowableBackwardsTransitionsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event AllowableBackwardsTransitionsRowChangeEventHandler AllowableBackwardsTransitionsRowChanging;
+            
+            public event AllowableBackwardsTransitionsRowChangeEventHandler AllowableBackwardsTransitionsRowChanged;
+            
+            public event AllowableBackwardsTransitionsRowChangeEventHandler AllowableBackwardsTransitionsRowDeleting;
+            
+            public event AllowableBackwardsTransitionsRowChangeEventHandler AllowableBackwardsTransitionsRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddAllowableBackwardsTransitionsRow(AllowableBackwardsTransitionsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow AddAllowableBackwardsTransitionsRow(StateTransitionRow parentStateTransitionRowByStateTransition_AllowableBackwardsTransitions) {
+                AllowableBackwardsTransitionsRow rowAllowableBackwardsTransitionsRow = ((AllowableBackwardsTransitionsRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null};
+                if ((parentStateTransitionRowByStateTransition_AllowableBackwardsTransitions != null)) {
+                    columnValuesArray[1] = parentStateTransitionRowByStateTransition_AllowableBackwardsTransitions[6];
+                }
+                rowAllowableBackwardsTransitionsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAllowableBackwardsTransitionsRow);
+                return rowAllowableBackwardsTransitionsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                AllowableBackwardsTransitionsDataTable cln = ((AllowableBackwardsTransitionsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new AllowableBackwardsTransitionsDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnAllowableBackwardsTransitions_Id = base.Columns["AllowableBackwardsTransitions_Id"];
+                this.columnStateTransition_Id = base.Columns["StateTransition_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnAllowableBackwardsTransitions_Id = new global::System.Data.DataColumn("AllowableBackwardsTransitions_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAllowableBackwardsTransitions_Id);
+                this.columnStateTransition_Id = new global::System.Data.DataColumn("StateTransition_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnStateTransition_Id);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnAllowableBackwardsTransitions_Id}, true));
+                this.columnAllowableBackwardsTransitions_Id.AutoIncrement = true;
+                this.columnAllowableBackwardsTransitions_Id.AllowDBNull = false;
+                this.columnAllowableBackwardsTransitions_Id.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow NewAllowableBackwardsTransitionsRow() {
+                return ((AllowableBackwardsTransitionsRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new AllowableBackwardsTransitionsRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(AllowableBackwardsTransitionsRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.AllowableBackwardsTransitionsRowChanged != null)) {
+                    this.AllowableBackwardsTransitionsRowChanged(this, new AllowableBackwardsTransitionsRowChangeEvent(((AllowableBackwardsTransitionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.AllowableBackwardsTransitionsRowChanging != null)) {
+                    this.AllowableBackwardsTransitionsRowChanging(this, new AllowableBackwardsTransitionsRowChangeEvent(((AllowableBackwardsTransitionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.AllowableBackwardsTransitionsRowDeleted != null)) {
+                    this.AllowableBackwardsTransitionsRowDeleted(this, new AllowableBackwardsTransitionsRowChangeEvent(((AllowableBackwardsTransitionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.AllowableBackwardsTransitionsRowDeleting != null)) {
+                    this.AllowableBackwardsTransitionsRowDeleting(this, new AllowableBackwardsTransitionsRowChangeEvent(((AllowableBackwardsTransitionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveAllowableBackwardsTransitionsRow(AllowableBackwardsTransitionsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "AllowableBackwardsTransitionsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class AllowableBackwardsTransitionDataTable : global::System.Data.TypedTableBase<AllowableBackwardsTransitionRow> {
+            
+            private global::System.Data.DataColumn columnRequiresUsingVernacular;
+            
+            private global::System.Data.DataColumn columnRequiresUsingNationalBT;
+            
+            private global::System.Data.DataColumn columnRequiresUsingEnglishBT;
+            
+            private global::System.Data.DataColumn columnRequiresUsingOtherEnglishBTer;
+            
+            private global::System.Data.DataColumn columnRequiresBiblicalStory;
+            
+            private global::System.Data.DataColumn columnRequiresFirstPassMentor;
+            
+            private global::System.Data.DataColumn columnAllowableBackwardsTransition_text;
+            
+            private global::System.Data.DataColumn columnAllowableBackwardsTransitions_Id;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionDataTable() {
+                this.TableName = "AllowableBackwardsTransition";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AllowableBackwardsTransitionDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected AllowableBackwardsTransitionDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresUsingVernacularColumn {
+                get {
+                    return this.columnRequiresUsingVernacular;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresUsingNationalBTColumn {
+                get {
+                    return this.columnRequiresUsingNationalBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresUsingEnglishBTColumn {
+                get {
+                    return this.columnRequiresUsingEnglishBT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresUsingOtherEnglishBTerColumn {
+                get {
+                    return this.columnRequiresUsingOtherEnglishBTer;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresBiblicalStoryColumn {
+                get {
+                    return this.columnRequiresBiblicalStory;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn RequiresFirstPassMentorColumn {
+                get {
+                    return this.columnRequiresFirstPassMentor;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AllowableBackwardsTransition_textColumn {
+                get {
+                    return this.columnAllowableBackwardsTransition_text;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataColumn AllowableBackwardsTransitions_IdColumn {
+                get {
+                    return this.columnAllowableBackwardsTransitions_Id;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRow this[int index] {
+                get {
+                    return ((AllowableBackwardsTransitionRow)(this.Rows[index]));
+                }
+            }
+            
+            public event AllowableBackwardsTransitionRowChangeEventHandler AllowableBackwardsTransitionRowChanging;
+            
+            public event AllowableBackwardsTransitionRowChangeEventHandler AllowableBackwardsTransitionRowChanged;
+            
+            public event AllowableBackwardsTransitionRowChangeEventHandler AllowableBackwardsTransitionRowDeleting;
+            
+            public event AllowableBackwardsTransitionRowChangeEventHandler AllowableBackwardsTransitionRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddAllowableBackwardsTransitionRow(AllowableBackwardsTransitionRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRow AddAllowableBackwardsTransitionRow(bool RequiresUsingVernacular, bool RequiresUsingNationalBT, bool RequiresUsingEnglishBT, bool RequiresUsingOtherEnglishBTer, bool RequiresBiblicalStory, bool RequiresFirstPassMentor, string AllowableBackwardsTransition_text, AllowableBackwardsTransitionsRow parentAllowableBackwardsTransitionsRowByAllowableBackwardsTransitions_AllowableBackwardsTransition) {
+                AllowableBackwardsTransitionRow rowAllowableBackwardsTransitionRow = ((AllowableBackwardsTransitionRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        RequiresUsingVernacular,
+                        RequiresUsingNationalBT,
+                        RequiresUsingEnglishBT,
+                        RequiresUsingOtherEnglishBTer,
+                        RequiresBiblicalStory,
+                        RequiresFirstPassMentor,
+                        AllowableBackwardsTransition_text,
+                        null};
+                if ((parentAllowableBackwardsTransitionsRowByAllowableBackwardsTransitions_AllowableBackwardsTransition != null)) {
+                    columnValuesArray[7] = parentAllowableBackwardsTransitionsRowByAllowableBackwardsTransitions_AllowableBackwardsTransition[0];
+                }
+                rowAllowableBackwardsTransitionRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAllowableBackwardsTransitionRow);
+                return rowAllowableBackwardsTransitionRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override global::System.Data.DataTable Clone() {
+                AllowableBackwardsTransitionDataTable cln = ((AllowableBackwardsTransitionDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new AllowableBackwardsTransitionDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnRequiresUsingVernacular = base.Columns["RequiresUsingVernacular"];
+                this.columnRequiresUsingNationalBT = base.Columns["RequiresUsingNationalBT"];
+                this.columnRequiresUsingEnglishBT = base.Columns["RequiresUsingEnglishBT"];
+                this.columnRequiresUsingOtherEnglishBTer = base.Columns["RequiresUsingOtherEnglishBTer"];
+                this.columnRequiresBiblicalStory = base.Columns["RequiresBiblicalStory"];
+                this.columnRequiresFirstPassMentor = base.Columns["RequiresFirstPassMentor"];
+                this.columnAllowableBackwardsTransition_text = base.Columns["AllowableBackwardsTransition_text"];
+                this.columnAllowableBackwardsTransitions_Id = base.Columns["AllowableBackwardsTransitions_Id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnRequiresUsingVernacular = new global::System.Data.DataColumn("RequiresUsingVernacular", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresUsingVernacular);
+                this.columnRequiresUsingNationalBT = new global::System.Data.DataColumn("RequiresUsingNationalBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresUsingNationalBT);
+                this.columnRequiresUsingEnglishBT = new global::System.Data.DataColumn("RequiresUsingEnglishBT", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresUsingEnglishBT);
+                this.columnRequiresUsingOtherEnglishBTer = new global::System.Data.DataColumn("RequiresUsingOtherEnglishBTer", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresUsingOtherEnglishBTer);
+                this.columnRequiresBiblicalStory = new global::System.Data.DataColumn("RequiresBiblicalStory", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresBiblicalStory);
+                this.columnRequiresFirstPassMentor = new global::System.Data.DataColumn("RequiresFirstPassMentor", typeof(bool), null, global::System.Data.MappingType.Attribute);
+                base.Columns.Add(this.columnRequiresFirstPassMentor);
+                this.columnAllowableBackwardsTransition_text = new global::System.Data.DataColumn("AllowableBackwardsTransition_text", typeof(string), null, global::System.Data.MappingType.SimpleContent);
+                base.Columns.Add(this.columnAllowableBackwardsTransition_text);
+                this.columnAllowableBackwardsTransitions_Id = new global::System.Data.DataColumn("AllowableBackwardsTransitions_Id", typeof(int), null, global::System.Data.MappingType.Hidden);
+                base.Columns.Add(this.columnAllowableBackwardsTransitions_Id);
+                this.columnRequiresUsingVernacular.Namespace = "";
+                this.columnRequiresUsingNationalBT.Namespace = "";
+                this.columnRequiresUsingEnglishBT.Namespace = "";
+                this.columnRequiresUsingOtherEnglishBTer.Namespace = "";
+                this.columnRequiresBiblicalStory.Namespace = "";
+                this.columnRequiresFirstPassMentor.Namespace = "";
+                this.columnAllowableBackwardsTransition_text.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRow NewAllowableBackwardsTransitionRow() {
+                return ((AllowableBackwardsTransitionRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new AllowableBackwardsTransitionRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override global::System.Type GetRowType() {
+                return typeof(AllowableBackwardsTransitionRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.AllowableBackwardsTransitionRowChanged != null)) {
+                    this.AllowableBackwardsTransitionRowChanged(this, new AllowableBackwardsTransitionRowChangeEvent(((AllowableBackwardsTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.AllowableBackwardsTransitionRowChanging != null)) {
+                    this.AllowableBackwardsTransitionRowChanging(this, new AllowableBackwardsTransitionRowChangeEvent(((AllowableBackwardsTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.AllowableBackwardsTransitionRowDeleted != null)) {
+                    this.AllowableBackwardsTransitionRowDeleted(this, new AllowableBackwardsTransitionRowChangeEvent(((AllowableBackwardsTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.AllowableBackwardsTransitionRowDeleting != null)) {
+                    this.AllowableBackwardsTransitionRowDeleting(this, new AllowableBackwardsTransitionRowChangeEvent(((AllowableBackwardsTransitionRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveAllowableBackwardsTransitionRow(AllowableBackwardsTransitionRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                NewDataSet ds = new NewDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "AllowableBackwardsTransitionDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
@@ -11266,6 +12997,16 @@ namespace OneStoryProjectEditor {
                 }
                 else {
                     return ((storiesRow[])(base.GetChildRows(this.Table.ChildRelations["StoryProject_stories"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow[] GetProjectStatesRows() {
+                if ((this.Table.ChildRelations["StoryProject_ProjectStates"] == null)) {
+                    return new ProjectStatesRow[0];
+                }
+                else {
+                    return ((ProjectStatesRow[])(base.GetChildRows(this.Table.ChildRelations["StoryProject_ProjectStates"])));
                 }
             }
         }
@@ -15035,6 +16776,782 @@ namespace OneStoryProjectEditor {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class ProjectStatesRow : global::System.Data.DataRow {
+            
+            private ProjectStatesDataTable tableProjectStates;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ProjectStatesRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableProjectStates = ((ProjectStatesDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ProjectStates_Id {
+                get {
+                    return ((int)(this[this.tableProjectStates.ProjectStates_IdColumn]));
+                }
+                set {
+                    this[this.tableProjectStates.ProjectStates_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StoryProject_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableProjectStates.StoryProject_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StoryProject_Id\' in table \'ProjectStates\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableProjectStates.StoryProject_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StoryProjectRow StoryProjectRow {
+                get {
+                    return ((StoryProjectRow)(this.GetParentRow(this.Table.ParentRelations["StoryProject_ProjectStates"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["StoryProject_ProjectStates"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStoryProject_IdNull() {
+                return this.IsNull(this.tableProjectStates.StoryProject_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStoryProject_IdNull() {
+                this[this.tableProjectStates.StoryProject_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow[] GetStateTransitionRows() {
+                if ((this.Table.ChildRelations["ProjectStates_StateTransition"] == null)) {
+                    return new StateTransitionRow[0];
+                }
+                else {
+                    return ((StateTransitionRow[])(base.GetChildRows(this.Table.ChildRelations["ProjectStates_StateTransition"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class StateTransitionRow : global::System.Data.DataRow {
+            
+            private StateTransitionDataTable tableStateTransition;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal StateTransitionRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableStateTransition = ((StateTransitionDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string stage {
+                get {
+                    return ((string)(this[this.tableStateTransition.stageColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.stageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string MemberTypeWithEditToken {
+                get {
+                    return ((string)(this[this.tableStateTransition.MemberTypeWithEditTokenColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.MemberTypeWithEditTokenColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string NextState {
+                get {
+                    return ((string)(this[this.tableStateTransition.NextStateColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.NextStateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool FixedState {
+                get {
+                    return ((bool)(this[this.tableStateTransition.FixedStateColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.FixedStateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string StageDisplayString {
+                get {
+                    return ((string)(this[this.tableStateTransition.StageDisplayStringColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.StageDisplayStringColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string StageInstructions {
+                get {
+                    return ((string)(this[this.tableStateTransition.StageInstructionsColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.StageInstructionsColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StateTransition_Id {
+                get {
+                    return ((int)(this[this.tableStateTransition.StateTransition_IdColumn]));
+                }
+                set {
+                    this[this.tableStateTransition.StateTransition_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ProjectStates_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableStateTransition.ProjectStates_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProjectStates_Id\' in table \'StateTransition\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableStateTransition.ProjectStates_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow ProjectStatesRow {
+                get {
+                    return ((ProjectStatesRow)(this.GetParentRow(this.Table.ParentRelations["ProjectStates_StateTransition"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["ProjectStates_StateTransition"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsProjectStates_IdNull() {
+                return this.IsNull(this.tableStateTransition.ProjectStates_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetProjectStates_IdNull() {
+                this[this.tableStateTransition.ProjectStates_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRow[] GetViewSettingsRows() {
+                if ((this.Table.ChildRelations["StateTransition_ViewSettings"] == null)) {
+                    return new ViewSettingsRow[0];
+                }
+                else {
+                    return ((ViewSettingsRow[])(base.GetChildRows(this.Table.ChildRelations["StateTransition_ViewSettings"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow[] GetAllowableBackwardsTransitionsRows() {
+                if ((this.Table.ChildRelations["StateTransition_AllowableBackwardsTransitions"] == null)) {
+                    return new AllowableBackwardsTransitionsRow[0];
+                }
+                else {
+                    return ((AllowableBackwardsTransitionsRow[])(base.GetChildRows(this.Table.ChildRelations["StateTransition_AllowableBackwardsTransitions"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class ViewSettingsRow : global::System.Data.DataRow {
+            
+            private ViewSettingsDataTable tableViewSettings;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ViewSettingsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableViewSettings = ((ViewSettingsDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewVernacularLangField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewVernacularLangFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewVernacularLangField\' in table \'ViewSettings\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewVernacularLangFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewNationalLangField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewNationalLangFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewNationalLangField\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewNationalLangFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewEnglishBTField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewEnglishBTFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewEnglishBTField\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewEnglishBTFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewAnchorField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewAnchorFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewAnchorField\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewAnchorFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewStoryTestingQuestionField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewStoryTestingQuestionFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewStoryTestingQuestionField\' in table \'ViewSettings\' is D" +
+                                "BNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewStoryTestingQuestionFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewRetellingField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewRetellingFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewRetellingField\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewRetellingFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewConsultantNoteField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewConsultantNoteFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewConsultantNoteField\' in table \'ViewSettings\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewConsultantNoteFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewCoachNotesField {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewCoachNotesFieldColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewCoachNotesField\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewCoachNotesFieldColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool viewNetBible {
+                get {
+                    try {
+                        return ((bool)(this[this.tableViewSettings.viewNetBibleColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'viewNetBible\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.viewNetBibleColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StateTransition_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableViewSettings.StateTransition_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StateTransition_Id\' in table \'ViewSettings\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableViewSettings.StateTransition_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow StateTransitionRow {
+                get {
+                    return ((StateTransitionRow)(this.GetParentRow(this.Table.ParentRelations["StateTransition_ViewSettings"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["StateTransition_ViewSettings"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewVernacularLangFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewVernacularLangFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewVernacularLangFieldNull() {
+                this[this.tableViewSettings.viewVernacularLangFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewNationalLangFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewNationalLangFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewNationalLangFieldNull() {
+                this[this.tableViewSettings.viewNationalLangFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewEnglishBTFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewEnglishBTFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewEnglishBTFieldNull() {
+                this[this.tableViewSettings.viewEnglishBTFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewAnchorFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewAnchorFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewAnchorFieldNull() {
+                this[this.tableViewSettings.viewAnchorFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewStoryTestingQuestionFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewStoryTestingQuestionFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewStoryTestingQuestionFieldNull() {
+                this[this.tableViewSettings.viewStoryTestingQuestionFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewRetellingFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewRetellingFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewRetellingFieldNull() {
+                this[this.tableViewSettings.viewRetellingFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewConsultantNoteFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewConsultantNoteFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewConsultantNoteFieldNull() {
+                this[this.tableViewSettings.viewConsultantNoteFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewCoachNotesFieldNull() {
+                return this.IsNull(this.tableViewSettings.viewCoachNotesFieldColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewCoachNotesFieldNull() {
+                this[this.tableViewSettings.viewCoachNotesFieldColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsviewNetBibleNull() {
+                return this.IsNull(this.tableViewSettings.viewNetBibleColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetviewNetBibleNull() {
+                this[this.tableViewSettings.viewNetBibleColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStateTransition_IdNull() {
+                return this.IsNull(this.tableViewSettings.StateTransition_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStateTransition_IdNull() {
+                this[this.tableViewSettings.StateTransition_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class AllowableBackwardsTransitionsRow : global::System.Data.DataRow {
+            
+            private AllowableBackwardsTransitionsDataTable tableAllowableBackwardsTransitions;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AllowableBackwardsTransitionsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableAllowableBackwardsTransitions = ((AllowableBackwardsTransitionsDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int AllowableBackwardsTransitions_Id {
+                get {
+                    return ((int)(this[this.tableAllowableBackwardsTransitions.AllowableBackwardsTransitions_IdColumn]));
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransitions.AllowableBackwardsTransitions_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int StateTransition_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableAllowableBackwardsTransitions.StateTransition_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StateTransition_Id\' in table \'AllowableBackwardsTransitions" +
+                                "\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransitions.StateTransition_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow StateTransitionRow {
+                get {
+                    return ((StateTransitionRow)(this.GetParentRow(this.Table.ParentRelations["StateTransition_AllowableBackwardsTransitions"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["StateTransition_AllowableBackwardsTransitions"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsStateTransition_IdNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransitions.StateTransition_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetStateTransition_IdNull() {
+                this[this.tableAllowableBackwardsTransitions.StateTransition_IdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRow[] GetAllowableBackwardsTransitionRows() {
+                if ((this.Table.ChildRelations["AllowableBackwardsTransitions_AllowableBackwardsTransition"] == null)) {
+                    return new AllowableBackwardsTransitionRow[0];
+                }
+                else {
+                    return ((AllowableBackwardsTransitionRow[])(base.GetChildRows(this.Table.ChildRelations["AllowableBackwardsTransitions_AllowableBackwardsTransition"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class AllowableBackwardsTransitionRow : global::System.Data.DataRow {
+            
+            private AllowableBackwardsTransitionDataTable tableAllowableBackwardsTransition;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal AllowableBackwardsTransitionRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableAllowableBackwardsTransition = ((AllowableBackwardsTransitionDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresUsingVernacular {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresUsingVernacularColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresUsingVernacular\' in table \'AllowableBackwardsTransi" +
+                                "tion\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresUsingVernacularColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresUsingNationalBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresUsingNationalBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresUsingNationalBT\' in table \'AllowableBackwardsTransi" +
+                                "tion\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresUsingNationalBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresUsingEnglishBT {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresUsingEnglishBTColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresUsingEnglishBT\' in table \'AllowableBackwardsTransit" +
+                                "ion\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresUsingEnglishBTColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresUsingOtherEnglishBTer {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresUsingOtherEnglishBTerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresUsingOtherEnglishBTer\' in table \'AllowableBackwards" +
+                                "Transition\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresUsingOtherEnglishBTerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresBiblicalStory {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresBiblicalStoryColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresBiblicalStory\' in table \'AllowableBackwardsTransiti" +
+                                "on\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresBiblicalStoryColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool RequiresFirstPassMentor {
+                get {
+                    try {
+                        return ((bool)(this[this.tableAllowableBackwardsTransition.RequiresFirstPassMentorColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RequiresFirstPassMentor\' in table \'AllowableBackwardsTransi" +
+                                "tion\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.RequiresFirstPassMentorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string AllowableBackwardsTransition_text {
+                get {
+                    return ((string)(this[this.tableAllowableBackwardsTransition.AllowableBackwardsTransition_textColumn]));
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.AllowableBackwardsTransition_textColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int AllowableBackwardsTransitions_Id {
+                get {
+                    try {
+                        return ((int)(this[this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AllowableBackwardsTransitions_Id\' in table \'AllowableBackwa" +
+                                "rdsTransition\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow AllowableBackwardsTransitionsRow {
+                get {
+                    return ((AllowableBackwardsTransitionsRow)(this.GetParentRow(this.Table.ParentRelations["AllowableBackwardsTransitions_AllowableBackwardsTransition"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["AllowableBackwardsTransitions_AllowableBackwardsTransition"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresUsingVernacularNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresUsingVernacularColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresUsingVernacularNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresUsingVernacularColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresUsingNationalBTNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresUsingNationalBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresUsingNationalBTNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresUsingNationalBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresUsingEnglishBTNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresUsingEnglishBTColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresUsingEnglishBTNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresUsingEnglishBTColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresUsingOtherEnglishBTerNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresUsingOtherEnglishBTerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresUsingOtherEnglishBTerNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresUsingOtherEnglishBTerColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresBiblicalStoryNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresBiblicalStoryColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresBiblicalStoryNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresBiblicalStoryColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRequiresFirstPassMentorNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.RequiresFirstPassMentorColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRequiresFirstPassMentorNull() {
+                this[this.tableAllowableBackwardsTransition.RequiresFirstPassMentorColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsAllowableBackwardsTransitions_IdNull() {
+                return this.IsNull(this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetAllowableBackwardsTransitions_IdNull() {
+                this[this.tableAllowableBackwardsTransition.AllowableBackwardsTransitions_IdColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
@@ -16075,6 +18592,161 @@ namespace OneStoryProjectEditor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public CoachNoteRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class ProjectStatesRowChangeEvent : global::System.EventArgs {
+            
+            private ProjectStatesRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRowChangeEvent(ProjectStatesRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ProjectStatesRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class StateTransitionRowChangeEvent : global::System.EventArgs {
+            
+            private StateTransitionRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRowChangeEvent(StateTransitionRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public StateTransitionRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class ViewSettingsRowChangeEvent : global::System.EventArgs {
+            
+            private ViewSettingsRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRowChangeEvent(ViewSettingsRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ViewSettingsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class AllowableBackwardsTransitionsRowChangeEvent : global::System.EventArgs {
+            
+            private AllowableBackwardsTransitionsRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRowChangeEvent(AllowableBackwardsTransitionsRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class AllowableBackwardsTransitionRowChangeEvent : global::System.EventArgs {
+            
+            private AllowableBackwardsTransitionRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRowChangeEvent(AllowableBackwardsTransitionRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public AllowableBackwardsTransitionRow Row {
                 get {
                     return this.eventRow;
                 }

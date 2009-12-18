@@ -138,6 +138,9 @@ namespace OneStoryProjectEditor
 
 			var repo = new HgRepository(strProjectFolder, new NullProgress());
 
+			// just make sure it's there in case this is the first time.
+			HgRepository.CreateOrLocate(strProjectFolder, new NullProgress());
+
 			var address = RepositoryAddress.Create(CstrInternetName, strUrl);
 			var addresses = repo.GetRepositoryPathsInHgrc();
 			foreach (var addr in addresses)

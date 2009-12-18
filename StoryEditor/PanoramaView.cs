@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
 					strTimeInState += String.Format("{0} hours, ", ts.Hours);
 				strTimeInState += String.Format("{0} minutes", ts.Minutes);
 
-				StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[aSD.ProjStage.ProjectStage];
+				StoryStageLogic.StateTransition st = _storyProject.StateTransitionLogic.StateTransitions[aSD.ProjectStage];
 				object[] aObs = new object[]
 				{
 					aSD.Name,

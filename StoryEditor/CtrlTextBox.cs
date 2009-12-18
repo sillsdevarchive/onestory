@@ -120,7 +120,8 @@ namespace OneStoryProjectEditor
 				theSE.Modified = true;  // to trigger save if exit.
 
 				// update the status bar (in case we previously put an error there
-				StoryStageLogic.StateTransition st = StoryStageLogic.stateTransitions[_stageLogic.ProjectStage];
+				string strStoryCurrentStage = theSE.theCurrentStory.ProjectStage;
+				StoryStageLogic.StateTransition st = _stageLogic.StateTransitions[strStoryCurrentStage];
 				theSE.SetStatusBar(String.Format("{0}  Press F1 for instructions", st.StageDisplayString));
 			}
 			catch (Exception ex)

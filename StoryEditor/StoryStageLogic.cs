@@ -10,54 +10,152 @@ namespace OneStoryProjectEditor
 {
 	public class StoryStageLogic
 	{
-		protected ProjectStages _ProjectStage = ProjectStages.eUndefined;
-		internal static StateTransitions stateTransitions = new StateTransitions();
+		// here are defines for the fixed states (i.e. those states that *have* to be in the system,
+		//  because we have code that does something with them)
+		public const string CstrFixedStateProjFacTypeVernacular = "ProjFacTypeVernacular";
+		public const string CstrFixedStateProjFacTypeNationalBT = "ProjFacTypeNationalBT";
+		public const string CstrFixedStateProjFacTypeInternationalBT = "ProjFacTypeInternationalBT";
+		public const string CstrFixedStateProjFacAddAnchors = "ProjFacAddAnchors";
+		public const string CstrFixedStateProjFacAddStoryQuestions = "ProjFacAddStoryQuestions";
 
-		public enum ProjectStages
+		public const string CstrFixedStateBackTranslatorTypeInternationalBT = "BackTranslatorTypeInternationalBT";
+
+		public const string CstrFixedStateConsultantReviseRound1Notes = "ConsultantReviseRound1Notes";
+
+		public const string CstrFixedStateProjFacOnlineReview1WithConsultant = "ProjFacOnlineReview1WithConsultant";
+		public const string CstrFixedStateProjFacReadyForTest1 = "ProjFacReadyForTest1";
+		public const string CstrFixedStateProjFacEnterAnswersToStoryQuestionsOfTest1 = "ProjFacEnterAnswersToStoryQuestionsOfTest1";
+		public const string CstrFixedStateProjFacEnterRetellingOfTest1 = "ProjFacEnterRetellingOfTest1";
+
+		public const string CstrFixedStateCoachReviewRound2Notes = "CoachReviewRound2Notes";
+		public const string CstrFixedStateConsultantReviseRound2Notes = "ConsultantReviseRound2Notes";
+
+		public const string CstrFixedStateProjFacOnlineReview2WithConsultant = "ProjFacOnlineReview2WithConsultant";
+		public const string CstrFixedStateProjFacReadyForTest2 = "ProjFacReadyForTest2";
+		public const string CstrFixedStateProjFacEnterAnswersToStoryQuestionsOfTest2 = "ProjFacEnterAnswersToStoryQuestionsOfTest2";
+
+		public const string CstrFixedStateCoachReviewTest2Notes = "CoachReviewTest2Notes";
+
+		public const string CstrFixedStateTeamComplete = "TeamComplete";
+
+		protected string ProjectStage { get; set; }
+		internal StateTransitionMap StateTransitions { get; set; }
+
+		public StoryStageLogic()
 		{
-			eUndefined = 0,
-			eProjFacTypeVernacular,
-			eProjFacTypeNationalBT,
-			eProjFacTypeInternationalBT,
-			eProjFacAddAnchors,
-			eProjFacAddStoryQuestions,
-			eBackTranslatorTypeInternationalBT,
-			eConsultantCheckNonBiblicalStory,
-			eFirstPassMentorCheck1,
-			eConsultantCheckStoryInfo,
-			eConsultantCheckAnchors,
-			eConsultantCheckStoryQuestions,
-			eCoachReviewRound1Notes,
-			eConsultantReviseRound1Notes,
-			eBackTranslatorTranslateConNotes,
-			eProjFacReviseBasedOnRound1Notes,
-			eProjFacOnlineReview1WithConsultant,
-			eProjFacReadyForTest1,
-			eProjFacEnterAnswersToStoryQuestionsOfTest1,
-			eProjFacEnterRetellingOfTest1,
-			eFirstPassMentorCheck2,
-			eConsultantCheck2,
-			eCoachReviewRound2Notes,
-			eConsultantReviseRound2Notes,
-			eBackTranslatorTranslateConNotes2,
-			eProjFacReviseBasedOnRound2Notes,
-			eProjFacOnlineReview2WithConsultant,
-			eProjFacReadyForTest2,
-			eProjFacEnterAnswersToStoryQuestionsOfTest2,
-			eProjFacEnterRetellingOfTest2,
-			eFirstPassMentorReviewTest2,
-			eConsultantReviewTest2,
-			eCoachReviewTest2Notes,
-			eTeamComplete
+			StateTransitions = new StateTransitionMap();
+			StateTransitions.InitStateTransitionsFromXml();
 		}
 
-		public ProjectStages ProjectStage
+		public StoryStageLogic(NewDataSet.ProjectStatesRow theProjectStateRow, NewDataSet projFile)
 		{
-			get { return _ProjectStage; }
-			set { _ProjectStage = value; }
+			StateTransitions = SerializeStateTransitions(theProjectStateRow, projFile);
 		}
 
-		public StoryStageLogic(ProjectSettings projSettings)
+		public static StateTransitionMap SerializeStateTransitions(NewDataSet.ProjectStatesRow theProjectStateRow, NewDataSet projFile)
+		{
+			StateTransitionMap sts = new StateTransitionMap();
+			foreach (NewDataSet.StateTransitionRow aSTRow in theProjectStateRow.GetStateTransitionRows())
+			{
+				List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages = new List<AllowablePreviousStateWithConditions>();
+				if (aSTRow.GetAllowableBackwardsTransitionsRows().Length == 1)
+				{
+					NewDataSet.AllowableBackwardsTransitionsRow theAllowableBackwardsTransitionsRow = aSTRow.GetAllowableBackwardsTransitionsRows()[0];
+					foreach (NewDataSet.AllowableBackwardsTransitionRow aABTRow in theAllowableBackwardsTransitionsRow.GetAllowableBackwardsTransitionRows())
+					{
+						System.Diagnostics.Debug.Assert(!sts.ProjectStates.Contains(aABTRow.AllowableBackwardsTransition_text));
+						sts.ProjectStates.Add(aABTRow.AllowableBackwardsTransition_text);
+
+						AllowablePreviousStateWithConditions aps = new AllowablePreviousStateWithConditions
+						{
+							RequiresUsingVernacular = (aABTRow.IsRequiresUsingVernacularNull()) ? false : aABTRow.RequiresUsingVernacular,
+							RequiresUsingNationalBT = (aABTRow.IsRequiresUsingNationalBTNull()) ? false : aABTRow.RequiresUsingNationalBT,
+							RequiresUsingEnglishBT = (aABTRow.IsRequiresUsingEnglishBTNull()) ? false : aABTRow.RequiresUsingEnglishBT,
+							UsingOtherEnglishBTer = (aABTRow.IsRequiresUsingOtherEnglishBTerNull()) ? false : aABTRow.RequiresUsingOtherEnglishBTer,
+							RequiresBiblicalStory = (aABTRow.IsRequiresBiblicalStoryNull()) ? false : aABTRow.RequiresBiblicalStory,
+							RequiresFirstPassMentor = (aABTRow.IsRequiresFirstPassMentorNull()) ? false : aABTRow.RequiresFirstPassMentor
+						};
+						lstAllowableBackwardsStages.Add(aps);
+					}
+				}
+
+				TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), aSTRow.MemberTypeWithEditToken);
+
+				StateTransition st = new StateTransition(aSTRow.stage, aSTRow.NextState, eMemberType, aSTRow.StageDisplayString,
+					aSTRow.StageInstructions, aSTRow.FixedState, lstAllowableBackwardsStages);
+
+				if (aSTRow.GetViewSettingsRows().Length == 1)
+				{
+					NewDataSet.ViewSettingsRow theViewSettingsRow = aSTRow.GetViewSettingsRows()[0];
+					st.IsAnchorVisible = theViewSettingsRow.viewAnchorField;
+					st.IsCoachNotesVisible = theViewSettingsRow.viewCoachNotesField;
+					st.IsConsultantNotesVisible = theViewSettingsRow.viewConsultantNoteField;
+					st.IsEnglishBTVisible = theViewSettingsRow.viewEnglishBTField;
+					st.IsNationalBTVisible = theViewSettingsRow.viewNationalLangField;
+					st.IsNetBibleVisible = theViewSettingsRow.viewNetBible;
+					st.IsRetellingVisible = theViewSettingsRow.viewRetellingField;
+					st.IsStoryTestingQuestion = theViewSettingsRow.viewStoryTestingQuestionField;
+					st.IsVernacularVisible = theViewSettingsRow.viewVernacularLangField;
+				}
+
+				sts.Add(aSTRow.stage, st);
+			}
+
+			return sts;
+		}
+
+
+		// protected ProjectStageList _ProjectStages = new ProjectStageList();
+		// internal static StateTransitions stateTransitions = new StateTransitions();
+
+	public class ProjectStageList : List<string>
+	{
+		/*
+		eUndefined = 0,
+		eProjFacTypeVernacular,
+		eProjFacTypeNationalBT,
+		eProjFacTypeInternationalBT,
+		eProjFacAddAnchors,
+		eProjFacAddStoryQuestions,
+		eBackTranslatorTypeInternationalBT,
+		eConsultantCheckNonBiblicalStory,
+		eFirstPassMentorCheck1,
+		eConsultantCheckStoryInfo,
+		eConsultantCheckAnchors,
+		eConsultantCheckStoryQuestions,
+		eCoachReviewRound1Notes,
+		eConsultantReviseRound1Notes,
+		eBackTranslatorTranslateConNotes,
+		eProjFacReviseBasedOnRound1Notes,
+		eProjFacOnlineReview1WithConsultant,
+		eProjFacReadyForTest1,
+		eProjFacEnterAnswersToStoryQuestionsOfTest1,
+		eProjFacEnterRetellingOfTest1,
+		eFirstPassMentorCheck2,
+		eConsultantCheck2,
+		eCoachReviewRound2Notes,
+		eConsultantReviseRound2Notes,
+		eBackTranslatorTranslateConNotes2,
+		eProjFacReviseBasedOnRound2Notes,
+		eProjFacOnlineReview2WithConsultant,
+		eProjFacReadyForTest2,
+		eProjFacEnterAnswersToStoryQuestionsOfTest2,
+		eProjFacEnterRetellingOfTest2,
+		eFirstPassMentorReviewTest2,
+		eConsultantReviewTest2,
+		eCoachReviewTest2Notes,
+		eTeamComplete
+		*/
+	}
+		/*
+		public ProjectStageList ProjectStages
+		{
+			get { return _ProjectStages; }
+			set { _ProjectStages = value; }
+		}
+		*/
+
+		public static string GetInitialStoryStage(ProjectSettings projSettings)
 		{
 			System.Diagnostics.Debug.Assert(projSettings.Vernacular.HasData
 				|| projSettings.NationalBT.HasData
@@ -65,26 +163,29 @@ namespace OneStoryProjectEditor
 
 			// the first state is either eProjFacTypeVernacular or eProjFacTypeNationalBT or eProjFacTypeInternationalBT
 			//  (can't have a separate EngBTr if there's no Vernacular or National BT)
-			ProjectStage = (projSettings.Vernacular.HasData) ? ProjectStages.eProjFacTypeVernacular :
-				(projSettings.NationalBT.HasData) ? ProjectStages.eProjFacTypeNationalBT : ProjectStages.eProjFacTypeInternationalBT;
+			return (projSettings.Vernacular.HasData)
+				? CstrFixedStateProjFacTypeVernacular
+				: (projSettings.NationalBT.HasData)
+					? CstrFixedStateProjFacTypeNationalBT
+					: CstrFixedStateProjFacTypeInternationalBT;
 		}
-
+		/*
 		public StoryStageLogic(string strProjectStage)
 		{
 			ProjectStage = GetProjectStageFromString(strProjectStage);
 		}
-
+		*/
 		public StoryStageLogic(StoryStageLogic rhs)
 		{
 			ProjectStage = rhs.ProjectStage;
 		}
-
+		/*
 		protected ProjectStages GetProjectStageFromString(string strProjectStageString)
 		{
 			System.Diagnostics.Debug.Assert(CmapStageStringToEnumType.ContainsKey(strProjectStageString));
 			return CmapStageStringToEnumType[strProjectStageString];
 		}
-
+		*/
 		public bool IsChangeOfStateAllowed(TeamMemberData loggedOnMember)
 		{
 			bool bRet = ((loggedOnMember.MemberType == TeamMemberData.UserTypes.eJustLooking)
@@ -112,18 +213,18 @@ namespace OneStoryProjectEditor
 		{
 			get
 			{
-				StateTransition st = stateTransitions[ProjectStage];
+				StateTransition st = StateTransitions[ProjectStage];
 				return st.MemberTypeWithEditToken;
 			}
 		}
 
-		public bool IsTerminalTransition(ProjectStages eNextStage)
+		public bool IsTerminalTransition(string strNextStage)
 		{
-			StateTransition stThis = stateTransitions[ProjectStage];
-			StateTransition stNext = stateTransitions[eNextStage];
+			StateTransition stThis = StateTransitions[ProjectStage];
+			StateTransition stNext = StateTransitions[strNextStage];
 			return (stThis.MemberTypeWithEditToken != stNext.MemberTypeWithEditToken);
 		}
-
+		/*
 		public override string ToString()
 		{
 			return _ProjectStage.ToString().Substring(1);
@@ -163,15 +264,12 @@ namespace OneStoryProjectEditor
 			{ "ConsultantReviewTest2", ProjectStages.eConsultantReviewTest2 },
 			{ "CoachReviewTest2Notes", ProjectStages.eCoachReviewTest2Notes },
 			{ "TeamComplete", ProjectStages.eTeamComplete }};
+		*/
 
-		public class StateTransitions : Dictionary<ProjectStages, StateTransition>
+		public class StateTransitionMap : Dictionary<string, StateTransition>
 		{
 			protected const string CstrStateTransitionsXmlFilename = "StageTransitions.xml";
-
-			public StateTransitions()
-			{
-				InitStateTransitionsFromXml();
-			}
+			public ProjectStageList ProjectStates = new ProjectStageList();
 
 			protected string PathToXmlFile
 			{
@@ -226,7 +324,7 @@ namespace OneStoryProjectEditor
 				manager = new XmlNamespaceManager(navigator.NameTable);
 			}
 
-			protected void InitStateTransitionsFromXml()
+			public void InitStateTransitionsFromXml()
 			{
 				try
 				{
@@ -238,11 +336,11 @@ namespace OneStoryProjectEditor
 					XPathNodeIterator xpStageTransition = navigator.Select("/ProjectStates/StateTransition", manager);
 					while (xpStageTransition.MoveNext())
 					{
-						ProjectStages eThisStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI));
+						string strThisStage = xpStageTransition.Current.GetAttribute("stage", navigator.NamespaceURI);
 						TeamMemberData.UserTypes eMemberType = (TeamMemberData.UserTypes)Enum.Parse(typeof(TeamMemberData.UserTypes), xpStageTransition.Current.GetAttribute("MemberTypeWithEditToken", navigator.NamespaceURI));
 
-						ProjectStages eNextStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpStageTransition.Current.GetAttribute("NextState", navigator.NamespaceURI));
-
+						string strNextStage = xpStageTransition.Current.GetAttribute("NextState", navigator.NamespaceURI);
+						bool bIsFixedState = (xpStageTransition.Current.GetAttribute("FixedState", navigator.NamespaceURI) == "true");
 						XPathNodeIterator xpNextElement = xpStageTransition.Current.Select("StageDisplayString");
 						string strStageDisplayString = null;
 						if (xpNextElement.MoveNext())
@@ -263,7 +361,7 @@ namespace OneStoryProjectEditor
 						{
 							AllowablePreviousStateWithConditions aps = new AllowablePreviousStateWithConditions
 							{
-								ProjectStage = (ProjectStages)Enum.Parse(typeof(ProjectStages), xpNextElement.Current.Value),
+								ProjectStage = xpNextElement.Current.Value,
 								RequiresUsingVernacular = (xpNextElement.Current.GetAttribute("RequiresUsingVernacular", navigator.NamespaceURI) == "true"),
 								RequiresUsingNationalBT = (xpNextElement.Current.GetAttribute("RequiresUsingNationalBT", navigator.NamespaceURI) == "true"),
 								RequiresUsingEnglishBT = (xpNextElement.Current.GetAttribute("RequiresUsingEnglishBT", navigator.NamespaceURI) == "true"),
@@ -274,9 +372,8 @@ namespace OneStoryProjectEditor
 							lstAllowableBackwardsStages.Add(aps);
 						}
 
-						StateTransition st = new StateTransition(eThisStage, eNextStage, eMemberType,
-							strStageDisplayString, strStageInstructions,
-							lstAllowableBackwardsStages);
+						StateTransition st = new StateTransition(strThisStage, strNextStage, eMemberType,
+							strStageDisplayString, strStageInstructions, bIsFixedState, lstAllowableBackwardsStages);
 
 						xpNextElement = xpStageTransition.Current.Select("ViewSettings");
 						if (xpNextElement.MoveNext())
@@ -292,7 +389,7 @@ namespace OneStoryProjectEditor
 							st.IsNetBibleVisible = (xpNextElement.Current.GetAttribute("viewNetBible", navigator.NamespaceURI) == "true");
 						}
 
-						Add(eThisStage, st);
+						Add(strThisStage, st);
 					}
 				}
 				catch (Exception ex)
@@ -304,7 +401,7 @@ namespace OneStoryProjectEditor
 
 		public class AllowablePreviousStateWithConditions
 		{
-			public ProjectStages ProjectStage { get; set; }
+			public string ProjectStage { get; set; }
 			public bool RequiresUsingVernacular { get; set; }
 			public bool RequiresUsingNationalBT { get; set; }
 			public bool RequiresUsingEnglishBT { get; set; }
@@ -330,12 +427,13 @@ namespace OneStoryProjectEditor
 
 		public class StateTransition
 		{
-			internal ProjectStages CurrentStage = ProjectStages.eUndefined;
-			internal ProjectStages NextState = ProjectStages.eUndefined;
+			internal string CurrentStage;
+			internal string NextState;
 			internal List<AllowablePreviousStateWithConditions> AllowableBackwardsTransitions = new List<AllowablePreviousStateWithConditions>();
 			internal TeamMemberData.UserTypes MemberTypeWithEditToken = TeamMemberData.UserTypes.eUndefined;
 			internal string StageDisplayString;
 			internal string StageInstructions;
+			internal bool IsFixedState; // means that the state name can't be changed and it has a IsReadyForTransition function
 #if !DataDllBuild
 			public CheckEndOfStateTransition.CheckForValidEndOfState IsReadyForTransition;
 #endif
@@ -352,33 +450,38 @@ namespace OneStoryProjectEditor
 
 			public StateTransition
 				(
-					ProjectStages thisStage,
-					ProjectStages theNextStage,
+					string strThisStage,
+					string strNextStage,
 					TeamMemberData.UserTypes eMemberTypeWithEditToken,
 					string strDisplayString,
 					string strInstructions,
+					bool bFixedState,
 					List<AllowablePreviousStateWithConditions> lstAllowableBackwardsStages
 				)
 			{
-				CurrentStage = thisStage;
-				NextState = theNextStage;
+				CurrentStage = strThisStage;
+				NextState = strNextStage;
 				MemberTypeWithEditToken = eMemberTypeWithEditToken;
 				StageDisplayString = strDisplayString;
 				StageInstructions = strInstructions;
 				AllowableBackwardsTransitions.AddRange(lstAllowableBackwardsStages);
-				string strMethodName = thisStage.ToString().Substring(1);
+				IsFixedState = bFixedState;
+				if (IsFixedState)
+				{
+					string strMethodName = strThisStage.Substring(1);
 
 #if !DataDllBuild
-				IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
-					typeof(CheckEndOfStateTransition.CheckForValidEndOfState),
-					typeof(CheckEndOfStateTransition), strMethodName);
+					IsReadyForTransition = (CheckEndOfStateTransition.CheckForValidEndOfState)Delegate.CreateDelegate(
+						typeof(CheckEndOfStateTransition.CheckForValidEndOfState),
+						typeof(CheckEndOfStateTransition), strMethodName);
 #endif
+				}
 			}
 
-			public bool IsTransitionValid(ProjectStages eToStage)
+			public bool IsTransitionValid(string strToStage)
 			{
 				foreach (AllowablePreviousStateWithConditions aps in AllowableBackwardsTransitions)
-					if (aps.ProjectStage == eToStage)
+					if (aps.ProjectStage == strToStage)
 						return true;
 				return false;
 			}
