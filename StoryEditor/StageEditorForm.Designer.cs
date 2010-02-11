@@ -30,11 +30,6 @@ namespace OneStoryProjectEditor
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StageEditorForm));
             this.dataGridViewStates = new System.Windows.Forms.DataGridView();
-            this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.ColumnEnglishBackTranslator = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.ColumnFirstPassMentor = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.ColumnCoach = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxProjectFacilitator = new System.Windows.Forms.CheckBox();
@@ -42,6 +37,11 @@ namespace OneStoryProjectEditor
             this.checkBoxFirstPassMentor = new System.Windows.Forms.CheckBox();
             this.radioButtonIndependentConsultant = new System.Windows.Forms.RadioButton();
             this.radioButtonManageWithCoaching = new System.Windows.Forms.RadioButton();
+            this.ColumnProjectFacilitatorStages = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnEnglishBackTranslator = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnFirstPassMentor = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnConsultantInTraining = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ColumnCoach = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStates)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,31 +66,6 @@ namespace OneStoryProjectEditor
             this.dataGridViewStates.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellValueChanged);
             this.dataGridViewStates.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellEndEdit);
             this.dataGridViewStates.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewStates_CellContentClick);
-            // 
-            // ColumnProjectFacilitatorStages
-            // 
-            this.ColumnProjectFacilitatorStages.HeaderText = "Project Facilitator";
-            this.ColumnProjectFacilitatorStages.Name = "ColumnProjectFacilitatorStages";
-            // 
-            // ColumnEnglishBackTranslator
-            // 
-            this.ColumnEnglishBackTranslator.HeaderText = "English Back-translator";
-            this.ColumnEnglishBackTranslator.Name = "ColumnEnglishBackTranslator";
-            // 
-            // ColumnFirstPassMentor
-            // 
-            this.ColumnFirstPassMentor.HeaderText = "First Pass Mentor";
-            this.ColumnFirstPassMentor.Name = "ColumnFirstPassMentor";
-            // 
-            // ColumnConsultantInTraining
-            // 
-            this.ColumnConsultantInTraining.HeaderText = "Consultant-in-Training";
-            this.ColumnConsultantInTraining.Name = "ColumnConsultantInTraining";
-            // 
-            // ColumnCoach
-            // 
-            this.ColumnCoach.HeaderText = "Coach";
-            this.ColumnCoach.Name = "ColumnCoach";
             // 
             // buttonSave
             // 
@@ -171,6 +146,36 @@ namespace OneStoryProjectEditor
             this.radioButtonManageWithCoaching.UseVisualStyleBackColor = true;
             this.radioButtonManageWithCoaching.CheckedChanged += new System.EventHandler(this.radioButtonManageWithCoaching_CheckedChanged);
             // 
+            // ColumnProjectFacilitatorStages
+            // 
+            this.ColumnProjectFacilitatorStages.HeaderText = "Project Facilitator";
+            this.ColumnProjectFacilitatorStages.Name = "ColumnProjectFacilitatorStages";
+            this.ColumnProjectFacilitatorStages.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnEnglishBackTranslator
+            // 
+            this.ColumnEnglishBackTranslator.HeaderText = "English Back-translator";
+            this.ColumnEnglishBackTranslator.Name = "ColumnEnglishBackTranslator";
+            this.ColumnEnglishBackTranslator.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnFirstPassMentor
+            // 
+            this.ColumnFirstPassMentor.HeaderText = "First Pass Mentor";
+            this.ColumnFirstPassMentor.Name = "ColumnFirstPassMentor";
+            this.ColumnFirstPassMentor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnConsultantInTraining
+            // 
+            this.ColumnConsultantInTraining.HeaderText = "Consultant-in-Training";
+            this.ColumnConsultantInTraining.Name = "ColumnConsultantInTraining";
+            this.ColumnConsultantInTraining.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // ColumnCoach
+            // 
+            this.ColumnCoach.HeaderText = "Coach";
+            this.ColumnCoach.Name = "ColumnCoach";
+            this.ColumnCoach.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
             // StageEditorForm
             // 
             this.AcceptButton = this.buttonSave;
@@ -205,10 +210,10 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.CheckBox checkBoxFirstPassMentor;
         private System.Windows.Forms.RadioButton radioButtonIndependentConsultant;
         private System.Windows.Forms.RadioButton radioButtonManageWithCoaching;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnProjectFacilitatorStages;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnEnglishBackTranslator;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnFirstPassMentor;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnConsultantInTraining;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ColumnCoach;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnProjectFacilitatorStages;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnEnglishBackTranslator;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnFirstPassMentor;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnConsultantInTraining;
+        private System.Windows.Forms.DataGridViewButtonColumn ColumnCoach;
     }
 }

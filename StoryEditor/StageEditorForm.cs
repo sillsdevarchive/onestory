@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OneStoryProjectEditor
@@ -9,6 +10,9 @@ namespace OneStoryProjectEditor
 		protected const string CstrAddState = "Add New State";
 
 		protected StoryProjectData _storyProjectData;
+
+		public string StateSelected { get; set; }
+
 		public StageEditorForm(StoryProjectData storyProjectData)
 		{
 			InitializeComponent();
@@ -29,32 +33,52 @@ namespace OneStoryProjectEditor
 			InitGrid();
 		}
 
+		protected bool ConditionsSatisfied(StoryStageLogic.StateTransition stateTransition)
+		{
+			if (   (checkBoxOutsideEnglishBackTranslator.Checked && stateTransition.StageRequirements.RequiresUsingOtherEnglishBTer)
+				|| (checkBoxFirstPassMentor.Checked && stateTransition.StageRequirements.RequiresFirstPassMentor)
+				|| (radioButtonIndependentConsultant.Checked && stateTransition.StageRequirements.RequiresIndependentConsultant)
+				|| (_storyProjectData.ProjSettings.Vernacular.HasData && stateTransition.StageRequirements.RequiresUsingVernacular)
+				|| (_storyProjectData.ProjSettings.NationalBT.HasData && stateTransition.StageRequirements.RequiresUsingNationalBT)
+				|| (_storyProjectData.ProjSettings.InternationalBT.HasData && stateTransition.StageRequirements.RequiresUsingEnglishBT)
+				|| (stateTransition.StageRequirements.HasEndOfStateFunction))
+			{
+				return true;
+			}
+			return false;
+		}
+
 		protected void InitGrid()
 		{
 			// clear out the previous contents
 			dataGridViewStates.Rows.Clear();
 
+			// get the states associated with the currently configured options.
+			var states = from StoryStageLogic.StateTransition stateTransition in StateTransitions.Values
+						 where (ConditionsSatisfied(stateTransition))
+						 select stateTransition;
+
 			// now populate the grid from the StateTransitions (whether default or specialized)
-			foreach (StoryStageLogic.StateTransition stateTransition in StateTransitions.Values)
+			foreach (StoryStageLogic.StateTransition stateTransition in states)
 			{
 				switch (stateTransition.MemberTypeWithEditToken)
 				{
 					case TeamMemberData.UserTypes.eProjectFacilitator:
-						InitComboBox(stateTransition, ColumnProjectFacilitatorStages.Name);
+						InitGridRow(stateTransition, ColumnProjectFacilitatorStages.Name);
 						break;
 					case TeamMemberData.UserTypes.eFirstPassMentor:
 						if (ColumnFirstPassMentor.Visible)
 						{
-							InitComboBox(stateTransition, ColumnFirstPassMentor.Name);
+							InitGridRow(stateTransition, ColumnFirstPassMentor.Name);
 						}
 						break;
 					case TeamMemberData.UserTypes.eConsultantInTraining:
-						InitComboBox(stateTransition, ColumnConsultantInTraining.Name);
+						InitGridRow(stateTransition, ColumnConsultantInTraining.Name);
 						break;
 					case TeamMemberData.UserTypes.eCoach:
 						if (ColumnCoach.Visible)
 						{
-							InitComboBox(stateTransition, ColumnCoach.Name);
+							InitGridRow(stateTransition, ColumnCoach.Name);
 						}
 						break;
 					default:
@@ -63,6 +87,8 @@ namespace OneStoryProjectEditor
 				}
 			}
 		}
+
+		/*
 		protected void InitComboBox(StoryStageLogic.StateTransition stateTransition,
 			string strColumnName)
 		{
@@ -74,6 +100,16 @@ namespace OneStoryProjectEditor
 			dgcb.Items.Add(CstrDeleteState);
 			dgcb.Items.Add(CstrAddState);
 			dgcb.Value = stateTransition.StageDisplayString;
+		}
+		*/
+
+		protected void InitGridRow(StoryStageLogic.StateTransition stateTransition,
+			string strColumnName)
+		{
+			int nIndex = dataGridViewStates.Rows.Add();
+			var dgbtn = (DataGridViewButtonCell)
+				dataGridViewStates.Rows[nIndex].Cells[strColumnName];
+			dgbtn.Value = stateTransition.StageDisplayString;
 		}
 
 		protected StoryStageLogic.StateTransitionMap StateTransitions

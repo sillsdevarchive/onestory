@@ -674,6 +674,30 @@ namespace OneStoryProjectEditor
 			return true;
 		}
 
+		public static bool ConsultantCheckStoryQuestions(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref string strProposedNextState)
+		{
+			Console.WriteLine(String.Format("Checking if stage 'ConsultantCheckStoryQuestions' work is finished: Name: {0}", theCurrentStory.Name));
+
+			// before handing it back to the Project Facilitator, let's make sure that
+			//  if the PF had asked a question that the CIT answered it.
+			// and if the ProjectFac asked a question that the CIT responded to it.
+			if (!CheckThatCITAnsweredPFsQuestions(theSE, theCurrentStory))
+				return false;
+
+			return true;
+		}
+
+		public static bool ProjFacReviseAndSendBack(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref string strProposedNextState)
+		{
+			Console.WriteLine(String.Format("Checking if stage 'ProjFacReviseAndSendBack' work is finished: Name: {0}", theCurrentStory.Name));
+
+			// let's make sure that if the CIT had made a comment, that the ProjFac answered it.
+			if (!CheckThatPFRespondedToCITQuestions(theSE, theCurrentStory))
+				return false;
+
+			return true;
+		}
+
 		public static bool CoachReviewRound1Notes(StoryEditor theSE, StoryProjectData theStoryProjectData, StoryData theCurrentStory, ref string strProposedNextState)
 		{
 			Console.WriteLine(String.Format("Checking if stage 'CoachReviewRound1Notes' work is finished: Name: {0}", theCurrentStory.Name));

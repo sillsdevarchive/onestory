@@ -1617,7 +1617,7 @@ namespace OneStoryProjectEditor
 		{
 			statusLabel.Text = strText;
 		}
-
+		/*
 		private void buttonsStoryStage_DropDownOpening(object sender, EventArgs e)
 		{
 			if ((StoryProject == null) || (theCurrentStory == null))
@@ -1661,7 +1661,6 @@ namespace OneStoryProjectEditor
 			}
 			return true;
 		}
-
 		protected void OnSelectOtherState(object sender, EventArgs e)
 		{
 			Debug.Assert(sender is ToolStripItem);
@@ -1717,10 +1716,14 @@ namespace OneStoryProjectEditor
 			while (theCurrentST.NextState != theNewST.CurrentStage);
 			InitAllPanes();
 		}
+		*/
 
 		private void buttonsStoryStage_ButtonClick(object sender, EventArgs e)
 		{
-			DoNextState(true);
+			StageEditorForm dlg = new StageEditorForm(StoryProject);
+			if (dlg.ShowDialog() == DialogResult.OK)
+				MessageBox.Show(String.Format("'{0}' chosen", dlg.StateSelected));
+			// DoNextState(true);
 		}
 
 		protected bool DoNextState(bool bDoUpdateCtrls)

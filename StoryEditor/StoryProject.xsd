@@ -248,31 +248,21 @@
 												<xs:attribute name="viewNetBible" type="xs:boolean" />
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="AllowableBackwardsTransitions" minOccurs="0" maxOccurs="1">
+										<xs:element name="StageRequirements" minOccurs="1" maxOccurs="1">
 											<xs:complexType>
-												<xs:sequence>
-													<xs:element name="AllowableBackwardsTransition" minOccurs="1" maxOccurs="unbounded">
-														<xs:complexType>
-															<xs:simpleContent>
-																<xs:extension base="xs:string">
-																	<xs:attribute name="RequiresUsingVernacular" type="xs:boolean" />
-																	<xs:attribute name="RequiresUsingNationalBT" type="xs:boolean" />
-																	<xs:attribute name="RequiresUsingEnglishBT" type="xs:boolean" />
-																	<xs:attribute name="RequiresUsingOtherEnglishBTer" type="xs:boolean" />
-																	<xs:attribute name="RequiresBiblicalStory" type="xs:boolean" />
-																	<xs:attribute name="RequiresFirstPassMentor" type="xs:boolean" />
-																</xs:extension>
-															</xs:simpleContent>
-														</xs:complexType>
-													</xs:element>
-												</xs:sequence>
+												<xs:attribute name="HasEndOfStateFunction" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresUsingOtherEnglishBTer" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresFirstPassMentor" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresIndependentConsultant" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresUsingVernacular" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresUsingNationalBT" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresUsingEnglishBT" type="xs:boolean" default="false" />
+												<xs:attribute name="RequiresBiblicalStory" type="xs:boolean" default="false" />
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
-									<xs:attribute name="stage" type="xs:string" use="required" />
+									<xs:attribute name="StageName" type="xs:string" use="required" />
 									<xs:attribute name="MemberTypeWithEditToken" type="MemberType" use="required" />
-									<xs:attribute name="NextState" type="xs:string" use="required" />
-									<xs:attribute name="FixedState" type="xs:boolean" use="required" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

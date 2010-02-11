@@ -47,10 +47,14 @@ namespace OneStoryProjectEditor
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.labelPassword = new System.Windows.Forms.Label();
             this.tabPageLanguages = new System.Windows.Forms.TabPage();
-            this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxNationalBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxStoryLanguage = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanelLanguages = new System.Windows.Forms.TableLayoutPanel();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.checkBoxConNotesInInternationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxConNotesInNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxStoryLanguage = new System.Windows.Forms.CheckBox();
+            this.checkBoxNationalBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnglishBT = new System.Windows.Forms.CheckBox();
+            this.checkBoxConNotesInVernacular = new System.Windows.Forms.CheckBox();
             this.tabPageLanguageVernacular = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelLanguageInformationVernacular = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxLanguageTabInstructionsVernacular = new System.Windows.Forms.TextBox();
@@ -105,15 +109,14 @@ namespace OneStoryProjectEditor
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.checkBoxConNotesInVernacular = new System.Windows.Forms.CheckBox();
-            this.checkBoxConNotesInNationalBT = new System.Windows.Forms.CheckBox();
-            this.checkBoxConNotesInInternationalBT = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonAdvancedStateEditor = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageProjectName.SuspendLayout();
             this.tabPageInternetRepository.SuspendLayout();
             this.tableLayoutPanelInternetRepo.SuspendLayout();
             this.tabPageLanguages.SuspendLayout();
+            this.tableLayoutPanelLanguages.SuspendLayout();
             this.tabPageLanguageVernacular.SuspendLayout();
             this.tableLayoutPanelLanguageInformationVernacular.SuspendLayout();
             this.tabPageLanguageNationalBT.SuspendLayout();
@@ -121,7 +124,7 @@ namespace OneStoryProjectEditor
             this.tabPageLanguageEnglishBT.SuspendLayout();
             this.tableLayoutPanelLanguageInformationEnglishBT.SuspendLayout();
             this.tabPageMemberRoles.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -323,7 +326,7 @@ namespace OneStoryProjectEditor
             // 
             // tabPageLanguages
             // 
-            this.tabPageLanguages.Controls.Add(this.tableLayoutPanel1);
+            this.tabPageLanguages.Controls.Add(this.tableLayoutPanelLanguages);
             this.tabPageLanguages.Location = new System.Drawing.Point(4, 22);
             this.tabPageLanguages.Name = "tabPageLanguages";
             this.tabPageLanguages.Padding = new System.Windows.Forms.Padding(3);
@@ -331,6 +334,87 @@ namespace OneStoryProjectEditor
             this.tabPageLanguages.TabIndex = 1;
             this.tabPageLanguages.Text = "Languages";
             this.tabPageLanguages.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanelLanguages
+            // 
+            this.tableLayoutPanelLanguages.ColumnCount = 2;
+            this.tableLayoutPanelLanguages.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelLanguages.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxConNotesInInternationalBT, 1, 2);
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxConNotesInNationalBT, 1, 1);
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxStoryLanguage, 0, 0);
+            this.tableLayoutPanelLanguages.Controls.Add(this.textBox2, 0, 3);
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxNationalBT, 0, 1);
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxEnglishBT, 0, 2);
+            this.tableLayoutPanelLanguages.Controls.Add(this.checkBoxConNotesInVernacular, 1, 0);
+            this.tableLayoutPanelLanguages.Location = new System.Drawing.Point(15, 15);
+            this.tableLayoutPanelLanguages.Name = "tableLayoutPanelLanguages";
+            this.tableLayoutPanelLanguages.RowCount = 4;
+            this.tableLayoutPanelLanguages.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguages.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguages.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanelLanguages.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelLanguages.Size = new System.Drawing.Size(518, 282);
+            this.tableLayoutPanelLanguages.TabIndex = 4;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelLanguages.SetColumnSpan(this.textBox2, 2);
+            this.textBox2.Location = new System.Drawing.Point(3, 72);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(512, 207);
+            this.textBox2.TabIndex = 3;
+            this.textBox2.TabStop = false;
+            this.textBox2.Text = resources.GetString("textBox2.Text");
+            // 
+            // checkBoxConNotesInInternationalBT
+            // 
+            this.checkBoxConNotesInInternationalBT.AutoSize = true;
+            this.checkBoxConNotesInInternationalBT.Checked = true;
+            this.checkBoxConNotesInInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxConNotesInInternationalBT.Location = new System.Drawing.Point(262, 49);
+            this.checkBoxConNotesInInternationalBT.Name = "checkBoxConNotesInInternationalBT";
+            this.checkBoxConNotesInInternationalBT.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxConNotesInInternationalBT.TabIndex = 6;
+            this.checkBoxConNotesInInternationalBT.Text = "Consultant Notes?";
+            this.checkBoxConNotesInInternationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxConNotesInNationalBT
+            // 
+            this.checkBoxConNotesInNationalBT.AutoSize = true;
+            this.checkBoxConNotesInNationalBT.Location = new System.Drawing.Point(262, 26);
+            this.checkBoxConNotesInNationalBT.Name = "checkBoxConNotesInNationalBT";
+            this.checkBoxConNotesInNationalBT.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxConNotesInNationalBT.TabIndex = 5;
+            this.checkBoxConNotesInNationalBT.Text = "Consultant Notes?";
+            this.checkBoxConNotesInNationalBT.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStoryLanguage
+            // 
+            this.checkBoxStoryLanguage.AutoSize = true;
+            this.checkBoxStoryLanguage.Location = new System.Drawing.Point(3, 3);
+            this.checkBoxStoryLanguage.Name = "checkBoxStoryLanguage";
+            this.checkBoxStoryLanguage.Size = new System.Drawing.Size(97, 17);
+            this.checkBoxStoryLanguage.TabIndex = 0;
+            this.checkBoxStoryLanguage.Text = "&Story language";
+            this.checkBoxStoryLanguage.UseVisualStyleBackColor = true;
+            this.checkBoxStoryLanguage.CheckedChanged += new System.EventHandler(this.checkBoxStoryLanguage_CheckedChanged);
+            // 
+            // checkBoxNationalBT
+            // 
+            this.checkBoxNationalBT.AutoSize = true;
+            this.checkBoxNationalBT.Location = new System.Drawing.Point(3, 26);
+            this.checkBoxNationalBT.Name = "checkBoxNationalBT";
+            this.checkBoxNationalBT.Size = new System.Drawing.Size(190, 17);
+            this.checkBoxNationalBT.TabIndex = 1;
+            this.checkBoxNationalBT.Text = "&National/Regional back-translation";
+            this.checkBoxNationalBT.UseVisualStyleBackColor = true;
+            this.checkBoxNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalBT_CheckedChanged);
             // 
             // checkBoxEnglishBT
             // 
@@ -345,42 +429,15 @@ namespace OneStoryProjectEditor
             this.checkBoxEnglishBT.UseVisualStyleBackColor = true;
             this.checkBoxEnglishBT.CheckedChanged += new System.EventHandler(this.checkBoxEnglishBT_CheckedChanged);
             // 
-            // checkBoxNationalBT
+            // checkBoxConNotesInVernacular
             // 
-            this.checkBoxNationalBT.AutoSize = true;
-            this.checkBoxNationalBT.Location = new System.Drawing.Point(3, 26);
-            this.checkBoxNationalBT.Name = "checkBoxNationalBT";
-            this.checkBoxNationalBT.Size = new System.Drawing.Size(190, 17);
-            this.checkBoxNationalBT.TabIndex = 1;
-            this.checkBoxNationalBT.Text = "&National/Regional back-translation";
-            this.checkBoxNationalBT.UseVisualStyleBackColor = true;
-            this.checkBoxNationalBT.CheckedChanged += new System.EventHandler(this.checkBoxNationalBT_CheckedChanged);
-            // 
-            // checkBoxStoryLanguage
-            // 
-            this.checkBoxStoryLanguage.AutoSize = true;
-            this.checkBoxStoryLanguage.Location = new System.Drawing.Point(3, 3);
-            this.checkBoxStoryLanguage.Name = "checkBoxStoryLanguage";
-            this.checkBoxStoryLanguage.Size = new System.Drawing.Size(97, 17);
-            this.checkBoxStoryLanguage.TabIndex = 0;
-            this.checkBoxStoryLanguage.Text = "&Story language";
-            this.checkBoxStoryLanguage.UseVisualStyleBackColor = true;
-            this.checkBoxStoryLanguage.CheckedChanged += new System.EventHandler(this.checkBoxStoryLanguage_CheckedChanged);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.SetColumnSpan(this.textBox2, 2);
-            this.textBox2.Location = new System.Drawing.Point(3, 72);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(512, 207);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.TabStop = false;
-            this.textBox2.Text = resources.GetString("textBox2.Text");
+            this.checkBoxConNotesInVernacular.AutoSize = true;
+            this.checkBoxConNotesInVernacular.Location = new System.Drawing.Point(262, 3);
+            this.checkBoxConNotesInVernacular.Name = "checkBoxConNotesInVernacular";
+            this.checkBoxConNotesInVernacular.Size = new System.Drawing.Size(113, 17);
+            this.checkBoxConNotesInVernacular.TabIndex = 4;
+            this.checkBoxConNotesInVernacular.Text = "Consultant Notes?";
+            this.checkBoxConNotesInVernacular.UseVisualStyleBackColor = true;
             // 
             // tabPageLanguageVernacular
             // 
@@ -900,12 +957,7 @@ namespace OneStoryProjectEditor
             // 
             // tabPageMemberRoles
             // 
-            this.tabPageMemberRoles.Controls.Add(this.textBox4);
-            this.tabPageMemberRoles.Controls.Add(this.radioButtonManageWithCoaching);
-            this.tabPageMemberRoles.Controls.Add(this.radioButtonIndependentConsultant);
-            this.tabPageMemberRoles.Controls.Add(this.checkBoxFirstPassMentor);
-            this.tabPageMemberRoles.Controls.Add(this.checkBoxOutsideEnglishBackTranslator);
-            this.tabPageMemberRoles.Controls.Add(this.checkBoxProjectFacilitator);
+            this.tabPageMemberRoles.Controls.Add(this.tableLayoutPanel2);
             this.tabPageMemberRoles.Location = new System.Drawing.Point(4, 22);
             this.tabPageMemberRoles.Name = "tabPageMemberRoles";
             this.tabPageMemberRoles.Padding = new System.Windows.Forms.Padding(3);
@@ -919,12 +971,13 @@ namespace OneStoryProjectEditor
             this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox4.Location = new System.Drawing.Point(17, 117);
+            this.tableLayoutPanel2.SetColumnSpan(this.textBox4, 3);
+            this.textBox4.Location = new System.Drawing.Point(3, 95);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(513, 180);
-            this.textBox4.TabIndex = 5;
+            this.textBox4.Size = new System.Drawing.Size(512, 184);
+            this.textBox4.TabIndex = 6;
             this.textBox4.TabStop = false;
             this.textBox4.Text = resources.GetString("textBox4.Text");
             // 
@@ -932,7 +985,7 @@ namespace OneStoryProjectEditor
             // 
             this.radioButtonManageWithCoaching.AutoSize = true;
             this.radioButtonManageWithCoaching.Checked = true;
-            this.radioButtonManageWithCoaching.Location = new System.Drawing.Point(17, 81);
+            this.radioButtonManageWithCoaching.Location = new System.Drawing.Point(3, 72);
             this.radioButtonManageWithCoaching.Name = "radioButtonManageWithCoaching";
             this.radioButtonManageWithCoaching.Size = new System.Drawing.Size(197, 17);
             this.radioButtonManageWithCoaching.TabIndex = 3;
@@ -943,7 +996,7 @@ namespace OneStoryProjectEditor
             // radioButtonIndependentConsultant
             // 
             this.radioButtonIndependentConsultant.AutoSize = true;
-            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(235, 81);
+            this.radioButtonIndependentConsultant.Location = new System.Drawing.Point(206, 72);
             this.radioButtonIndependentConsultant.Name = "radioButtonIndependentConsultant";
             this.radioButtonIndependentConsultant.Size = new System.Drawing.Size(138, 17);
             this.radioButtonIndependentConsultant.TabIndex = 4;
@@ -954,7 +1007,7 @@ namespace OneStoryProjectEditor
             // checkBoxFirstPassMentor
             // 
             this.checkBoxFirstPassMentor.AutoSize = true;
-            this.checkBoxFirstPassMentor.Location = new System.Drawing.Point(17, 58);
+            this.checkBoxFirstPassMentor.Location = new System.Drawing.Point(3, 49);
             this.checkBoxFirstPassMentor.Name = "checkBoxFirstPassMentor";
             this.checkBoxFirstPassMentor.Size = new System.Drawing.Size(106, 17);
             this.checkBoxFirstPassMentor.TabIndex = 2;
@@ -965,7 +1018,7 @@ namespace OneStoryProjectEditor
             // checkBoxOutsideEnglishBackTranslator
             // 
             this.checkBoxOutsideEnglishBackTranslator.AutoSize = true;
-            this.checkBoxOutsideEnglishBackTranslator.Location = new System.Drawing.Point(17, 35);
+            this.checkBoxOutsideEnglishBackTranslator.Location = new System.Drawing.Point(3, 26);
             this.checkBoxOutsideEnglishBackTranslator.Name = "checkBoxOutsideEnglishBackTranslator";
             this.checkBoxOutsideEnglishBackTranslator.Size = new System.Drawing.Size(172, 17);
             this.checkBoxOutsideEnglishBackTranslator.TabIndex = 1;
@@ -979,7 +1032,7 @@ namespace OneStoryProjectEditor
             this.checkBoxProjectFacilitator.Checked = true;
             this.checkBoxProjectFacilitator.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxProjectFacilitator.Enabled = false;
-            this.checkBoxProjectFacilitator.Location = new System.Drawing.Point(17, 12);
+            this.checkBoxProjectFacilitator.Location = new System.Drawing.Point(3, 3);
             this.checkBoxProjectFacilitator.Name = "checkBoxProjectFacilitator";
             this.checkBoxProjectFacilitator.Size = new System.Drawing.Size(107, 17);
             this.checkBoxProjectFacilitator.TabIndex = 0;
@@ -1004,7 +1057,7 @@ namespace OneStoryProjectEditor
             this.buttonCancel.Location = new System.Drawing.Point(492, 359);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 2;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -1014,64 +1067,44 @@ namespace OneStoryProjectEditor
             this.buttonPrevious.Location = new System.Drawing.Point(329, 359);
             this.buttonPrevious.Name = "buttonPrevious";
             this.buttonPrevious.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrevious.TabIndex = 1;
+            this.buttonPrevious.TabIndex = 2;
             this.buttonPrevious.Text = "&Previous";
             this.buttonPrevious.UseVisualStyleBackColor = true;
             this.buttonPrevious.Click += new System.EventHandler(this.buttonPrevious_Click);
             // 
-            // tableLayoutPanel1
+            // tableLayoutPanel2
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxConNotesInInternationalBT, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxConNotesInNationalBT, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxStoryLanguage, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxNationalBT, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxEnglishBT, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.checkBoxConNotesInVernacular, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 15);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(518, 282);
-            this.tableLayoutPanel1.TabIndex = 4;
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.checkBoxProjectFacilitator, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textBox4, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.checkBoxOutsideEnglishBackTranslator, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.radioButtonIndependentConsultant, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.radioButtonManageWithCoaching, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.checkBoxFirstPassMentor, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.buttonAdvancedStateEditor, 2, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 15);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 5;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(518, 282);
+            this.tableLayoutPanel2.TabIndex = 6;
             // 
-            // checkBoxConNotesInVernacular
+            // buttonAdvancedStateEditor
             // 
-            this.checkBoxConNotesInVernacular.AutoSize = true;
-            this.checkBoxConNotesInVernacular.Location = new System.Drawing.Point(262, 3);
-            this.checkBoxConNotesInVernacular.Name = "checkBoxConNotesInVernacular";
-            this.checkBoxConNotesInVernacular.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxConNotesInVernacular.TabIndex = 4;
-            this.checkBoxConNotesInVernacular.Text = "Consultant Notes?";
-            this.checkBoxConNotesInVernacular.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxConNotesInNationalBT
-            // 
-            this.checkBoxConNotesInNationalBT.AutoSize = true;
-            this.checkBoxConNotesInNationalBT.Location = new System.Drawing.Point(262, 26);
-            this.checkBoxConNotesInNationalBT.Name = "checkBoxConNotesInNationalBT";
-            this.checkBoxConNotesInNationalBT.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxConNotesInNationalBT.TabIndex = 5;
-            this.checkBoxConNotesInNationalBT.Text = "Consultant Notes?";
-            this.checkBoxConNotesInNationalBT.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxConNotesInInternationalBT
-            // 
-            this.checkBoxConNotesInInternationalBT.AutoSize = true;
-            this.checkBoxConNotesInInternationalBT.Checked = true;
-            this.checkBoxConNotesInInternationalBT.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxConNotesInInternationalBT.Location = new System.Drawing.Point(262, 49);
-            this.checkBoxConNotesInInternationalBT.Name = "checkBoxConNotesInInternationalBT";
-            this.checkBoxConNotesInInternationalBT.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxConNotesInInternationalBT.TabIndex = 6;
-            this.checkBoxConNotesInInternationalBT.Text = "Consultant Notes?";
-            this.checkBoxConNotesInInternationalBT.UseVisualStyleBackColor = true;
+            this.buttonAdvancedStateEditor.Location = new System.Drawing.Point(350, 3);
+            this.buttonAdvancedStateEditor.Name = "buttonAdvancedStateEditor";
+            this.tableLayoutPanel2.SetRowSpan(this.buttonAdvancedStateEditor, 2);
+            this.buttonAdvancedStateEditor.Size = new System.Drawing.Size(165, 23);
+            this.buttonAdvancedStateEditor.TabIndex = 5;
+            this.buttonAdvancedStateEditor.Text = "&Advanced State Editing";
+            this.buttonAdvancedStateEditor.UseVisualStyleBackColor = true;
             // 
             // NewProjectWizard
             // 
@@ -1093,6 +1126,8 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelInternetRepo.ResumeLayout(false);
             this.tableLayoutPanelInternetRepo.PerformLayout();
             this.tabPageLanguages.ResumeLayout(false);
+            this.tableLayoutPanelLanguages.ResumeLayout(false);
+            this.tableLayoutPanelLanguages.PerformLayout();
             this.tabPageLanguageVernacular.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformationVernacular.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformationVernacular.PerformLayout();
@@ -1103,9 +1138,8 @@ namespace OneStoryProjectEditor
             this.tableLayoutPanelLanguageInformationEnglishBT.ResumeLayout(false);
             this.tableLayoutPanelLanguageInformationEnglishBT.PerformLayout();
             this.tabPageMemberRoles.ResumeLayout(false);
-            this.tabPageMemberRoles.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1187,9 +1221,11 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.Label labelFontVernacular;
         private System.Windows.Forms.Label labelSentenceTermVernacular;
         private System.Windows.Forms.Label labelKeyboardVernacular;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelLanguages;
         private System.Windows.Forms.CheckBox checkBoxConNotesInVernacular;
         private System.Windows.Forms.CheckBox checkBoxConNotesInInternationalBT;
         private System.Windows.Forms.CheckBox checkBoxConNotesInNationalBT;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button buttonAdvancedStateEditor;
     }
 }

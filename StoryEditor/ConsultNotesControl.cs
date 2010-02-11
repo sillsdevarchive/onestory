@@ -109,7 +109,7 @@ namespace OneStoryProjectEditor
 			theSE.ReInitConsultNotesPane(_theCNsDC);
 
 			// return the StringTransfer we just created
-			return cndc[0];
+			return cndc[0].StringTransferOfFirstLanguage;
 		}
 
 		void buttonDragDropHandle_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)

@@ -946,7 +946,6 @@ namespace OneStoryProjectEditor
             this.buttonsStoryStage.Size = new System.Drawing.Size(75, 20);
             this.buttonsStoryStage.Text = "Next State";
             this.buttonsStoryStage.ButtonClick += new System.EventHandler(this.buttonsStoryStage_ButtonClick);
-            this.buttonsStoryStage.DropDownOpening += new System.EventHandler(this.buttonsStoryStage_DropDownOpening);
             // 
             // statusLabel
             // 
