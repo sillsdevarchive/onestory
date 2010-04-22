@@ -44,7 +44,7 @@ namespace OneStoryProjectEditor
 			myFocusTimer.Interval = 200;
 
 			mySaveTimer.Tick += TimeToSave;
-			mySaveTimer.Interval = 5*1000*60;
+			mySaveTimer.Interval = 5 * 1000 * 60;
 			mySaveTimer.Start();
 
 			_strStoriesSet = strStoriesSet;
@@ -261,9 +261,9 @@ namespace OneStoryProjectEditor
 				deleteEnglishBacktranslationToolStripMenuItem.Visible =
 				copyEnglishBackTranslationToolStripMenuItem.Visible =
 				deleteTestToolStripMenuItem.Visible =
-				viewVernacularLangFieldMenuItem.Visible =
+				/* viewVernacularLangFieldMenuItem.Visible =
 				viewNationalLangFieldMenuItem.Visible =
-				viewEnglishBTFieldMenuItem.Visible = true;
+				viewEnglishBTFieldMenuItem.Visible = */ true;
 		}
 
 		protected void ClearState()
@@ -338,7 +338,7 @@ namespace OneStoryProjectEditor
 			catch (Exception ex)
 			{
 				MessageBox.Show(String.Format(Properties.Resources.IDS_UnableToOpenMemberList,
-					Environment.NewLine, ex.Message),  Properties.Resources.IDS_Caption);
+					Environment.NewLine, ex.Message), Properties.Resources.IDS_Caption);
 			}
 
 			return false;
@@ -500,7 +500,7 @@ namespace OneStoryProjectEditor
 				string strErrorMsg = String.Format(Properties.Resources.IDS_UnableToOpenProjectFile,
 					Environment.NewLine, projSettings.ProjectName,
 					((ex.InnerException != null) ? ex.InnerException.Message : ""), ex.Message);
-				MessageBox.Show(strErrorMsg,  Properties.Resources.IDS_Caption);
+				MessageBox.Show(strErrorMsg, Properties.Resources.IDS_Caption);
 			}
 		}
 
@@ -757,7 +757,7 @@ namespace OneStoryProjectEditor
 						MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
 					}
 				}
-				else if((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+				else if ((LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
 					&& (LoggedOnMember.MemberGuid != theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)
 					&& (!String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ProjectFacilitatorMemberID)))
 				{
@@ -1026,8 +1026,8 @@ namespace OneStoryProjectEditor
 		private void TimeToSetFocus(object sender, EventArgs e)
 		{
 			Debug.Assert((sender != null) && (sender is Timer) && ((sender as Timer).Tag is int));
-			((Timer) sender).Stop();
-			int nVerseIndex = (int)((Timer) sender).Tag;
+			((Timer)sender).Stop();
+			int nVerseIndex = (int)((Timer)sender).Tag;
 			FocusOnVerse(nVerseIndex);
 		}
 
@@ -1142,8 +1142,8 @@ namespace OneStoryProjectEditor
 				}
 			}
 			else if (CtrlTextBox._inTextBox != null)
-				// otherwise, just get the selected text out of the one box that was
-				//  right-clicked in.
+			// otherwise, just get the selected text out of the one box that was
+			//  right-clicked in.
 			{
 				if (viewCoachNotesFieldMenuItem.Checked)
 				{
@@ -1162,7 +1162,7 @@ namespace OneStoryProjectEditor
 
 		internal static string GetInitials(string name)
 		{
-			string[] astrNames = name.Split(new [] {' '}, StringSplitOptions.RemoveEmptyEntries);
+			string[] astrNames = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			string strInitials = null;
 			foreach (string s in astrNames)
 			{
@@ -1548,9 +1548,9 @@ namespace OneStoryProjectEditor
 				{
 					Debug.Assert(theCurrentStory.CraftingInfo != null);
 					if (theCurrentStory.CraftingInfo.IsBiblicalStory
-						&&  (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
-						&&  (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
-						&&  (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
+						&& (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator)
+						&& (((int)theCurrentStory.ProjStage.ProjectStage) > (int)StoryStageLogic.ProjectStages.eProjFacTypeVernacular)
+						&& (String.IsNullOrEmpty(theCurrentStory.CraftingInfo.StoryPurpose)
 						|| String.IsNullOrEmpty(theCurrentStory.CraftingInfo.ResourcesUsed)))
 						QueryStoryPurpose();
 				}
@@ -1761,11 +1761,11 @@ namespace OneStoryProjectEditor
 				Properties.Settings.Default.RecentProjects.RemoveAt(nIndex);
 				Properties.Settings.Default.RecentProjectPaths.RemoveAt(nIndex);
 				Properties.Settings.Default.Save();
-				MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
+				MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message,  Properties.Resources.IDS_Caption);
+				MessageBox.Show(ex.Message, Properties.Resources.IDS_Caption);
 			}
 		}
 
@@ -1951,11 +1951,11 @@ namespace OneStoryProjectEditor
 			// if there's a story that has more than no verses, AND if it's a bible
 			//  story and before the add anchors stage or a non-biblical story and
 			//  before the consultant check stage...
-			if (   (theCurrentStory != null)
+			if ((theCurrentStory != null)
 				&& (theCurrentStory.Verses.Count > 0)
 				&& (theCurrentStory.CraftingInfo != null)
-				&& (    (theCurrentStory.CraftingInfo.IsBiblicalStory && !WillBeLossInVerse(theCurrentStory.Verses))
-					||  (!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
+				&& ((theCurrentStory.CraftingInfo.IsBiblicalStory && !WillBeLossInVerse(theCurrentStory.Verses))
+					|| (!theCurrentStory.CraftingInfo.IsBiblicalStory && (theCurrentStory.ProjStage.ProjectStage < StoryStageLogic.ProjectStages.eConsultantCheckNonBiblicalStory))))
 			{
 				// then we can do splitting and collapsing of the story
 				splitIntoLinesToolStripMenuItem.Enabled =
@@ -2262,8 +2262,12 @@ namespace OneStoryProjectEditor
 
 		protected void AddDeleteTestSubmenu(ToolStripMenuItem tsm, string strText, int nTestNum, EventHandler theEH)
 		{
-			ToolStripMenuItem tsmSub = new ToolStripMenuItem { Name = strText, Text = strText, Tag = nTestNum,
-															   ToolTipText = "Delete the answers to the testing questions and the retellings associated with this testing helper (UNS). The text boxes will be deleted completely."
+			ToolStripMenuItem tsmSub = new ToolStripMenuItem
+			{
+				Name = strText,
+				Text = strText,
+				Tag = nTestNum,
+				ToolTipText = "Delete the answers to the testing questions and the retellings associated with this testing helper (UNS). The text boxes will be deleted completely."
 			};
 			tsmSub.Click += theEH;
 			tsm.DropDown.Items.Add(tsmSub);
@@ -2346,7 +2350,7 @@ namespace OneStoryProjectEditor
 				// seems to fail sometimes on Windows7. If it actually worked, then just ignore the exception
 				IDataObject iData = Clipboard.GetDataObject();
 				if (iData != null)
-					if( iData.GetDataPresent(DataFormats.UnicodeText) )
+					if (iData.GetDataPresent(DataFormats.UnicodeText))
 					{
 						string strInput = (string)iData.GetData(DataFormats.UnicodeText);
 						if (strInput == strText)
@@ -2725,12 +2729,36 @@ namespace OneStoryProjectEditor
 					&& (theCurrentStory.Verses.Count > 0));
 		}
 
+		private void showHideFieldsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewEnableForm dlg = new ViewEnableForm(this, StoryProject.ProjSettings, theCurrentStory);
+			dlg.ItemsToInsureAreOn = VerseData.SetItemsToInsureOn(
+				viewVernacularLangFieldMenuItem.Checked,
+				viewNationalLangFieldMenuItem.Checked,
+				viewEnglishBTFieldMenuItem.Checked,
+				viewAnchorFieldMenuItem.Checked,
+				viewStoryTestingQuestionFieldMenuItem.Checked,
+				viewRetellingFieldMenuItem.Checked,
+				viewConsultantNoteFieldMenuItem.Checked,
+				viewCoachNotesFieldMenuItem.Checked,
+				viewNetBibleMenuItem.Checked);
+
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				NavigateTo(theCurrentStory.Name, dlg.ItemsToInsureAreOn, CtrlTextBox._inTextBox);
+
+				// todo: some of these had special handling
+			}
+		}
+
 		private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
 		{
 			UpdateUIMenusWithShortCuts();
 
 			if ((StoryProject != null) && (StoryProject.ProjSettings != null))
 			{
+				showHideFieldsToolStripMenuItem.Enabled = (theCurrentStory != null);
+				/*
 				if (StoryProject.ProjSettings.Vernacular.HasData)
 					viewVernacularLangFieldMenuItem.Text = String.Format(Properties.Resources.IDS_LanguageFields, StoryProject.ProjSettings.Vernacular.LangName);
 				else
@@ -2763,11 +2791,11 @@ namespace OneStoryProjectEditor
 
 				viewConsultantNoteFieldMenuItem.Enabled =
 					viewCoachNotesFieldMenuItem.Enabled = (theCurrentStory != null);
-
+				*/
 				stateMapToolStripMenuItem.Enabled = true;
 			}
 			else
-				stateMapToolStripMenuItem.Enabled = false;
+				showHideFieldsToolStripMenuItem.Enabled = stateMapToolStripMenuItem.Enabled = false;
 
 			if (IsInStoriesSet && (StoryProject != null))
 			{
@@ -2969,38 +2997,53 @@ namespace OneStoryProjectEditor
 		}
 
 		public void NavigateTo(string strStoryName,
-			VerseData.ViewItemToInsureOn viewItemToInsureOn, StringTransfer stToFocus)
+			VerseData.ViewItemToInsureOn viewItemToInsureOn, CtrlTextBox ctbToFocus)
 		{
 			Debug.Assert(comboBoxStorySelector.Items.Contains(strStoryName));
 			if (strStoryName != theCurrentStory.Name)
 				comboBoxStorySelector.SelectedItem = strStoryName;
 
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField))
-				InsureVisible(viewVernacularLangFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField))
-				InsureVisible(viewNationalLangFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField))
-				InsureVisible(viewEnglishBTFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eAnchorFields))
-				InsureVisible(viewAnchorFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields))
-				InsureVisible(viewStoryTestingQuestionFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eRetellingFields))
-				InsureVisible(viewRetellingFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eConsultantNoteFields))
-				InsureVisible(viewConsultantNoteFieldMenuItem);
-			if (VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eCoachNotesFields))
-				InsureVisible(viewCoachNotesFieldMenuItem);
+			bool bSomethingChanged = false;
+			_bDisableReInitVerseControls = true;
+			bSomethingChanged |= InsureVisible(viewVernacularLangFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eVernacularLangField));
+			bSomethingChanged |= InsureVisible(viewNationalLangFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eNationalLangField));
+			bSomethingChanged |= InsureVisible(viewEnglishBTFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eEnglishBTField));
+			bSomethingChanged |= InsureVisible(viewAnchorFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eAnchorFields));
+			bSomethingChanged |= InsureVisible(viewStoryTestingQuestionFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eStoryTestingQuestionFields));
+			bSomethingChanged |= InsureVisible(viewRetellingFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eRetellingFields));
+			bSomethingChanged |= InsureVisible(viewConsultantNoteFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eConsultantNoteFields));
+			bSomethingChanged |= InsureVisible(viewCoachNotesFieldMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eCoachNotesFields));
+			bSomethingChanged |= InsureVisible(viewNetBibleMenuItem,
+				VerseData.IsViewItemOn(viewItemToInsureOn, VerseData.ViewItemToInsureOn.eBibleViewer));
 
-			Debug.Assert(stToFocus.TextBox != null);
-			if (stToFocus.TextBox != null)
-				stToFocus.TextBox.Focus();
+			_bDisableReInitVerseControls = true;
+
+			if (bSomethingChanged)
+				ReInitVerseControls();
+
+			if (ctbToFocus != null)
+				ctbToFocus.Focus();
 		}
 
-		protected void InsureVisible(ToolStripMenuItem tsmi)
+		protected bool InsureVisible(ToolStripMenuItem tsmi, bool bChecked)
 		{
-			if ((tsmi != null) && !tsmi.Checked)
-				tsmi.Checked = true;
+			Debug.Assert(tsmi != null);
+			if ((bChecked && !tsmi.Checked)
+				||
+				(!bChecked && tsmi.Checked))
+			{
+				tsmi.Checked = bChecked;
+				return true;
+			}
+			return false;
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3316,7 +3359,7 @@ namespace OneStoryProjectEditor
 		{
 			XslCompiledTransform myProcessor = new XslCompiledTransform();
 			XmlReader xslReader = XmlReader.Create(streamXSLT, new XmlReaderSettings() { ProhibitDtd = false });
-			XsltSettings xsltSettings = new XsltSettings {EnableDocumentFunction = true, EnableScript = true};
+			XsltSettings xsltSettings = new XsltSettings { EnableDocumentFunction = true, EnableScript = true };
 			myProcessor.Load(xslReader, xsltSettings, null);
 
 			// rewind
