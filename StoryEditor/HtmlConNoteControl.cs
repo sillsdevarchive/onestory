@@ -253,6 +253,12 @@ namespace OneStoryProjectEditor
 		}
 		*/
 
+		public bool OnBibRefJump(string strBibRef)
+		{
+			TheSE.SetNetBibleVerse(strBibRef);
+			return true;
+		}
+
 		public bool TextareaOnKeyUp(string strId, string strText)
 		{
 			StoryEditor theSE;
