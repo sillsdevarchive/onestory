@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
 
 			DialogResult result =
 				MessageBox.Show(Properties.Resources.IDS_SaveKeyTermsPrompt,
-				Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo);
+				OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo);
 
 			if (result == DialogResult.Yes)
 				Save(strProjectFolder);
