@@ -455,13 +455,20 @@ namespace OneStoryProjectEditor
 		/// <summary>
 		/// Build by project by reference array of verse text for this term
 		/// </summary>
-		internal void ReadVerseText(Term myTerm, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
+		internal void ReadVerseText(List<Term> myTerms, StoryProjectData theSPD, ProgressBar progressBarLoadingKeyTerms)
+		{
+			var vrefs = new ArrayList();
+			foreach (var myTerm in myTerms)
+				foreach (var vref in myTerm.VerseRefs())
+					vrefs.Add(vref.BBBCCCVVVS());
+
+			ProcessReferences(vrefs, theSPD, progressBarLoadingKeyTerms);
+		}
+
+		private void ProcessReferences(ArrayList vrefs, StoryProjectData theSPD,
+			ProgressBar progressBarLoadingKeyTerms)
 		{
 			mapReferenceToVerseTextList = new Dictionary<string, List<string>>();
-
-			ArrayList vrefs = new ArrayList();
-			foreach (var vref in myTerm.VerseRefs())
-				vrefs.Add(vref.BBBCCCVVVS());
 
 			// get the current stories only (not the obsolete ones)
 			StoriesData theStories = theSPD[OseResources.Properties.Resources.IDS_MainStoriesSet];
