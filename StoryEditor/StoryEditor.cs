@@ -48,7 +48,7 @@ namespace OneStoryProjectEditor
 		internal Timer myFocusTimer = new Timer();
 		protected Timer mySaveTimer = new Timer();
 
-		private const int CnIntervalBetweenAutoSaveReqs = 5*1000*60;
+		private const int CnIntervalBetweenAutoSaveReqs = 5 * 1000 * 60;
 		protected DateTime tmLastSync = DateTime.Now;
 		protected TimeSpan tsBackupTime = new TimeSpan(1, 0, 0);
 
@@ -107,6 +107,7 @@ namespace OneStoryProjectEditor
 			}
 		}
 
+		internal bool _bAutoHide = false;
 		private const int CnSecondsToDelyLastKeyPress = 7;
 		private DateTime _tmLastKeyPressedTimeStamp;
 		internal DateTime LastKeyPressedTimeStamp
@@ -119,7 +120,10 @@ namespace OneStoryProjectEditor
 				// if the Bible Pane's auto hide checkbox is unchecked, then
 				//  hide it when typing
 				if (!netBibleViewer.checkBoxAutoHide.Checked)
+				{
+					_bAutoHide = true;
 					splitContainerUpDown.Minimize();
+				}
 			}
 		}
 		protected TimeSpan tsLastKeyPressDelay = new TimeSpan(0, 0, CnSecondsToDelyLastKeyPress);
@@ -136,7 +140,7 @@ namespace OneStoryProjectEditor
 				if ((DateTime.Now - LastKeyPressedTimeStamp) < tsLastKeyPressDelay)
 				{
 					// wait at least 3 secs from the last key press
-					mySaveTimer.Interval = CnSecondsToDelyLastKeyPress*1000;
+					mySaveTimer.Interval = CnSecondsToDelyLastKeyPress * 1000;
 				}
 				else
 				{
@@ -351,7 +355,8 @@ namespace OneStoryProjectEditor
 				deleteTestToolStripMenuItem.Visible =
 				/* viewVernacularLangFieldMenuItem.Visible =
 				viewNationalLangFieldMenuItem.Visible =
-				viewEnglishBTFieldMenuItem.Visible = */ true;
+				viewEnglishBTFieldMenuItem.Visible = */
+														true;
 		}
 
 		protected void ClearState()
@@ -787,7 +792,7 @@ namespace OneStoryProjectEditor
 		{
 			// do nothing if we're already on this story:
 			if (_bCancellingChange
-				&&  (theCurrentStory != null)
+				&& (theCurrentStory != null)
 				&& (theCurrentStory.Name == (string)comboBoxStorySelector.SelectedItem))
 				return;
 
@@ -1433,7 +1438,7 @@ namespace OneStoryProjectEditor
 			// see if we're supposed to use the same settings as always...
 			//  but not for PFs who are in the early stages
 			bool bProjFacInEarlyState = (((int)eStage <= (int)StoryStageLogic.ProjectStages.eProjFacAddStoryQuestions)
-				&&  (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
+				&& (LoggedOnMember.MemberType == TeamMemberData.UserTypes.eProjectFacilitator));
 
 			if (!useSameSettingsForAllStoriesToolStripMenuItem.Checked
 				|| bProjFacInEarlyState)
@@ -1558,7 +1563,12 @@ namespace OneStoryProjectEditor
 				viewNetBibleMenuItem.Checked = true;
 
 			if (!netBibleViewer.checkBoxAutoHide.Checked && splitContainerUpDown.IsMinimized)
+			{
+				// when the user clicks an anchor button, then turn off the auto hide until
+				//  they start typing again (see LastKeyPressedTimeStamp)
+				_bAutoHide = false;
 				splitContainerUpDown.Restore();
+			}
 
 			netBibleViewer.DisplayVerses(strScriptureReference);
 		}
@@ -3093,7 +3103,7 @@ namespace OneStoryProjectEditor
 				viewStoryTestingQuestionAnswerMenuItem.Enabled =
 					viewStoryTestingQuestionMenuItem.Enabled =
 					viewRetellingFieldMenuItem.Enabled = ((theCurrentStory != null)
-														  && (((int) theCurrentStory.ProjStage.ProjectStage)
+														  && (((int)theCurrentStory.ProjStage.ProjectStage)
 															  >
 															  (int)
 															  StoryStageLogic.ProjectStages.
@@ -3891,7 +3901,7 @@ namespace OneStoryProjectEditor
 			var ll = sender as LinkLabel;
 			if ((ll != null) && (e.Button == MouseButtons.Left))
 			{
-				int nVerseIndex = (int) ll.Tag;
+				int nVerseIndex = (int)ll.Tag;
 				FocusOnVerse(nVerseIndex, true, true);
 			}
 		}
@@ -4245,7 +4255,7 @@ namespace OneStoryProjectEditor
 				int nIndexToInsert = Math.Min(nIndexOfCurrentStory + 1, TheCurrentStoriesSet.Count);
 
 				// first clone the story... (so we get everything, including the state, etc)
-				var theNewStory = new StoryData(theCurrentStory) {Name = strStoryName};
+				var theNewStory = new StoryData(theCurrentStory) { Name = strStoryName };
 
 				// then, delete the latter verses from current story and the earlier verses
 				//  from the new one
@@ -4255,6 +4265,27 @@ namespace OneStoryProjectEditor
 				theCurrentStory.Verses.RemoveRange(nIndex, nNumberToMove);
 				InsertNewStoryAdjustComboBox(theNewStory, nIndexToInsert);
 			}
+		}
+
+		public void CheckBiblePaneCursorPosition()
+		{
+			if (!_bAutoHide)
+				return;
+
+			Point locationNetBibleViewer = netBibleViewer.PointToScreen(netBibleViewer.Location);
+			Rectangle rectangleNetBibleViewer = new Rectangle(locationNetBibleViewer, netBibleViewer.DisplayRectangle.Size);
+			if (rectangleNetBibleViewer.Contains(MousePosition))
+			{
+				if (splitContainerUpDown.IsMinimized)
+					splitContainerUpDown.Restore();
+			}
+			else if (splitContainerUpDown.IsRestored && !netBibleViewer.checkBoxAutoHide.Checked)
+				splitContainerUpDown.Minimize();
+		}
+
+		private void CheckBiblePaneCursorPositionMouseMove(object sender, MouseEventArgs e)
+		{
+			CheckBiblePaneCursorPosition();
 		}
 	}
 }
