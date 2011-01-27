@@ -60,7 +60,10 @@ namespace OneStoryProjectEditor
 		{
 			var btnWord = sender as Button;
 			if (btnWord != null)
+			{
 				textBoxReorderedText.Text += ' ' + btnWord.Text;
+				btnWord.ForeColor = SystemColors.ControlDark;
+			}
 		}
 
 		public string ReorderedText { get; set; }
@@ -76,8 +79,17 @@ namespace OneStoryProjectEditor
 		{
 			string strReorderedText = textBoxReorderedText.Text;
 			int nIndex = strReorderedText.LastIndexOf(' ');
+			string strLabelToDelete = strReorderedText.Substring(nIndex + 1);
 			if (nIndex != -1)
 				textBoxReorderedText.Text = strReorderedText.Substring(0, nIndex);
+			foreach (Button btn in flowLayoutPanelWords.Controls)
+			{
+				if (btn.Text == strLabelToDelete)
+				{
+					btn.ForeColor = SystemColors.ControlText;
+					break;
+				}
+			}
 		}
 	}
 }
