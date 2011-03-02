@@ -1,3 +1,5 @@
+Add 'Revert' capability (cf. P7)
+
 When I tried to sync with an AdaptIt project using other credentials, it threw an unhandled exception.
 
 Add the ability to save the Print dialog in HTML
