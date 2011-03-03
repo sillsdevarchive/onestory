@@ -23,6 +23,7 @@ namespace OneStoryProjectEditor
 			TermRendering termRendering,
 			string scrTextName,
 			Localization termLocalization)
+			: base(true)
 		{
 			InitializeComponent();
 			Localizer.Ctrl(this);
