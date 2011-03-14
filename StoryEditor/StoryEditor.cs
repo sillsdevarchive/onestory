@@ -3521,13 +3521,16 @@ namespace OneStoryProjectEditor
 
 				viewEnglishBTFieldMenuItem.Enabled =
 					viewFreeTranslationToolStripMenuItem.Enabled =
-					viewAnchorFieldMenuItem.Enabled =
-					viewStoryTestingQuestionAnswerMenuItem.Enabled =
-					viewStoryTestingQuestionMenuItem.Enabled =
-					viewRetellingFieldMenuItem.Enabled =
 					viewConsultantNoteFieldMenuItem.Enabled =
 					viewCoachNotesFieldMenuItem.Enabled =
 					stateTransitionHistoryToolStripMenuItem.Enabled = (theCurrentStory != null);
+
+				// this have the added requirement that it be a biblical story
+				viewAnchorFieldMenuItem.Enabled =
+					viewStoryTestingQuestionAnswerMenuItem.Enabled =
+					viewStoryTestingQuestionMenuItem.Enabled =
+					viewRetellingFieldMenuItem.Enabled =
+					(theCurrentStory != null) && theCurrentStory.CraftingInfo.IsBiblicalStory;
 
 				viewTransliterationsToolStripMenuItem.Enabled = (StoryProject.ProjSettings.Vernacular.HasData || StoryProject.ProjSettings.NationalBT.HasData);
 
