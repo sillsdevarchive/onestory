@@ -1,3 +1,5 @@
+using System.Windows.Forms;
+
 namespace OneStoryProjectEditor
 {
     partial class LnCNotesForm
@@ -62,6 +64,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewLnCNotes.MultiSelect = false;
             this.dataGridViewLnCNotes.Name = "dataGridViewLnCNotes";
             this.dataGridViewLnCNotes.RowHeadersWidth = 25;
+            this.dataGridViewLnCNotes.SelectionMode = DataGridViewSelectionMode.CellSelect;
             this.dataGridViewLnCNotes.Size = new System.Drawing.Size(702, 332);
             this.dataGridViewLnCNotes.TabIndex = 1;
             this.dataGridViewLnCNotes.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewLnCNotes_CellMouseDoubleClick);
