@@ -1,3 +1,5 @@
+add the ability to delete an individual answer box
+
 add Spelling
 
 fix acts.hindiwbtc
@@ -5,8 +7,6 @@ fix acts.hindiwbtc
 add 'cn' lines to line option button (since there may not be anchors in non-biblical stories).
 
 add count of TQs to the panorama view
-
-check for answer boxes is not working
 
 automatically send emails when "Send to xxx" happens
 
