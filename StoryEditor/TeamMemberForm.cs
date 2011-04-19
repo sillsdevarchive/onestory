@@ -256,7 +256,9 @@ namespace OneStoryProjectEditor
 											TeamMemberData.UserTypes.IndependentConsultant |
 											TeamMemberData.UserTypes.Coach |
 											TeamMemberData.UserTypes.EnglishBackTranslator |
-											TeamMemberData.UserTypes.FirstPassMentor));
+											TeamMemberData.UserTypes.FirstPassMentor |
+											TeamMemberData.UserTypes.JustLooking));
+
 			if ((buttonOK.Text == CstrDefaultOKLabel)
 				&& (eAllowedLoginRoleFilter == TeamMemberData.UserTypes.Undefined))
 			{
@@ -570,7 +572,8 @@ namespace OneStoryProjectEditor
 						return;
 
 					MergeOtherRoles(dlg.SelectedMember.MemberType,
-						strOldMemberGuid, theMemberData.MemberGuid);
+									strOldMemberGuid,
+									theMemberData.MemberGuid);
 
 					// get the index for the member we're about to add new roles to
 					//  (since we have to update his role list)
