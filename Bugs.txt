@@ -1,3 +1,5 @@
+see why it's repeatedly launching the sec.msi when the start menu shortcuts are moved post-install (i.e. find out how to get wix to ignore this).
+
 Toolbox export not working still
 
 pssecurity@utdallas.edu
