@@ -705,7 +705,7 @@ namespace OneStoryProjectEditor
 		// Html that shows the data in the StoryBt file, but in a fully read-only manner
 		public string PresentationHtml(int nVerseIndex, int nNumCols, CraftingInfoData craftingInfo,
 			ViewSettings viewSettings, VerseData theChildVerse,
-			bool bPrintPreview, bool bHasOutsideEnglishBTer)
+			bool bPrintPreview)
 		{
 			string strRow = null;
 			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -804,12 +804,15 @@ namespace OneStoryProjectEditor
 														   ViewSettings.ItemToInsureOn.RetellingsInternationalBT));
 			}
 
-			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
-										  ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers))
+			if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
+															ViewSettings.ItemToInsureOn.StoryTestingQuestionAnswers)) ||
+				(IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.GeneralTestQuestions)))
+			{
 				strHtml += TestQuestions.PresentationHtml(nVerseIndex, nNumCols, viewSettings,
 														  craftingInfo.TestorsToCommentsTqAnswers,
 														  (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-														  bPrintPreview, bHasOutsideEnglishBTer);
+														  bPrintPreview, IsFirstVerse);
+			}
 
 			// show the row as hidden if either we're in print preview (and it's hidden)
 			//  OR based on whether the child is hidden or not
@@ -1096,7 +1099,7 @@ namespace OneStoryProjectEditor
 		public void InsureFirstVerse()
 		{
 			if (FirstVerse == null)
-				FirstVerse = new VerseData {IsFirstVerse = true};
+				FirstVerse = new VerseData { IsFirstVerse = true };
 		}
 
 		public VerseData InsertVerse(int nIndex, string strVernacular,
@@ -1411,6 +1414,25 @@ namespace OneStoryProjectEditor
 			int nNumCols, VerseData.ViewSettings viewSettings, bool bHasOutsideEnglishBTer)
 		{
 			string strHtml = null;
+			// first check on line 0 (general TQs)
+			if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.GeneralTestQuestions))
+			{
+				var theChildFirstVerse = (child == null) ? null : child.FirstVerse;
+				strHtml += GetHeaderRow("General Testing Qs: ", null, 0, false, nNumCols);
+				strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
+													   viewSettings, theChildFirstVerse,
+													   (child == null));
+				if ((theChildFirstVerse == null) &&
+					(child != null) &&
+					(child.FirstVerse != null))
+				{
+					strHtml += child.FirstVerse.PresentationHtmlAsAddition(0, nNumCols,
+																		   craftingInfo,
+																		   viewSettings,
+																		   bHasOutsideEnglishBTer);
+				}
+			}
+
 			int nInsertCount = 0;
 			int i = 1;
 			while (i <= Count)
@@ -1453,7 +1475,7 @@ namespace OneStoryProjectEditor
 					}
 
 					strHtml += aVerseData.PresentationHtml(nLineIndex, nNumCols, craftingInfo,
-						viewSettings, theChildVerse, (child == null), bHasOutsideEnglishBTer);
+						viewSettings, theChildVerse, (child == null));
 
 					// if there is a child, but we couldn't find the equivalent verse...
 					if ((child != null) && (theChildVerse == null) && (child.Count >= i))
