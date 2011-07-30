@@ -1479,10 +1479,7 @@ namespace OneStoryProjectEditor
 				// if the control that was right-clicked on that led us here was one
 				//  of the story lines, then take the selected portion of all story line
 				//  controls and add it.
-				if ((CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.Vernacular.TextBox)
-					|| (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.NationalBt.TextBox)
-					|| (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.InternationalBt.TextBox)
-					|| (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.FreeTranslation.TextBox))
+				if (IsInStoryLine(ctrl))
 				{
 					// get selected text from all visible Story line controls
 					if (viewVernacularLangFieldMenuItem.Checked)
@@ -1558,6 +1555,14 @@ namespace OneStoryProjectEditor
 			SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
 		}
 
+		private bool IsInStoryLine(VerseBtControl ctrl)
+		{
+			return (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.Vernacular.TextBox)
+				   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.NationalBt.TextBox)
+				   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.InternationalBt.TextBox)
+				   || (CtrlTextBox._inTextBox == ctrl._verseData.StoryLine.FreeTranslation.TextBox);
+		}
+
 		public static bool IsFirstCharsEqual(string strLhs, string strRhs, int nNumChars)
 		{
 			return (!String.IsNullOrEmpty(strLhs) &&
@@ -1618,20 +1623,7 @@ namespace OneStoryProjectEditor
 			}
 			else if (IsRetellingBox(strLabel))
 			{
-				RetellingsData retellings = ctrl._verseData.Retellings;
-				string strTestNumber = strLabel.Substring(4, 1);
-
-				// there are two cases we have to treat specially:
-				//  1) it's 'ret 0' (because somehow the member id was removed)
-				//  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
-
-				// there are two cases we have to treat specially:
-				//  1) it's 'ans 0' (because somehow the member id was removed)
-				//  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
-				string strTestorId = GetTestorId(strTestNumber,
-												 TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
-												 retellings);
-				LineMemberData retellingData = retellings.TryGetValue(strTestorId);
+				LineMemberData retellingData = GetRetellingData(strLabel, ctrl);
 
 				strNote += strLabel;
 				// get selected text from all visible Story line controls
@@ -1683,6 +1675,24 @@ namespace OneStoryProjectEditor
 			}
 			else
 				strNote += CtrlTextBox._inTextBox._strLabel;
+		}
+
+		private LineMemberData GetRetellingData(string strLabel, VerseBtControl ctrl)
+		{
+			RetellingsData retellings = ctrl._verseData.Retellings;
+			string strTestNumber = strLabel.Substring(4, 1);
+
+			// there are two cases we have to treat specially:
+			//  1) it's 'ret 0' (because somehow the member id was removed)
+			//  2) there's no 'ret 1' (in which case 'ret 2' is the zeroth element)
+
+			// there are two cases we have to treat specially:
+			//  1) it's 'ans 0' (because somehow the member id was removed)
+			//  2) there's no 'ans 1' (in which case 'ans 2' is the zeroth element)
+			string strTestorId = GetTestorId(strTestNumber,
+											 TheCurrentStory.CraftingInfo.TestorsToCommentsRetellings,
+											 retellings);
+			return retellings.TryGetValue(strTestorId);
 		}
 
 		internal LineMemberData GetTqAnswerData(string strLabel, VerseBtControl ctrl,
@@ -2756,6 +2766,11 @@ namespace OneStoryProjectEditor
 					storyAdaptItNationalToEnglishMenuItem.Visible = false;
 
 				synchronizeSharedAdaptItProjectsToolStripMenuItem.Visible = bAnySharedProjects;
+
+				storyOverrideTasks.Enabled = ((_theCurrentStory != null) &&
+											  TeamMemberData.IsUser(_theCurrentStory.ProjStage.MemberTypeWithEditToken,
+																	TeamMemberData.UserTypes.ProjectFacilitator |
+																	TeamMemberData.UserTypes.ConsultantInTraining));
 			}
 			else
 				useAdaptItForBacktranslationToolStripMenuItem.Enabled = false;
@@ -4947,37 +4962,87 @@ namespace OneStoryProjectEditor
 		private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBT,
 			ref string strInternationalBT, ref string strFreeTranslation)
 		{
-			if ((CtrlTextBox._inTextBox != null) && (CtrlTextBox._nLastVerse > 0))
+			if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._nLastVerse <= 0))
+				return;
+
+			Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(CtrlTextBox._nLastVerse);
+			if (ctrl == null)
+				return;
+
+			Debug.Assert(ctrl is VerseBtControl);
+			var theVerse = ctrl as VerseBtControl;
+			if (theVerse == null)
+				return;
+
+			if (IsInStoryLine(theVerse))
 			{
-				Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(CtrlTextBox._nLastVerse);
-				if (ctrl != null)
+				var lineData = theVerse._verseData.StoryLine;
+				GetSelectedDataFromLineData(lineData,
+											ref strVernacular,
+											ref strNationalBT,
+											ref strInternationalBT,
+											ref strFreeTranslation);
+			}
+			else if ((CtrlTextBox._inTextBox != null) &&
+					 !String.IsNullOrEmpty(CtrlTextBox._inTextBox._strLabel))
+			{
+				string strLabel = CtrlTextBox._inTextBox._strLabel;
+				if (IsTestQuestionBox(strLabel))
 				{
-					Debug.Assert(ctrl is VerseBtControl);
-					var theVerse = ctrl as VerseBtControl;
-					if (theVerse != null)
-					{
-						if (viewVernacularLangFieldMenuItem.Checked)
-						{
-							Debug.Assert(theVerse._verseData.StoryLine.Vernacular.TextBox != null);
-							strVernacular = GrabTrimSelectedText(theVerse._verseData.StoryLine.Vernacular.TextBox);
-						}
-						if (viewNationalLangFieldMenuItem.Checked)
-						{
-							Debug.Assert(theVerse._verseData.StoryLine.NationalBt.TextBox != null);
-							strNationalBT = GrabTrimSelectedText(theVerse._verseData.StoryLine.NationalBt.TextBox);
-						}
-						if (viewEnglishBTFieldMenuItem.Checked)
-						{
-							Debug.Assert(theVerse._verseData.StoryLine.InternationalBt.TextBox != null);
-							strInternationalBT = GrabTrimSelectedText(theVerse._verseData.StoryLine.InternationalBt.TextBox);
-						}
-						if (viewFreeTranslationToolStripMenuItem.Checked)
-						{
-							Debug.Assert(theVerse._verseData.StoryLine.FreeTranslation.TextBox != null);
-							strFreeTranslation = GrabTrimSelectedText(theVerse._verseData.StoryLine.FreeTranslation.TextBox);
-						}
-					}
+					var testQuestionData = GetTestQuestionData(strLabel, theVerse);
+					var lineData = testQuestionData.TestQuestionLine;
+					GetSelectedDataFromLineData(lineData,
+												ref strVernacular,
+												ref strNationalBT,
+												ref strInternationalBT,
+												ref strFreeTranslation);
 				}
+				else if (IsRetellingBox(strLabel))
+				{
+					LineMemberData retellingData = GetRetellingData(strLabel, theVerse);
+					GetSelectedDataFromLineData(retellingData,
+												ref strVernacular,
+												ref strNationalBT,
+												ref strInternationalBT,
+												ref strFreeTranslation);
+				}
+				else if (IsTqAnswerBox(strLabel))
+				{
+					// e.g. "ans 1:tst 1:"
+					AnswersData answers;
+					var answerData = GetTqAnswerData(strLabel, theVerse, out answers);
+					GetSelectedDataFromLineData(answerData,
+												ref strVernacular,
+												ref strNationalBT,
+												ref strInternationalBT,
+												ref strFreeTranslation);
+				}
+			}
+		}
+
+		private void GetSelectedDataFromLineData(LineData lineData,
+			ref string strVernacular, ref string strNationalBt,
+			ref string strInternationalBt, ref string strFreeTranslation)
+		{
+			if (viewVernacularLangFieldMenuItem.Checked &&
+				(lineData.Vernacular.TextBox != null))
+			{
+				strVernacular = GrabTrimSelectedText(lineData.Vernacular.TextBox);
+			}
+			if (viewNationalLangFieldMenuItem.Checked &&
+				(lineData.NationalBt.TextBox != null))
+			{
+				strNationalBt = GrabTrimSelectedText(lineData.NationalBt.TextBox);
+			}
+			if (viewEnglishBTFieldMenuItem.Checked &&
+				(lineData.InternationalBt.TextBox != null))
+			{
+				strInternationalBt = GrabTrimSelectedText(lineData.InternationalBt.TextBox);
+			}
+			if (viewFreeTranslationToolStripMenuItem.Checked &&
+				(lineData.FreeTranslation.TextBox != null))
+			{
+				strFreeTranslation = GrabTrimSelectedText(lineData.FreeTranslation.TextBox);
 			}
 		}
 
@@ -5430,6 +5495,22 @@ namespace OneStoryProjectEditor
 		private void closeProjectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SaveAndCloseProject();
+		}
+
+		private void storyOverrideTasks_Click(object sender, EventArgs e)
+		{
+			Debug.Assert(_theCurrentStory != null);
+			TeamMemberData.UserTypes eWhoEdits = _theCurrentStory.ProjStage.MemberTypeWithEditToken;
+			if (TeamMemberData.IsUser(eWhoEdits,
+				TeamMemberData.UserTypes.ProjectFacilitator))
+			{
+				Modified |= SetPfTasksForm.EditPfTasks(this, ref _theCurrentStory);
+			}
+			else if (TeamMemberData.IsUser(eWhoEdits,
+				TeamMemberData.UserTypes.ConsultantInTraining))
+			{
+				Modified |= SetCitTasksForm.EditCitTasks(ref _theCurrentStory);
+			}
 		}
 	}
 }
