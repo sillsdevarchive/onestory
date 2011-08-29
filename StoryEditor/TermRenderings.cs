@@ -31,7 +31,7 @@ namespace OneStoryProjectEditor
 		private List<TermRendering> renderings = new List<TermRendering>();
 		private Dictionary<string, TermRendering> renderingsDict = null;
 
-		public static event EventHandler TermRenderingsForceReload = null;
+		// public static event EventHandler TermRenderingsForceReload = null;
 
 		private bool renderingsChanged = false;
 
@@ -50,7 +50,7 @@ namespace OneStoryProjectEditor
 		{
 			return File.Exists(FileName(strProjectFolder, scrTextName));
 		}
-
+		/*
 		/// <summary>
 		/// Gets renderings for specified project.
 		/// </summary>
@@ -103,6 +103,7 @@ namespace OneStoryProjectEditor
 
 			return renderings2;
 		}
+		*/
 
 		/// <summary>
 		/// Get cached term renderings, if not in cache return null
@@ -129,7 +130,7 @@ namespace OneStoryProjectEditor
 
 			GetFromCache(scrTextName).PromptForSave(strProjectFolder);
 		}
-
+		/*
 		/// <summary>
 		/// If there is an already open version of the rendering for this ScrText, reload them.
 		/// The receive operation may have updated them.
@@ -153,7 +154,7 @@ namespace OneStoryProjectEditor
 			if (handler != null)
 				handler(renderings2, null);
 		}
-
+		*/
 
 		/// <summary>
 		/// Throw away current copy of TermRenderings and any changes made to this.
@@ -272,7 +273,7 @@ namespace OneStoryProjectEditor
 
 			DialogResult result =
 				MessageBox.Show(Properties.Resources.IDS_SaveKeyTermsPrompt,
-				OseResources.Properties.Resources.IDS_Caption, MessageBoxButtons.YesNo);
+				StoryEditor.OseCaption, MessageBoxButtons.YesNo);
 
 			if (result == DialogResult.Yes)
 				Save(strProjectFolder);
