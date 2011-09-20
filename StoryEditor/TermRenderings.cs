@@ -94,7 +94,7 @@ namespace OneStoryProjectEditor
 				}
 				catch { }
 
-				MessageBox.Show(string.Format(Localizer.Str("Error reading {1}. Backup {2} was made and file was reset.\r\n{0}"),
+				LocalizableMessageBox.Show(string.Format(Localizer.Str("Error reading {1}. Backup {2} was made and file was reset.\r\n{0}"),
 					ex.Message, fileName, Path.GetFileName(fileName + ".corrupt")));
 				renderings2 = new TermRenderingsList();
 			}
@@ -272,7 +272,7 @@ namespace OneStoryProjectEditor
 				return;
 
 			DialogResult result =
-				MessageBox.Show(Properties.Resources.IDS_SaveKeyTermsPrompt,
+				LocalizableMessageBox.Show(Properties.Resources.IDS_SaveKeyTermsPrompt,
 				StoryEditor.OseCaption, MessageBoxButtons.YesNo);
 
 			if (result == DialogResult.Yes)
