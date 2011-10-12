@@ -66,7 +66,7 @@ namespace OneStoryProjectEditor
 				labelVernacular, textBoxVernacular);
 			InitSearchBoxes(false, _storyProject.ProjSettings.NationalBT, strToSearchForNationalBT,
 				labelNationalBT, textBoxNationalBT);
-			InitSearchBoxes(true, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
+			InitSearchBoxes(false, _storyProject.ProjSettings.InternationalBT, strToSearchForInternationalBT,
 				labelInternationalBT, textBoxInternationalBT);
 		}
 
