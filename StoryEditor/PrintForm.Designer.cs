@@ -50,15 +50,23 @@ namespace OneStoryProjectEditor
             this.checkBoxStoryTestingQuestions = new System.Windows.Forms.CheckBox();
             this.checkBoxAnswers = new System.Windows.Forms.CheckBox();
             this.checkBoxShowHidden = new System.Windows.Forms.CheckBox();
+            this.checkBoxConsultantNotes = new System.Windows.Forms.CheckBox();
+            this.checkBoxCoachNotes = new System.Windows.Forms.CheckBox();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPagePrintPreviewConfig = new System.Windows.Forms.TabPage();
             this.tabPagePrintPreview = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonPrint = new System.Windows.Forms.Button();
             this.htmlStoryBt = new OneStoryProjectEditor.HtmlStoryBtControl();
             this.buttonSaveHtml = new System.Windows.Forms.Button();
+            this.buttonPrint = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonSaveHtmlConsultantNotes = new System.Windows.Forms.Button();
+            this.buttonSaveHtmlCoachNotes = new System.Windows.Forms.Button();
+            this.buttonPrintConsultantNotes = new System.Windows.Forms.Button();
+            this.buttonPrintCoachNotes = new System.Windows.Forms.Button();
+            this.htmlConsultantNotes = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotes = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel.SuspendLayout();
             this.groupBoxViewOptions.SuspendLayout();
@@ -141,6 +149,8 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanel1.Controls.Add(this.checkBoxStoryTestingQuestions);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxAnswers);
             this.flowLayoutPanel1.Controls.Add(this.checkBoxShowHidden);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxConsultantNotes);
+            this.flowLayoutPanel1.Controls.Add(this.checkBoxCoachNotes);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
@@ -338,6 +348,26 @@ namespace OneStoryProjectEditor
             this.checkBoxShowHidden.Text = "Show &hidden lines";
             this.checkBoxShowHidden.UseVisualStyleBackColor = true;
             // 
+            // checkBoxConsultantNotes
+            // 
+            this.checkBoxConsultantNotes.AutoSize = true;
+            this.checkBoxConsultantNotes.Location = new System.Drawing.Point(216, 3);
+            this.checkBoxConsultantNotes.Name = "checkBoxConsultantNotes";
+            this.checkBoxConsultantNotes.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxConsultantNotes.TabIndex = 15;
+            this.checkBoxConsultantNotes.Text = "Show &Consultant Notes";
+            this.checkBoxConsultantNotes.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCoachNotes
+            // 
+            this.checkBoxCoachNotes.AutoSize = true;
+            this.checkBoxCoachNotes.Location = new System.Drawing.Point(216, 26);
+            this.checkBoxCoachNotes.Name = "checkBoxCoachNotes";
+            this.checkBoxCoachNotes.Size = new System.Drawing.Size(118, 17);
+            this.checkBoxCoachNotes.TabIndex = 16;
+            this.checkBoxCoachNotes.Text = "Show &Coach Notes";
+            this.checkBoxCoachNotes.UseVisualStyleBackColor = true;
+            // 
             // checkBoxSelectAll
             // 
             this.checkBoxSelectAll.AutoSize = true;
@@ -361,7 +391,7 @@ namespace OneStoryProjectEditor
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(831, 466);
             this.tabControl.TabIndex = 1;
-            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControlSelected);
             // 
             // tabPagePrintPreviewConfig
             // 
@@ -389,44 +419,33 @@ namespace OneStoryProjectEditor
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 1, 1);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.htmlStoryBt, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonSaveHtml, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSaveHtml, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPrint, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonClose, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSaveHtmlConsultantNotes, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonSaveHtmlCoachNotes, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPrintConsultantNotes, 4, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPrintCoachNotes, 4, 3);
+            this.tableLayoutPanel1.Controls.Add(this.htmlConsultantNotes, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.htmlCoachNotes, 3, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(817, 434);
             this.tableLayoutPanel1.TabIndex = 3;
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonClose.Location = new System.Drawing.Point(452, 408);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 2;
-            this.buttonClose.Text = "Close";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonPrint.Location = new System.Drawing.Point(371, 408);
-            this.buttonPrint.Name = "buttonPrint";
-            this.buttonPrint.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrint.TabIndex = 1;
-            this.buttonPrint.Text = "&Print";
-            this.buttonPrint.UseVisualStyleBackColor = true;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
             // 
             // htmlStoryBt
             // 
@@ -436,7 +455,8 @@ namespace OneStoryProjectEditor
             this.htmlStoryBt.MinimumSize = new System.Drawing.Size(20, 20);
             this.htmlStoryBt.Name = "htmlStoryBt";
             this.htmlStoryBt.ParentStory = null;
-            this.htmlStoryBt.Size = new System.Drawing.Size(811, 399);
+            this.tableLayoutPanel1.SetRowSpan(this.htmlStoryBt, 3);
+            this.htmlStoryBt.Size = new System.Drawing.Size(369, 388);
             this.htmlStoryBt.StoryData = null;
             this.htmlStoryBt.TabIndex = 0;
             this.htmlStoryBt.TheSE = null;
@@ -445,13 +465,103 @@ namespace OneStoryProjectEditor
             // buttonSaveHtml
             // 
             this.buttonSaveHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSaveHtml.Location = new System.Drawing.Point(275, 408);
+            this.buttonSaveHtml.Location = new System.Drawing.Point(54, 408);
             this.buttonSaveHtml.Name = "buttonSaveHtml";
             this.buttonSaveHtml.Size = new System.Drawing.Size(90, 23);
             this.buttonSaveHtml.TabIndex = 3;
             this.buttonSaveHtml.Text = "&Save (HTML)";
             this.buttonSaveHtml.UseVisualStyleBackColor = true;
             this.buttonSaveHtml.Click += new System.EventHandler(this.buttonSaveHtml_Click);
+            // 
+            // buttonPrint
+            // 
+            this.buttonPrint.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonPrint.Location = new System.Drawing.Point(150, 408);
+            this.buttonPrint.Name = "buttonPrint";
+            this.buttonPrint.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrint.TabIndex = 1;
+            this.buttonPrint.Text = "&Print";
+            this.buttonPrint.UseVisualStyleBackColor = true;
+            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonClose.Location = new System.Drawing.Point(231, 408);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(75, 23);
+            this.buttonClose.TabIndex = 2;
+            this.buttonClose.Text = "Close";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            // 
+            // buttonSaveHtmlConsultantNotes
+            // 
+            this.buttonSaveHtmlConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSaveHtmlConsultantNotes.Location = new System.Drawing.Point(502, 191);
+            this.buttonSaveHtmlConsultantNotes.Name = "buttonSaveHtmlConsultantNotes";
+            this.buttonSaveHtmlConsultantNotes.Size = new System.Drawing.Size(90, 23);
+            this.buttonSaveHtmlConsultantNotes.TabIndex = 3;
+            this.buttonSaveHtmlConsultantNotes.Text = "&Save (HTML)";
+            this.buttonSaveHtmlConsultantNotes.UseVisualStyleBackColor = true;
+            this.buttonSaveHtmlConsultantNotes.Click += new System.EventHandler(this.buttonSaveHtml_Click);
+            // 
+            // buttonSaveHtmlCoachNotes
+            // 
+            this.buttonSaveHtmlCoachNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSaveHtmlCoachNotes.Location = new System.Drawing.Point(502, 408);
+            this.buttonSaveHtmlCoachNotes.Name = "buttonSaveHtmlCoachNotes";
+            this.buttonSaveHtmlCoachNotes.Size = new System.Drawing.Size(90, 23);
+            this.buttonSaveHtmlCoachNotes.TabIndex = 3;
+            this.buttonSaveHtmlCoachNotes.Text = "&Save (HTML)";
+            this.buttonSaveHtmlCoachNotes.UseVisualStyleBackColor = true;
+            this.buttonSaveHtmlCoachNotes.Click += new System.EventHandler(this.buttonSaveHtml_Click);
+            // 
+            // buttonPrintConsultantNotes
+            // 
+            this.buttonPrintConsultantNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonPrintConsultantNotes.Location = new System.Drawing.Point(598, 191);
+            this.buttonPrintConsultantNotes.Name = "buttonPrintConsultantNotes";
+            this.buttonPrintConsultantNotes.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrintConsultantNotes.TabIndex = 1;
+            this.buttonPrintConsultantNotes.Text = "&Print";
+            this.buttonPrintConsultantNotes.UseVisualStyleBackColor = true;
+            this.buttonPrintConsultantNotes.Click += new System.EventHandler(this.buttonPrint_Click);
+            // 
+            // buttonPrintCoachNotes
+            // 
+            this.buttonPrintCoachNotes.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonPrintCoachNotes.Location = new System.Drawing.Point(668, 408);
+            this.buttonPrintCoachNotes.Name = "buttonPrintCoachNotes";
+            this.buttonPrintCoachNotes.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrintCoachNotes.TabIndex = 1;
+            this.buttonPrintCoachNotes.Text = "&Print";
+            this.buttonPrintCoachNotes.UseVisualStyleBackColor = true;
+            this.buttonPrintCoachNotes.Click += new System.EventHandler(this.buttonPrint_Click);
+            // 
+            // htmlConsultantNotes
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlConsultantNotes, 2);
+            this.htmlConsultantNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotes.Location = new System.Drawing.Point(378, 3);
+            this.htmlConsultantNotes.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotes.Name = "htmlConsultantNotes";
+            this.htmlConsultantNotes.Size = new System.Drawing.Size(436, 171);
+            this.htmlConsultantNotes.StoryData = null;
+            this.htmlConsultantNotes.TabIndex = 4;
+            this.htmlConsultantNotes.TheSE = null;
+            // 
+            // htmlCoachNotes
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.htmlCoachNotes, 2);
+            this.htmlCoachNotes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotes.Location = new System.Drawing.Point(378, 220);
+            this.htmlCoachNotes.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotes.Name = "htmlCoachNotes";
+            this.htmlCoachNotes.Size = new System.Drawing.Size(436, 171);
+            this.htmlCoachNotes.StoryData = null;
+            this.htmlCoachNotes.TabIndex = 5;
+            this.htmlCoachNotes.TheSE = null;
             // 
             // saveFileDialog
             // 
@@ -515,5 +625,13 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateInternationalBt;
         private System.Windows.Forms.CheckBox checkBoxLangTransliterateFreeTranslation;
+        private System.Windows.Forms.Button buttonSaveHtmlConsultantNotes;
+        private System.Windows.Forms.Button buttonSaveHtmlCoachNotes;
+        private System.Windows.Forms.Button buttonPrintConsultantNotes;
+        private System.Windows.Forms.Button buttonPrintCoachNotes;
+        private HtmlConsultantNotesControl htmlConsultantNotes;
+        private HtmlCoachNotesControl htmlCoachNotes;
+        private System.Windows.Forms.CheckBox checkBoxConsultantNotes;
+        private System.Windows.Forms.CheckBox checkBoxCoachNotes;
     }
 }

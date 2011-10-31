@@ -57,7 +57,7 @@ namespace OneStoryProjectEditor
 			checkBoxShowHidden.Checked = _theSE.viewHiddenVersesMenu.Checked;
 		}
 
-		private void tabControl_Selected(object sender, TabControlEventArgs e)
+		private void TabControlSelected(object sender, TabControlEventArgs e)
 		{
 			if (e.TabPage != tabPagePrintPreview)
 				return;
@@ -65,7 +65,7 @@ namespace OneStoryProjectEditor
 			string strHtml = null;
 			foreach (var aCheckedStoryName in checkedListBoxStories.CheckedItems)
 			{
-				StoryData aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
+				var aStory = _theSE.TheCurrentStoriesSet.GetStoryFromName(aCheckedStoryName.ToString());
 				if (aStory != null)
 					strHtml += aStory.PresentationHtmlWithoutHtmlDocOutside(ViewSettings, _theSE.StoryProject.ProjSettings,
 																			_theSE.StoryProject.TeamMembers, null);
@@ -94,8 +94,8 @@ namespace OneStoryProjectEditor
 					checkBoxStoryTestingQuestions.Checked,
 					checkBoxAnswers.Checked,
 					checkBoxRetellings.Checked,
-					false, // _theSE.viewConsultantNoteFieldMenuItem.Checked,
-					false, // _theSE.viewCoachNotesFieldMenuItem.Checked,
+					checkBoxConsultantNotes.Checked,
+					checkBoxCoachNotes.Checked,
 					false, // _theSE.viewNetBibleMenuItem.Checked
 					checkBoxFrontMatter.Checked,
 					checkBoxShowHidden.Checked,
@@ -152,6 +152,10 @@ namespace OneStoryProjectEditor
 						   VerseData.ViewSettings.ItemToInsureOn.InternationalBtTransliterationField);
 			SetViewSetting(checkBoxLangTransliterateFreeTranslation, viewSettings,
 						   VerseData.ViewSettings.ItemToInsureOn.FreeTranslationTransliterationField);
+			SetViewSetting(checkBoxConsultantNotes, viewSettings,
+						   VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields);
+			SetViewSetting(checkBoxCoachNotes, viewSettings,
+						   VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields);
 		}
 
 		// set the checkbox state *if* the checkbox is even visible
