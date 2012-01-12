@@ -5,6 +5,7 @@ Namespace AutoUpgrade
 		Private frmStatus As New Status()
 
 		Sub main()
+			Debug.Fail("Debugging")
 			If GetCommandLineArgs.Length > 1 Then
 				Generate()
 			Else
@@ -62,7 +63,7 @@ Namespace AutoUpgrade
 
 					' Pause for a couple of seconds to give the original app time
 					' to shut down
-					System.Threading.Thread.CurrentThread.Sleep(2000)
+					Threading.Thread.Sleep(2000)
 
 					' Start the upgrade.  Status messages are processed in the OnProgress event
 					AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
