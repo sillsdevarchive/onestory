@@ -14,10 +14,10 @@ Namespace AutoUpgrade
 
 		Sub Generate()
 			Dim upgAuto As New devX.AutoUpgrade()
-			Dim strPath As String
+			Dim strPath, strZipPath As String
 			Dim strTarget As String
 
-			If GetCommandLineArgs.Length <> 3 Then
+			If GetCommandLineArgs.Length <> 4 Then
 				MsgBox( _
 				 "Syntax:  To generate a manifest, use the syntax AutoUpgrade.exe " & _
 				 "path target, where path is the path you want to search for files " & _
@@ -28,17 +28,22 @@ Namespace AutoUpgrade
 			Else
 				' Get the command line args
 				strPath = GetCommandLineArgs(1)
-				strTarget = GetCommandLineArgs(2)
+				strZipPath = GetCommandLineArgs(2)
+				strTarget = GetCommandLineArgs(3)
 
 				' If the manifest file (strTarget) already exists, delete it, just in case
 				' it is in the strPath directory - since we don't want the manifest file
 				' to contain entries for itself
-				If System.IO.File.Exists(strTarget) Then
-					System.IO.File.Delete(strTarget)
+				If IO.File.Exists(strTarget) Then
+					IO.File.Delete(strTarget)
 				End If
 
+				' first clear out the zip folder and then re-create it
+				devX.AutoUpgrade.ClearOutDirectory(strZipPath)
+				IO.Directory.CreateDirectory(strZipPath)
+
 				' Auto-generate the manifest
-				upgAuto.GenerateManifest(strPath)
+				upgAuto.GenerateManifest(strPath, strZipPath)
 				' Save to disk
 				upgAuto.Save(strTarget)
 			End If
@@ -71,13 +76,15 @@ Namespace AutoUpgrade
 					' AddHandler upgAuto.UpgradeProgress, AddressOf frmStatus.OnProgress
 					upgAuto.Upgrade()
 
-					' Upgrade complete.  Re-run the application unless the user clicked cancel
-					' If upgAuto.ApplicationExecutable.Length > 0 AndAlso frmStatus.Cancel = False Then
-					If upgAuto.ApplicationExecutable.Length > 0 Then
-						With New System.Diagnostics.Process()
-							.StartInfo.FileName = upgAuto.ApplicationExecutable
-							.Start()
-						End With
+					If (MessageBox.Show("Update completed. Click 'OK' to restart OneStory Editor", "OneStory Editor Updater", MessageBoxButtons.OKCancel) = DialogResult.OK) Then
+						' Upgrade complete.  Re-run the application unless the user clicked cancel
+						' If upgAuto.ApplicationExecutable.Length > 0 AndAlso frmStatus.Cancel = False Then
+						If upgAuto.ApplicationExecutable.Length > 0 Then
+							With New System.Diagnostics.Process()
+								.StartInfo.FileName = upgAuto.ApplicationExecutable
+								.Start()
+							End With
+						End If
 					End If
 				Catch exc As Exception
 					strError = exc.Message
