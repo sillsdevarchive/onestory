@@ -767,8 +767,8 @@ namespace OneStoryProjectEditor
 			TheSe.SetNextStateAdvancedOverride(StoryStageLogic.ProjectStages.eTeamFinalApproval, true);
 
 			SendEmail(TheSe.StoryProject, TheStory, TheSe.LoggedOnMember,
-				TheStory.CraftingInfo.ProjectFacilitator,
-				FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
+					  TheStory.CraftingInfo.ProjectFacilitator,
+					  FinalConNoteComments(TheStory.Verses.FirstVerse.ConsultantNotes));
 		}
 
 		private void buttonSendToCoach_Click(object sender, EventArgs e)
