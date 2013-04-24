@@ -520,6 +520,7 @@ namespace OneStoryProjectEditor
 		{
 			return String.Format(Properties.Resources.StoryBtHtml,
 								 Properties.Resources.jquery_min,
+								 Properties.Resources.jquery_autosize_min,
 								 Properties.Resources.StoryBtJs,
 								 GetPlaceHolders(projSettings),
 								 StylePrefix(projSettings),

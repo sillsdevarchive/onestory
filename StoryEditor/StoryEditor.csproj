@@ -95,6 +95,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\ECInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="geckofx-core-18">
+      <HintPath>..\DepDLLs\geckofx-core-18.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms-18">
+      <HintPath>..\DepDLLs\Geckofx-Winforms-18.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlEditor, Version=7.0.100.5147, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DepDLLs\HtmlEditor.dll</HintPath>
@@ -247,6 +253,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
+    <Compile Include="GeckoTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GeckoTestForm.Designer.cs">
+      <DependentUpon>GeckoTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlossingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -503,6 +515,9 @@
     <EmbeddedResource Include="AnchorAddCommentForm.resx">
       <DependentUpon>AnchorAddCommentForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeckoTestForm.resx">
+      <DependentUpon>GeckoTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GlossingControl.resx">
       <DependentUpon>GlossingControl.cs</DependentUpon>
@@ -822,6 +837,7 @@
     <None Include="js\StoryBtPs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="js\jquery.autosize-min.js" />
     <Content Include="LanguageCodes.tab">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

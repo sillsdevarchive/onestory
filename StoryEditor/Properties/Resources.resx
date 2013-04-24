@@ -1983,6 +1983,7 @@ function CallTextareaOnSelect(textarea)
   textarea {{ 
       width:100%; 
       overflow:visible;
+      resize:none;
   }}
   table {{
    font-size: {0};
@@ -2303,5 +2304,8 @@ eater Panorama
   </data>
   <data name="FillUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FillUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="jquery_autosize_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\jquery.autosize-min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

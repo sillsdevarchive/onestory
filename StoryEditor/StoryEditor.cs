@@ -967,10 +967,6 @@ namespace OneStoryProjectEditor
 
 				Text = GetFrameTitle(true);
 
-#if OnGecko
-				var dlg = new GeckoTestForm(this, TheCurrentStory);
-				dlg.Show();
-#endif
 				// show the chorus notes at load time
 				// InitProjectNotes(projSettings, LoggedOnMember.Name);
 			}
@@ -4646,7 +4642,7 @@ namespace OneStoryProjectEditor
 				OseCaption);
 		}
 
-		private VerseData.ViewSettings CurrentViewSettings
+		internal VerseData.ViewSettings CurrentViewSettings
 		{
 			get
 			{

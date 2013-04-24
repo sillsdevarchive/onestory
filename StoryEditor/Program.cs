@@ -11,6 +11,7 @@ using Chorus.sync;
 using Chorus.UI.Sync;
 using Chorus.VcsDrivers;
 using Chorus.VcsDrivers.Mercurial;
+using Gecko;
 using Palaso.Progress;
 using devX;
 using MAPIEx;
@@ -35,6 +36,8 @@ namespace OneStoryProjectEditor
 			{
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
+
+				Xpcom.Initialize("xulrunner");
 
 				var splashScreen = new SplashScreenForm();
 				splashScreen.Show();

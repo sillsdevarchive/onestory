@@ -17,3 +17,6 @@ $('textarea').attr('placeholder', function () {
     else
         return "error in StoryBtPs.js";
 });
+
+$('textarea').autosize();
+$('textarea').trigger('autosize');

@@ -1,5 +1,8 @@
 using System;
+using System.Text;
 using System.Windows.Forms;
+using Gecko.Windows;
+using System.IO;
 
 namespace OneStoryProjectEditor
 {
@@ -13,35 +16,17 @@ namespace OneStoryProjectEditor
 			_theSe = theSe;
 			_storyData = storyData;
 			InitializeComponent();
-			geckoWebBrowser.NavigateFinishedNotifier.NavigateFinished += (sender, e) =>
-			{
-				var strHtml = _storyData.ConsultantNotesHtml(this,
-															_theSe.StoryProject.ProjSettings,
-															_theSe.LoggedOnMember,
-															_theSe.StoryProject.TeamMembers,
-															_theSe.viewHiddenVersesMenu.Checked,
-															_theSe.viewOnlyOpenConversationsMenu.Checked);
-				geckoWebBrowser.Document.Body.InnerHtml = strHtml;
-			};
 
-			// geckoWebBrowser.DocumentCompleted += (s, e) => LoadDocument();
-		}
+			var strHtml = _storyData.PresentationHtml(_theSe.CurrentViewSettings,
+													  _theSe.StoryProject.ProjSettings,
+													  _theSe.StoryProject.TeamMembers,
+													  null);
 
-		public new void Show()
-		{
-			base.Show();
-			geckoWebBrowser.Navigate(@"C:\src\StoryEditor\StoryEditor\Resources\ose.html");
-		}
-
-		private void LoadDocument()
-		{
-			var strHtml = _storyData.ConsultantNotesHtml(this,
-														_theSe.StoryProject.ProjSettings,
-														_theSe.LoggedOnMember,
-														_theSe.StoryProject.TeamMembers,
-														_theSe.viewHiddenVersesMenu.Checked,
-														_theSe.viewOnlyOpenConversationsMenu.Checked);
-			geckoWebBrowser.Document.Body.InnerHtml = strHtml;
+			var filePath = Path.Combine(Environment.CurrentDirectory, "Example6.html");
+			// File.WriteAllText(filePath, strHtml.Replace("textarea", "input"), Encoding.UTF8);
+			File.WriteAllText(filePath, strHtml, Encoding.UTF8);
+			geckoWebBrowser.Navigate("file://" + filePath);
+			// geckoWebBrowser.LoadHtml(strHtml);
 		}
 	}
 }

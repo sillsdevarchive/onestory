@@ -28,24 +28,24 @@ namespace OneStoryProjectEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.geckoWebBrowser = new Skybound.Gecko.GeckoWebBrowser();
+            this.geckoWebBrowser = new Gecko.GeckoWebBrowser();
             this.SuspendLayout();
             // 
             // geckoWebBrowser
             // 
-            this.geckoWebBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.geckoWebBrowser.Location = new System.Drawing.Point(12, 12);
+            this.geckoWebBrowser.DisableWmImeSetContext = false;
+            this.geckoWebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geckoWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.geckoWebBrowser.Name = "geckoWebBrowser";
-            this.geckoWebBrowser.Size = new System.Drawing.Size(260, 238);
+            this.geckoWebBrowser.Size = new System.Drawing.Size(842, 370);
             this.geckoWebBrowser.TabIndex = 0;
+            this.geckoWebBrowser.UseHttpActivityObserver = false;
             // 
             // GeckoTestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(842, 370);
             this.Controls.Add(this.geckoWebBrowser);
             this.Name = "GeckoTestForm";
             this.Text = "GeckoTestForm";
@@ -55,6 +55,6 @@ namespace OneStoryProjectEditor
 
         #endregion
 
-        private Skybound.Gecko.GeckoWebBrowser geckoWebBrowser;
+        private Gecko.GeckoWebBrowser geckoWebBrowser;
     }
 }

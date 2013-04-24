@@ -540,6 +540,7 @@ namespace OneStoryProjectEditor.Properties {
         ///  textarea {{ 
         ///      width:100%; 
         ///      overflow:visible;
+        ///      resize:none;
         ///  }}
         ///  table {{
         ///   font-size: {0};
@@ -568,8 +569,7 @@ namespace OneStoryProjectEditor.Properties {
         ///  .TestQuestionAnswer {{
         ///	color: {5}
         ///  }}
-        ///  .readonly {{
-        ///    back [rest of string was truncated]&quot;;.
+        ///  .r [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
@@ -1307,6 +1307,21 @@ namespace OneStoryProjectEditor.Properties {
         internal static string IDS_WarnAboutNotEnoughTqs {
             get {
                 return ResourceManager.GetString("IDS_WarnAboutNotEnoughTqs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*!
+        ///	jQuery Autosize v1.16.7
+        ///	(c) 2013 Jack Moore - jacklmoore.com
+        ///	updated: 2013-03-20
+        ///	license: http://www.opensource.org/licenses/mit-license.php
+        ///*/
+        ///(function(e){var t,o,n={className:&quot;autosizejs&quot;,append:&quot;&quot;,callback:!1},i=&quot;hidden&quot;,s=&quot;border-box&quot;,a=&quot;lineHeight&quot;,l=&apos;&lt;textarea tabindex=&quot;-1&quot; style=&quot;position:absolute; top:-999px; left:0; right:auto; bottom:auto; border:0; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_autosize_min {
+            get {
+                return ResourceManager.GetString("jquery_autosize_min", resourceCulture);
             }
         }
         
