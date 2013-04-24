@@ -1448,7 +1448,6 @@ namespace OneStoryProjectEditor
             // splitContainerLeftRight.Panel2
             // 
             this.splitContainerLeftRight.Panel2.Controls.Add(this.splitContainerMentorNotes);
-            this.splitContainerLeftRight.Panel2.SizeChanged += new System.EventHandler(this.splitContainerLeftRight_Panel2_SizeChanged);
             this.splitContainerLeftRight.Size = new System.Drawing.Size(881, 613);
             this.splitContainerLeftRight.SplitterDistance = 453;
             this.splitContainerLeftRight.TabIndex = 2;
@@ -2031,31 +2030,5 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem storyCopyToAnotherProjectMenu;
         private ToolStripMenuItem storyCopyFromAnotherProjectMenu;
     }
-
-#if UsingHtmlDisplayForConNotes
-#else
-    public class ConNoteFlowLayoutPanel : LineFlowLayoutPanel
-    {
-        protected List<ConsultNotesDataConverter> lstCNsD = new List<ConsultNotesDataConverter>();
-
-        public override void Clear()
-        {
-            base.Clear();
-            lstCNsD.Clear();
-        }
-
-        public void AddCtrl(ConsultNotesControl aCtrl)
-        {
-            Controls.Add(aCtrl);
-            System.Diagnostics.Debug.Assert(!lstCNsD.Contains(aCtrl._theCNsDC));
-            lstCNsD.Add(aCtrl._theCNsDC);
-        }
-
-        public bool Contains(ConsultNotesDataConverter aCNsD)
-        {
-            return lstCNsD.Contains(aCNsD);
-        }
-    }
-#endif
 }
 

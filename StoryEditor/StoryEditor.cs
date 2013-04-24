@@ -1,5 +1,3 @@
-#define UsingHtmlDisplayForConNotes
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1381,7 +1379,6 @@ namespace OneStoryProjectEditor
 				flowLayoutPanelVerses.LineNumberLink = linkLabelVerseBT;
 			}
 
-#if UsingHtmlDisplayForConNotes
 			linkLabelVerseBT.Visible = true;
 
 			if (Localizer.Default.LocLanguage.Font != null)
@@ -1393,18 +1390,9 @@ namespace OneStoryProjectEditor
 			htmlCoachNotesControl.TheSE = this;
 			htmlCoachNotesControl.StoryData = TheCurrentStory;
 			htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
-#else
-			flowLayoutPanelConsultantNotes.SuspendLayout();
-			flowLayoutPanelCoachNotes.SuspendLayout();
-#endif
+
 			SuspendLayout();
 
-#if UsingHtmlDisplayForConNotes
-#else
-			// for ConNotes, there's a zeroth verse that's for global story comments
-			InitConsultNotesPane(flowLayoutPanelConsultantNotes, theVerses.FirstVerse.ConsultantNotes, nVerseIndex);
-			InitConsultNotesPane(flowLayoutPanelCoachNotes, theVerses.FirstVerse.CoachNotes, nVerseIndex);
-#endif
 			if (!UsingHtmlForStoryBtPane)
 			{
 				// either add the general testing question line (or a button)
@@ -1434,14 +1422,9 @@ namespace OneStoryProjectEditor
 				htmlStoryBtControl.LoadDocument();
 			}
 
-#if UsingHtmlDisplayForConNotes
 			// ConNotes are not done in one swell-foop via an Html control
 			htmlConsultantNotesControl.LoadDocument();
 			htmlCoachNotesControl.LoadDocument();
-#else
-			flowLayoutPanelConsultantNotes.ResumeLayout(true);
-			flowLayoutPanelCoachNotes.ResumeLayout(true);
-#endif
 			ResumeLayout(true);
 
 			if (UsingHtmlForStoryBtPane)
@@ -1578,127 +1561,6 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-#if UsingHtmlDisplayForConNotes
-#else
-		protected void InitConsultNotesPane(ConNoteFlowLayoutPanel theFLP, ConsultNotesDataConverter aCNsDC, int nVerseIndex)
-		{
-			ConsultNotesControl aConsultNotesCtrl = new ConsultNotesControl(this, theFLP,
-				theCurrentStory.ProjStage, aCNsDC, nVerseIndex, LoggedOnMember.MemberType);
-			aConsultNotesCtrl.UpdateHeight(Panel2_Width);
-			theFLP.AddCtrl(aConsultNotesCtrl);
-		}
-
-		// this is for use by the consultant panes if we add or remove or hide a single note
-		internal void ReInitConsultNotesPane(ConsultNotesDataConverter aCNsD)
-		{
-			int nLastVerseInFocus = CtrlTextBox._nLastVerse;
-			StringTransfer stLast = (CtrlTextBox._inTextBox != null)
-				? CtrlTextBox._inTextBox.MyStringTransfer : null;
-
-			int nVerseIndex = 0;
-			if (flowLayoutPanelConsultantNotes.Contains(aCNsD))
-			{
-				flowLayoutPanelConsultantNotes.Clear();
-				flowLayoutPanelConsultantNotes.SuspendLayout();
-				SuspendLayout();
-
-				// display the zeroth note (which is only for ConNotes
-				InitConsultNotesPane(flowLayoutPanelConsultantNotes,
-					theCurrentStory.Verses.FirstVerse.ConsultantNotes, nVerseIndex);
-
-				foreach (VerseData aVerse in theCurrentStory.Verses)
-				{
-					// skip numbers, though, if we have hidden verses so that the verse nums
-					//  will be the same (in case we have references to lines in the connotes)
-					//  AND so it'll be a clue to the user that there are hidden verses present.
-					++nVerseIndex;
-
-					if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
-						InitConsultNotesPane(flowLayoutPanelConsultantNotes,
-											 aVerse.ConsultantNotes, nVerseIndex);
-				}
-
-				flowLayoutPanelConsultantNotes.ResumeLayout(true);
-				ResumeLayout(true);
-			}
-			else
-			{
-				Debug.Assert(flowLayoutPanelCoachNotes.Contains(aCNsD));
-				flowLayoutPanelCoachNotes.Clear();
-				flowLayoutPanelCoachNotes.SuspendLayout();
-				SuspendLayout();
-
-				// display the zeroth note (which is only for ConNotes
-				InitConsultNotesPane(flowLayoutPanelCoachNotes,
-					theCurrentStory.Verses.FirstVerse.CoachNotes, nVerseIndex);
-
-				foreach (VerseData aVerse in theCurrentStory.Verses)
-				{
-					// skip numbers, though, if we have hidden verses so that the verse nums
-					//  will be the same (in case we have references to lines in the connotes)
-					//  AND so it'll be a clue to the user that there are hidden verses present.
-					++nVerseIndex;
-
-					if (aVerse.IsVisible || hiddenVersesToolStripMenuItem.Checked)
-						InitConsultNotesPane(flowLayoutPanelCoachNotes,
-											 aVerse.CoachNotes, nVerseIndex);
-				}
-
-				flowLayoutPanelCoachNotes.ResumeLayout(true);
-				ResumeLayout(true);
-			}
-
-			FocusOnVerse(nLastVerseInFocus);
-			if ((stLast != null) && (stLast.TextBox != null))
-				stLast.TextBox.Focus();
-
-			// if we do this, it's because something changed
-			Modified = true;
-		}
-
-		internal void HandleQueryContinueDrag(ConsultNotesControl aCNsDC, QueryContinueDragEventArgs e)
-		{
-			Debug.Assert(flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)
-				|| flowLayoutPanelCoachNotes.Contains(aCNsDC._theCNsDC));
-			FlowLayoutPanel theFLP = (flowLayoutPanelConsultantNotes.Contains(aCNsDC._theCNsDC)) ? flowLayoutPanelConsultantNotes : flowLayoutPanelCoachNotes;
-
-			// this code causes the vertical scroll bar to move if the user is dragging the mouse beyond
-			//  the boundary of the flowLayout panel that these verse controls are sitting it.
-			Point pt = theFLP.PointToClient(MousePosition);
-			if (theFLP.Bounds.Height < (pt.Y + 10))    // close to the bottom edge...
-				theFLP.VerticalScroll.Value += 10;     // bump the scroll bar down
-			else if ((pt.Y < 10) && theFLP.VerticalScroll.Value > 0)   // close to the top edge, while the scroll bar position is non-zero
-				theFLP.VerticalScroll.Value -= Math.Min(10, theFLP.VerticalScroll.Value);
-
-			if (e.Action != DragAction.Continue)
-				DimConsultNotesDropTargetButtons(theFLP, aCNsDC);
-			else
-				LightUpConsultNotesDropTargetButtons(theFLP, aCNsDC);
-		}
-
-		private static void LightUpConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
-		{
-			foreach (Control ctrl in theFLP.Controls)
-			{
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl aCNsC = (ConsultNotesControl)ctrl;
-				if (aCNsC != control)
-					aCNsC.buttonDragDropHandle.Dock = DockStyle.Fill;
-			}
-		}
-
-		private static void DimConsultNotesDropTargetButtons(FlowLayoutPanel theFLP, ConsultNotesControl control)
-		{
-			foreach (Control ctrl in theFLP.Controls)
-			{
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl aCNsC = (ConsultNotesControl)ctrl;
-				if (aCNsC != control)
-					aCNsC.buttonDragDropHandle.Dock = DockStyle.Right;
-			}
-		}
-#endif
-
 		internal void AddNewVerse(int nInsertionIndex, int nNumberToAdd, bool bAfter)
 		{
 			if (bAfter)
@@ -1784,34 +1646,12 @@ namespace OneStoryProjectEditor
 			// the ConNote controls have a zeroth line, so the index is one greater
 			if (viewConsultantNotesMenu.Checked && bSyncConsultantNotePane)
 			{
-#if UsingHtmlDisplayForConNotes
 				htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
-#else
-				Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-				if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theConsultantNotes))
-					flowLayoutPanelConsultantNotes.ScrollControlIntoView(theConsultantNotes);
-#endif
 			}
 
 			if (viewCoachNotesMenu.Checked && bSyncCoachNotePane)
 			{
-#if UsingHtmlDisplayForConNotes
 				htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
-#else
-				Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-				if ((CtrlTextBox._inTextBox == null) || (CtrlTextBox._inTextBox._ctrlVerseParent != theCoachNotes))
-					flowLayoutPanelCoachNotes.ScrollControlIntoView(theCoachNotes);
-#endif
 			}
 		}
 
@@ -2148,94 +1988,14 @@ namespace OneStoryProjectEditor
 				if (!viewCoachNotesMenu.Checked)
 					viewCoachNotesMenu.Checked = true;
 
-#if UsingHtmlDisplayForConNotes
 				htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
-#else
-				Control ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl theCoachNotes = ctrl as ConsultNotesControl;
-				StringTransfer st = theCoachNotes.DoAddNote(strNote);
-
-				// after the note is added, the control references are no longer valid, but
-				//  we want to go back to where we were... so requery the controls
-				// Order: BT, then *other* connote pane and then *this* connote pane
-				ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is VerseBtControl);
-				flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
-
-				if (viewConsultantNoteFieldMenuItem.Checked)
-				{
-					ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
-					if (ctrl == null)
-						return;
-
-					Debug.Assert(ctrl is ConsultNotesControl);
-					flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
-				}
-
-				ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
-
-				if ((st != null) && (st.TextBox != null))
-					st.TextBox.Focus();
-#endif
 			}
 			else
 			{
 				if (!viewConsultantNotesMenu.Checked)
 					viewConsultantNotesMenu.Checked = true;
 
-#if UsingHtmlDisplayForConNotes
 				htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
-#else
-				Control ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				ConsultNotesControl theConsultantNotes = ctrl as ConsultNotesControl;
-				StringTransfer st = theConsultantNotes.DoAddNote(strNote);
-
-				// after the note is added, the control references are no longer valid, but
-				//  we want to go back to where we were... so requery the controls
-				// Order: BT, then *other* connote pane and then *this* connote pane
-				ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is VerseBtControl);
-				flowLayoutPanelVerses.ScrollControlIntoView(ctrl);
-
-				if (viewCoachNotesFieldMenuItem.Checked)
-				{
-					ctrl = flowLayoutPanelCoachNotes.GetControlAtVerseIndex(nVerseIndex);
-					if (ctrl == null)
-						return;
-
-					Debug.Assert(ctrl is ConsultNotesControl);
-					flowLayoutPanelCoachNotes.ScrollControlIntoView(ctrl);
-				}
-
-				ctrl = flowLayoutPanelConsultantNotes.GetControlAtVerseIndex(nVerseIndex);
-				if (ctrl == null)
-					return;
-
-				Debug.Assert(ctrl is ConsultNotesControl);
-				flowLayoutPanelConsultantNotes.ScrollControlIntoView(ctrl);
-
-				if ((st != null) && (st.TextBox != null))
-					st.TextBox.Focus();
-#endif
 			}
 		}
 
@@ -2580,14 +2340,10 @@ namespace OneStoryProjectEditor
 				flowLayoutPanelVerses.Clear();
 
 			buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = linkLabelVerseBT.Visible = false;
-#if UsingHtmlDisplayForConNotes
+
 			htmlConsultantNotesControl.ResetDocument();
 			htmlCoachNotesControl.ResetDocument();
 			Application.DoEvents(); // give them time to actually empty the webcontrols
-#else
-			flowLayoutPanelConsultantNotes.Clear();
-			flowLayoutPanelCoachNotes.Clear();
-#endif
 		}
 
 		internal void SaveClicked()
@@ -2784,8 +2540,6 @@ namespace OneStoryProjectEditor
 				//  though it's menu item will be reset. So we need to hide it if we're enabling the other one
 				if (!splitContainerMentorNotes.Panel2Collapsed) // this means it's not actually hidden
 					splitContainerMentorNotes.Panel2Collapsed = true;
-				else
-					splitContainerLeftRight_Panel2_SizeChanged(sender, e);
 			}
 
 			splitContainerMentorNotes.Panel1Collapsed = false;
@@ -2814,37 +2568,9 @@ namespace OneStoryProjectEditor
 				//  though it's menu item will be reset. So we need to hide it if we're enabling the other one
 				if (!splitContainerMentorNotes.Panel1Collapsed) // this means it's not actually hidden
 					splitContainerMentorNotes.Panel1Collapsed = true;
-				else
-					splitContainerLeftRight_Panel2_SizeChanged(sender, e);
 			}
 
 			splitContainerMentorNotes.Panel2Collapsed = false;
-		}
-
-		private void splitContainerLeftRight_Panel2_SizeChanged(object sender, EventArgs e)
-		{
-#if UsingHtmlDisplayForConNotes
-#else
-			// if (!splitContainerMentorNotes.Panel1Collapsed)
-				foreach (Control ctrl in flowLayoutPanelConsultantNotes.Controls)
-				{
-					if (ctrl is ConsultNotesControl)
-					{
-						ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
-						aConsultNoteCtrl.UpdateHeight(Panel2_Width);
-					}
-				}
-
-			// if (!splitContainerMentorNotes.Panel2Collapsed)  these should be done even if invisible
-				foreach (Control ctrl in flowLayoutPanelCoachNotes.Controls)
-				{
-					if (ctrl is ConsultNotesControl)
-					{
-						ConsultNotesControl aConsultNoteCtrl = (ConsultNotesControl)ctrl;
-						aConsultNoteCtrl.UpdateHeight(Panel2_Width);
-					}
-				}
-#endif
 		}
 
 		private void splitContainerLeftRight_Panel1_SizeChanged(object sender, EventArgs e)
