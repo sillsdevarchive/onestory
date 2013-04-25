@@ -485,10 +485,7 @@ namespace OneStoryProjectEditor
 				true,   // General Testing questions
 				false,  // don't use textareas
 				StoryEditor.TextFields.Undefined,
-				null,   // TransliteratorVernacular
-				null,   // TransliteratorNationalBt
-				null,   // TransliteratorInternationalBt
-				null);  // TransliteratorFreeTranslation
+				new StoryEditor.Transliterators());  // Transliterators
 
 			string strHtml = null;
 			if (ParentStory != null)
@@ -520,7 +517,7 @@ namespace OneStoryProjectEditor
 		{
 			return String.Format(Properties.Resources.StoryBtHtml,
 								 Properties.Resources.jquery_min,
-								 Properties.Resources.jquery_autosize_min,
+								 Properties.Resources.jquery_elastic_source,
 								 Properties.Resources.StoryBtJs,
 								 GetPlaceHolders(projSettings),
 								 StylePrefix(projSettings),

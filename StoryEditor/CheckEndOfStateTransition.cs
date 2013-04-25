@@ -188,7 +188,7 @@ namespace OneStoryProjectEditor
 								var strError =
 									String.Format("Error: Line {0} is missing a back-translation. Did you forget it?",
 												  nVerseNumber);
-								if (theSE.UsingHtmlForStoryBtPane)
+								if (theSE.IsStoryBtPaneHtml)
 									ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.NationalBt, strError);
 								else
 									ShowErrorFocus(theSE, aVerseData.StoryLine.NationalBt.TextBox, strError);
@@ -758,7 +758,7 @@ namespace OneStoryProjectEditor
 						var strError = String.Format(
 										   "Error: Line {0} doesn't have any English back-translation in it. Did you forget it?",
 										   nVerseNumber);
-						if (theSE.UsingHtmlForStoryBtPane)
+						if (theSE.IsStoryBtPaneHtml)
 							ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt, strError);
 						else
 							ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox, strError);
@@ -772,7 +772,7 @@ namespace OneStoryProjectEditor
 						var strError = String.Format(
 							"Error: Line {0} has multiple sentences in English, but only 1 in {1}. Adjust the English to match the {1}",
 							nVerseNumber, theStoryProjectData.ProjSettings.NationalBT.LangName);
-						if (theSE.UsingHtmlForStoryBtPane)
+						if (theSE.IsStoryBtPaneHtml)
 							ShowErrorFocus(theSE, nVerseNumber, StoryEditor.TextFields.InternationalBt, strError);
 						else
 							ShowErrorFocus(theSE, aVerseData.StoryLine.InternationalBt.TextBox, strError);
@@ -1420,7 +1420,7 @@ namespace OneStoryProjectEditor
 								var strError = String.Format(
 									"Error: Line {0} is missing an answer to a testing question. Did you forget it?",
 									nVerseNumber);
-								if (theSE.UsingHtmlForStoryBtPane)
+								if (theSE.IsStoryBtPaneHtml)
 									ShowErrorFocus(theSE, nVerseNumber,
 												   StoryEditor.TextFields.TestQuestionAnswer |
 												   StoryEditor.TextFields.Languages,

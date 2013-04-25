@@ -212,7 +212,7 @@ namespace OneStoryProjectEditor
 
 				if (bShowTqsVernacular)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.Vernacular;
 					string str = (presentationType == StoryData.PresentationType.Differencing)
 						? (child != null)
 							? Diff.HtmlDiff(transliterator, TestQuestionLine.Vernacular, (theChildTQ != null) ? theChildTQ.TestQuestionLine.Vernacular : null)
@@ -228,7 +228,7 @@ namespace OneStoryProjectEditor
 
 				if (bShowTqsNationalBt)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.NationalBt;
 					string str = (presentationType == StoryData.PresentationType.Differencing)
 						? (child != null)
 							? Diff.HtmlDiff(transliterator, TestQuestionLine.NationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.NationalBt : null)
@@ -244,7 +244,7 @@ namespace OneStoryProjectEditor
 
 				if (bShowTqsEnglishBt)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.InternationalBt;
 					string str = (presentationType == StoryData.PresentationType.Differencing)
 						? (child != null)
 							? Diff.HtmlDiff(transliterator, TestQuestionLine.InternationalBt, (theChildTQ != null) ? theChildTQ.TestQuestionLine.InternationalBt : null)
@@ -309,7 +309,7 @@ namespace OneStoryProjectEditor
 															nTQNum + 1));
 				if (bShowVernacular)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorVernacular;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.Vernacular;
 					string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.Vernacular);
 
 					strRow += TestQuestionLine.Vernacular.FormatLanguageColumnHtml(nVerseIndex,
@@ -321,7 +321,7 @@ namespace OneStoryProjectEditor
 
 				if (bShowNationalBT)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorNationalBT;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.NationalBt;
 					string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.NationalBt);
 
 					strRow += TestQuestionLine.NationalBt.FormatLanguageColumnHtml(nVerseIndex,
@@ -333,7 +333,7 @@ namespace OneStoryProjectEditor
 
 				if (bShowEnglishBT)
 				{
-					DirectableEncConverter transliterator = viewSettings.TransliteratorInternationalBt;
+					DirectableEncConverter transliterator = viewSettings.Transliterators.InternationalBt;
 					string str = Diff.HtmlDiff(transliterator, null, TestQuestionLine.InternationalBt);
 
 					strRow += TestQuestionLine.InternationalBt.FormatLanguageColumnHtml(nVerseIndex,

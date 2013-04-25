@@ -536,7 +536,7 @@ namespace OneStoryProjectEditor.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;style type=&quot;text/css&quot;&gt;
-        ///  body    {{ margin:0 }}
+        ///  body    {{ margin:0; padding: 0; }}
         ///  textarea {{ 
         ///      width:100%; 
         ///      overflow:visible;
@@ -567,9 +567,7 @@ namespace OneStoryProjectEditor.Properties {
         ///	color: {4}
         ///  }}
         ///  .TestQuestionAnswer {{
-        ///	color: {5}
-        ///  }}
-        ///  .r [rest of string was truncated]&quot;;.
+        ///	color: {5 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTML_StyleDefinition {
             get {
@@ -1326,6 +1324,33 @@ namespace OneStoryProjectEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /**
+        ///*	@name							Elastic
+        ///*	@descripton						Elastic is jQuery plugin that grow and shrink your textareas automatically
+        ///*	@version						1.6.11
+        ///*	@requires						jQuery 1.2.6+
+        ///*
+        ///*	@author							Jan Jarfalk
+        ///*	@author-email					jan.jarfalk@unwrongest.com
+        ///*	@author-website					http://www.unwrongest.com
+        ///*
+        ///*	@licence						MIT License - http://www.opensource.org/licenses/mit-license.php
+        ///*/
+        ///
+        ///(function($){ 
+        ///	jQuery.fn.extend({  
+        ///		elastic: function() {
+        ///		
+        ///			//	We will create a div clone of the textarea
+        ///			//	by copy [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_elastic_source {
+            get {
+                return ResourceManager.GetString("jquery_elastic_source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*!
         /// * jQuery JavaScript Library v1.4.2
         /// * http://jquery.com/
@@ -1580,15 +1605,16 @@ namespace OneStoryProjectEditor.Properties {
         ///        &lt;script type=&quot;text/javascript&quot;&gt;
         ///{1}
         ///{2}
-        ///        &lt;/script&gt;
         ///{3}
+        ///        &lt;/script&gt;
+        ///{4}
         ///    &lt;/head&gt;
         ///    &lt;body onscroll=&quot;window.external.OnScroll();&quot;&gt;
         ///        &lt;!--for debugging: &lt;textarea id=&quot;osedebughtmlwindow&quot;&gt;&lt;/textarea&gt;--&gt;
-        ///{4}
+        ///{5}
         ///    &lt;/body&gt;
         ///&lt;script type=&quot;text/javascript&quot;&gt;
-        ///{5}
+        ///{6}
         ///&lt;/script&gt;
         ///&lt;/html&gt;.
         /// </summary>

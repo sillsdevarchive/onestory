@@ -495,7 +495,7 @@ namespace OneStoryProjectEditor
 
 		public void DoFind(string strId)
 		{
-			if (TheSE.UsingHtmlForStoryBtPane)
+			if (TheSE.IsStoryBtPaneHtml)
 				return;
 
 			int nVerseIndex, nConversationIndex, nCommentIndex;

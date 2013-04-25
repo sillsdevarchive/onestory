@@ -253,11 +253,20 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
+    <Compile Include="GeckoStoryBtDisplayControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GeckoStoryDisplayControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GeckoTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GeckoTestForm.Designer.cs">
       <DependentUpon>GeckoTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GeckoWebBrowser.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="GlossingControl.cs">
       <SubType>UserControl</SubType>
@@ -838,6 +847,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="js\jquery.autosize-min.js" />
+    <Content Include="js\jquery.elastic.source.js" />
     <Content Include="LanguageCodes.tab">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

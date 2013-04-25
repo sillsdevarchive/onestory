@@ -450,10 +450,7 @@ namespace OneStoryProjectEditor
 			}
 
 			public StoryEditor.TextFields FieldEditibility { get; set; }
-			public DirectableEncConverter TransliteratorVernacular { get; set; }
-			public DirectableEncConverter TransliteratorNationalBT { get; set; }
-			public DirectableEncConverter TransliteratorInternationalBt { get; set; }
-			public DirectableEncConverter TransliteratorFreeTranslation { get; set; }
+			public StoryEditor.Transliterators Transliterators { get; set; }
 
 			protected ItemToInsureOn _itemToInsureOn;
 
@@ -501,21 +498,18 @@ namespace OneStoryProjectEditor
 				bool bGeneralTestQuestions,
 				bool bUseTextAreas,
 				StoryEditor.TextFields fieldEditability,
-				DirectableEncConverter decTransliteratorVernacular,
-				DirectableEncConverter decTransliteratorNationalBT,
-				DirectableEncConverter decTransliteratorInternationalBt,
-				DirectableEncConverter decTransliteratorFreeTranslation
+				StoryEditor.Transliterators transliterators
 				)
 			{
 				SetItemsToInsureOn(projSettings,
 								   bLangVernacular,
-								   (decTransliteratorVernacular != null),
+								   (transliterators.Vernacular != null),
 								   bLangNationalBT,
-								   (decTransliteratorNationalBT != null),
+								   (transliterators.NationalBt != null),
 								   bLangInternationalBT,
-								   (decTransliteratorInternationalBt != null),
+								   (transliterators.InternationalBt != null),
 								   bLangFreeTranslation,
-								   (decTransliteratorFreeTranslation != null),
+								   (transliterators.FreeTranslation != null),
 								   bAnchors,
 								   bExegeticalHelps,
 								   bStoryTestingQuestions,
@@ -530,10 +524,7 @@ namespace OneStoryProjectEditor
 								   bGeneralTestQuestions,
 								   bUseTextAreas);
 				FieldEditibility = fieldEditability;
-				TransliteratorVernacular = decTransliteratorVernacular;
-				TransliteratorNationalBT = decTransliteratorNationalBT;
-				TransliteratorInternationalBt = decTransliteratorInternationalBt;
-				TransliteratorFreeTranslation = decTransliteratorFreeTranslation;
+				Transliterators = transliterators;
 			}
 
 			public bool IsViewItemOn(ItemToInsureOn eFlag)
@@ -764,7 +755,7 @@ namespace OneStoryProjectEditor
 									  theChildVerse,
 									  presentationType,
 									  viewSettings,
-									  viewSettings.TransliteratorVernacular);
+									  viewSettings.Transliterators.Vernacular);
 			}
 
 			if (bShowLangNationalBt)
@@ -776,7 +767,7 @@ namespace OneStoryProjectEditor
 									  theChildVerse,
 									  presentationType,
 									  viewSettings,
-									  viewSettings.TransliteratorNationalBT);
+									  viewSettings.Transliterators.NationalBt);
 			}
 
 			if (bShowLangEnglishBt)
@@ -788,7 +779,7 @@ namespace OneStoryProjectEditor
 									  theChildVerse,
 									  presentationType,
 									  viewSettings,
-									  viewSettings.TransliteratorInternationalBt);
+									  viewSettings.Transliterators.InternationalBt);
 			}
 
 			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
@@ -800,7 +791,7 @@ namespace OneStoryProjectEditor
 									  theChildVerse,
 									  presentationType,
 									  viewSettings,
-									  viewSettings.TransliteratorFreeTranslation);
+									  viewSettings.Transliterators.FreeTranslation);
 			}
 
 			string strHtml = null;
@@ -965,7 +956,7 @@ namespace OneStoryProjectEditor
 				strRow += GetHtmlCellAsAddition(StoryLine.Vernacular,
 												nLineId,
 												nNumCols,
-												viewSettings.TransliteratorVernacular,
+												viewSettings.Transliterators.Vernacular,
 												viewSettings);
 			}
 
@@ -974,7 +965,7 @@ namespace OneStoryProjectEditor
 				strRow += GetHtmlCellAsAddition(StoryLine.NationalBt,
 												nLineId,
 												nNumCols,
-												viewSettings.TransliteratorNationalBT,
+												viewSettings.Transliterators.NationalBt,
 												viewSettings);
 			}
 
@@ -983,7 +974,7 @@ namespace OneStoryProjectEditor
 				strRow += GetHtmlCellAsAddition(StoryLine.InternationalBt,
 												nLineId,
 												nNumCols,
-												viewSettings.TransliteratorInternationalBt,
+												viewSettings.Transliterators.InternationalBt,
 												viewSettings);
 			}
 
@@ -992,7 +983,7 @@ namespace OneStoryProjectEditor
 				strRow += GetHtmlCellAsAddition(StoryLine.FreeTranslation,
 												nLineId,
 												nNumCols,
-												viewSettings.TransliteratorFreeTranslation,
+												viewSettings.Transliterators.FreeTranslation,
 												viewSettings);
 			}
 

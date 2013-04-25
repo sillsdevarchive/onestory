@@ -20,10 +20,7 @@ namespace OneStoryProjectEditor
 		protected ExegeticalHelpNotesData _myExegeticalHelpNotes;
 		private int m_nNumRows;
 
-		public static DirectableEncConverter TransliteratorVernacular;
-		public static DirectableEncConverter TransliteratorNationalBt;
-		public static DirectableEncConverter TransliteratorInternationalBt;
-		public static DirectableEncConverter TransliteratorFreeTranslation;
+		public static StoryEditor.Transliterators Transliterators { get; set; }
 
 		private bool IsGeneralQuestionsLine;
 

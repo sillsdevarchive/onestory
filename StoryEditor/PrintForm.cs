@@ -87,6 +87,25 @@ namespace OneStoryProjectEditor
 					|| (_theSE.StoryProject.ProjSettings == null))
 					return null;
 
+				var transliterators = new StoryEditor.Transliterators
+										  {
+											  Vernacular =
+												  (checkBoxLangTransliterateVernacular.Checked)
+													  ? _theSE.LoggedOnMember.TransliteratorVernacular
+													  : null,
+											  NationalBt =
+												  (checkBoxLangTransliterateNationalBT.Checked)
+													  ? _theSE.LoggedOnMember.TransliteratorNationalBt
+													  : null,
+											  InternationalBt =
+												  (checkBoxLangTransliterateInternationalBt.Checked)
+													  ? _theSE.LoggedOnMember.TransliteratorInternationalBt
+													  : null,
+											  FreeTranslation =
+												  (checkBoxLangTransliterateFreeTranslation.Checked)
+													  ? _theSE.LoggedOnMember.TransliteratorFreeTranslation
+													  : null
+										  };
 				var viewSettings = new VerseData.ViewSettings(
 					_theSE.StoryProject.ProjSettings,
 					checkBoxLangVernacular.Checked,
@@ -105,20 +124,10 @@ namespace OneStoryProjectEditor
 					checkBoxShowHidden.Checked,
 					false, // show only open conversations (doesn't apply)
 					checkBoxGeneralTestingQuestions.Checked,
-					false,  // UseTextAreas == false
-					StoryEditor.TextFields.Undefined,   // if UseTextAreas is false, then it doesn't matter which ones are "editable"
-					(checkBoxLangTransliterateVernacular.Checked)
-						? _theSE.LoggedOnMember.TransliteratorVernacular
-						: null,
-					(checkBoxLangTransliterateNationalBT.Checked)
-						? _theSE.LoggedOnMember.TransliteratorNationalBt
-						: null,
-					(checkBoxLangTransliterateInternationalBt.Checked)
-						? _theSE.LoggedOnMember.TransliteratorInternationalBt
-						: null,
-					(checkBoxLangTransliterateFreeTranslation.Checked)
-						? _theSE.LoggedOnMember.TransliteratorFreeTranslation
-						: null);
+					false, // UseTextAreas == false
+					StoryEditor.TextFields.Undefined,
+					// if UseTextAreas is false, then it doesn't matter which ones are "editable"
+					transliterators);
 				return viewSettings;
 			}
 		}

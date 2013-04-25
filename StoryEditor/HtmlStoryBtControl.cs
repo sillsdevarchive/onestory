@@ -13,11 +13,7 @@ namespace OneStoryProjectEditor
 	[ComVisible(true)]
 	public partial class HtmlStoryBtControl : HtmlVerseControl
 	{
-		public static DirectableEncConverter TransliteratorVernacular;
-		public static DirectableEncConverter TransliteratorNationalBt;
-		public static DirectableEncConverter TransliteratorInternationalBt;
-		public static DirectableEncConverter TransliteratorFreeTranslation;
-
+		public static StoryEditor.Transliterators Transliterators { get; set; }
 		public VerseData.ViewSettings ViewSettings { get; set; }
 		public StoryData ParentStory { get; set; }
 

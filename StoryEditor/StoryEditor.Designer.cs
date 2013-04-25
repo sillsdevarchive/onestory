@@ -141,6 +141,9 @@ namespace OneStoryProjectEditor
             this.storySynchronizeSharedAdaptItProjectsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.storyImportFromSayMore = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaShowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panoramaInsertNewStoryMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,13 +163,16 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedChangeProjectFolderRootMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedEmailMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.advancedUseOldStyleStoryBtPaneMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedUseWordBreaks = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedImportHelper = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedTransferConNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedConsultantNotesToCoachNotesPane = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedCoachNotesToConsultantNotesPane = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedReassignNotesToProperMember = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedStoryBtPaneDisplayOptionsItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedStoryBtUseInternetExplorerMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedStoryBtUseFirefoxMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedStoryBtUseDotNetControlsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -179,6 +185,7 @@ namespace OneStoryProjectEditor
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
             this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.geckoStoryBtDisplay = new OneStoryProjectEditor.GeckoStoryBtDisplayControl();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
@@ -198,9 +205,6 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.storyCopyToAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.storyCopyFromAnotherProjectMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1166,6 +1170,25 @@ namespace OneStoryProjectEditor
             this.storyImportFromSayMore.ToolTipText = "Click to import a transcribed story from a SayMore event";
             this.storyImportFromSayMore.Click += new System.EventHandler(this.StoryImportFromSayMoreClick);
             // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(242, 6);
+            // 
+            // storyCopyToAnotherProjectMenu
+            // 
+            this.storyCopyToAnotherProjectMenu.Name = "storyCopyToAnotherProjectMenu";
+            this.storyCopyToAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyToAnotherProjectMenu.Text = "&Copy to another project";
+            this.storyCopyToAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyToAnotherProjectMenuClick);
+            // 
+            // storyCopyFromAnotherProjectMenu
+            // 
+            this.storyCopyFromAnotherProjectMenu.Name = "storyCopyFromAnotherProjectMenu";
+            this.storyCopyFromAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
+            this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
+            this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
+            // 
             // panoramaToolStripMenu
             // 
             this.panoramaToolStripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1214,10 +1237,10 @@ namespace OneStoryProjectEditor
             this.advancedResetStoredInformationMenu,
             this.advancedChangeProjectFolderRootMenu,
             this.advancedEmailMenu,
-            this.advancedUseOldStyleStoryBtPaneMenu,
             this.advancedUseWordBreaks,
             this.advancedImportHelper,
-            this.advancedTransferConNotes});
+            this.advancedTransferConNotes,
+            this.advancedStoryBtPaneDisplayOptionsItem});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";
             this.advancedToolStripMenu.Size = new System.Drawing.Size(72, 27);
             this.advancedToolStripMenu.Text = "A&dvanced";
@@ -1353,16 +1376,6 @@ namespace OneStoryProjectEditor
             this.advancedEmailMenu.ToolTipText = resources.GetString("advancedEmailMenu.ToolTipText");
             this.advancedEmailMenu.Click += new System.EventHandler(this.advancedEmailMenu_Click);
             // 
-            // advancedUseOldStyleStoryBtPaneMenu
-            // 
-            this.advancedUseOldStyleStoryBtPaneMenu.CheckOnClick = true;
-            this.advancedUseOldStyleStoryBtPaneMenu.Name = "advancedUseOldStyleStoryBtPaneMenu";
-            this.advancedUseOldStyleStoryBtPaneMenu.Size = new System.Drawing.Size(314, 22);
-            this.advancedUseOldStyleStoryBtPaneMenu.Text = "Use old-style Story BT pane";
-            this.advancedUseOldStyleStoryBtPaneMenu.ToolTipText = "This setting switches the Story BT pane to use the old-style (and slower) control" +
-    "s for editing the Story BT data";
-            this.advancedUseOldStyleStoryBtPaneMenu.Click += new System.EventHandler(this.advancedUseOldStyleStoryBtPaneMenu_Click);
-            // 
             // advancedUseWordBreaks
             // 
             this.advancedUseWordBreaks.CheckOnClick = true;
@@ -1412,6 +1425,43 @@ namespace OneStoryProjectEditor
             this.advancedReassignNotesToProperMember.Text = "&Enable notes to be editable by currently configured team members";
             this.advancedReassignNotesToProperMember.ToolTipText = resources.GetString("advancedReassignNotesToProperMember.ToolTipText");
             this.advancedReassignNotesToProperMember.Click += new System.EventHandler(this.advancedReassignNotesToProperMember_Click);
+            // 
+            // advancedStoryBtPaneDisplayOptionsItem
+            // 
+            this.advancedStoryBtPaneDisplayOptionsItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advancedStoryBtUseInternetExplorerMenu,
+            this.advancedStoryBtUseFirefoxMenu,
+            this.advancedStoryBtUseDotNetControlsMenu});
+            this.advancedStoryBtPaneDisplayOptionsItem.Name = "advancedStoryBtPaneDisplayOptionsItem";
+            this.advancedStoryBtPaneDisplayOptionsItem.Size = new System.Drawing.Size(314, 22);
+            this.advancedStoryBtPaneDisplayOptionsItem.Text = "Story BT Pane Display Options";
+            // 
+            // advancedStoryBtUseInternetExplorerMenu
+            // 
+            this.advancedStoryBtUseInternetExplorerMenu.CheckOnClick = true;
+            this.advancedStoryBtUseInternetExplorerMenu.Name = "advancedStoryBtUseInternetExplorerMenu";
+            this.advancedStoryBtUseInternetExplorerMenu.Size = new System.Drawing.Size(221, 22);
+            this.advancedStoryBtUseInternetExplorerMenu.Text = "Use &Internet Explorer";
+            this.advancedStoryBtUseInternetExplorerMenu.CheckedChanged += new System.EventHandler(this.StoryBtDisplayTechOnCheckedChanged);
+            this.advancedStoryBtUseInternetExplorerMenu.Click += new System.EventHandler(this.AdvancedStoryBtUseInternetExplorerMenuClick);
+            // 
+            // advancedStoryBtUseFirefoxMenu
+            // 
+            this.advancedStoryBtUseFirefoxMenu.CheckOnClick = true;
+            this.advancedStoryBtUseFirefoxMenu.Name = "advancedStoryBtUseFirefoxMenu";
+            this.advancedStoryBtUseFirefoxMenu.Size = new System.Drawing.Size(221, 22);
+            this.advancedStoryBtUseFirefoxMenu.Text = "Use &Firefox";
+            this.advancedStoryBtUseFirefoxMenu.CheckedChanged += new System.EventHandler(this.StoryBtDisplayTechOnCheckedChanged);
+            this.advancedStoryBtUseFirefoxMenu.Click += new System.EventHandler(this.AdvancedStoryBtUseFirefoxMenuClick);
+            // 
+            // advancedStoryBtUseDotNetControlsMenu
+            // 
+            this.advancedStoryBtUseDotNetControlsMenu.CheckOnClick = true;
+            this.advancedStoryBtUseDotNetControlsMenu.Name = "advancedStoryBtUseDotNetControlsMenu";
+            this.advancedStoryBtUseDotNetControlsMenu.Size = new System.Drawing.Size(221, 22);
+            this.advancedStoryBtUseDotNetControlsMenu.Text = "Use .&Net controls (old-style)";
+            this.advancedStoryBtUseDotNetControlsMenu.CheckedChanged += new System.EventHandler(this.StoryBtDisplayTechOnCheckedChanged);
+            this.advancedStoryBtUseDotNetControlsMenu.Click += new System.EventHandler(this.AdvancedStoryBtUseDotNetControlsMenuClick);
             // 
             // aboutToolStripMenu
             // 
@@ -1468,6 +1518,7 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
             this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.geckoStoryBtDisplay);
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             // 
             // splitContainerUpDown.Panel2
@@ -1565,6 +1616,20 @@ namespace OneStoryProjectEditor
             this.htmlStoryBtControl.TabIndex = 5;
             this.htmlStoryBtControl.TheSE = null;
             this.htmlStoryBtControl.ViewSettings = null;
+            // 
+            // geckoStoryBtDisplay
+            // 
+            this.geckoStoryBtDisplay.DisableWmImeSetContext = false;
+            this.geckoStoryBtDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geckoStoryBtDisplay.Location = new System.Drawing.Point(0, 23);
+            this.geckoStoryBtDisplay.Name = "geckoStoryBtDisplay";
+            this.geckoStoryBtDisplay.ParentStory = null;
+            this.geckoStoryBtDisplay.Size = new System.Drawing.Size(451, 366);
+            this.geckoStoryBtDisplay.StoryData = null;
+            this.geckoStoryBtDisplay.TabIndex = 0;
+            this.geckoStoryBtDisplay.TheSe = null;
+            this.geckoStoryBtDisplay.UseHttpActivityObserver = false;
+            this.geckoStoryBtDisplay.ViewSettings = null;
             // 
             // textBoxStoryVerse
             // 
@@ -1807,25 +1872,6 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
-            // toolStripSeparator19
-            // 
-            this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(242, 6);
-            // 
-            // storyCopyToAnotherProjectMenu
-            // 
-            this.storyCopyToAnotherProjectMenu.Name = "storyCopyToAnotherProjectMenu";
-            this.storyCopyToAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
-            this.storyCopyToAnotherProjectMenu.Text = "&Copy to another project";
-            this.storyCopyToAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyToAnotherProjectMenuClick);
-            // 
-            // storyCopyFromAnotherProjectMenu
-            // 
-            this.storyCopyFromAnotherProjectMenu.Name = "storyCopyFromAnotherProjectMenu";
-            this.storyCopyFromAnotherProjectMenu.Size = new System.Drawing.Size(245, 22);
-            this.storyCopyFromAnotherProjectMenu.Text = "Copy &from another project";
-            this.storyCopyFromAnotherProjectMenu.Click += new System.EventHandler(this.StoryCopyFromAnotherProjectMenuClick);
-            // 
             // StoryEditor
             // 
             this.ClientSize = new System.Drawing.Size(881, 666);
@@ -2014,8 +2060,8 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
         private HtmlStoryBtControl htmlStoryBtControl;
+        private GeckoStoryBtDisplayControl geckoStoryBtDisplay;
         internal ToolStripMenuItem advancedUseWordBreaks;
-        private ToolStripMenuItem advancedUseOldStyleStoryBtPaneMenu;
         private ToolStripMenuItem advancedImportHelper;
         private ToolStripMenuItem advancedTransferConNotes;
         private ToolStripMenuItem advancedCoachNotesToConsultantNotesPane;
@@ -2029,6 +2075,10 @@ namespace OneStoryProjectEditor
         private ToolStripSeparator toolStripSeparator19;
         private ToolStripMenuItem storyCopyToAnotherProjectMenu;
         private ToolStripMenuItem storyCopyFromAnotherProjectMenu;
+        private ToolStripMenuItem advancedStoryBtPaneDisplayOptionsItem;
+        private ToolStripMenuItem advancedStoryBtUseInternetExplorerMenu;
+        private ToolStripMenuItem advancedStoryBtUseFirefoxMenu;
+        private ToolStripMenuItem advancedStoryBtUseDotNetControlsMenu;
     }
 }
 

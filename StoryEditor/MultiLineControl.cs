@@ -43,7 +43,7 @@ namespace OneStoryProjectEditor
 				{
 					if (nNumRows == 0)
 						InsertColumn(nNumColumns);
-					aLineData.Vernacular.Transliterator = VerseBtControl.TransliteratorVernacular;
+					aLineData.Vernacular.Transliterator = VerseBtControl.Transliterators.Vernacular;
 					ctrlTextBoxVernacular = InitTextBox(ctrlVerse, LineData.CstrAttributeLangVernacular,
 														aLineData.Vernacular, strLabelRow + strLabelSuffix,
 														projSettings.Vernacular,
@@ -58,7 +58,7 @@ namespace OneStoryProjectEditor
 				{
 					if (nNumRows == 0)
 						InsertColumn(nNumColumns);
-					aLineData.NationalBt.Transliterator = VerseBtControl.TransliteratorNationalBt;
+					aLineData.NationalBt.Transliterator = VerseBtControl.Transliterators.NationalBt;
 					ctrlTextBoxNationalBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangNationalBt,
 														aLineData.NationalBt, strLabelRow + strLabelSuffix,
 														projSettings.NationalBT,
@@ -75,7 +75,7 @@ namespace OneStoryProjectEditor
 				{
 					if (nNumRows == 0)
 						InsertColumn(nNumColumns);
-					aLineData.InternationalBt.Transliterator = VerseBtControl.TransliteratorInternationalBt;
+					aLineData.InternationalBt.Transliterator = VerseBtControl.Transliterators.InternationalBt;
 					CtrlTextBox ctrlTextBoxEnglishBT = InitTextBox(ctrlVerse, LineData.CstrAttributeLangInternationalBt,
 																   aLineData.InternationalBt,
 																   strLabelRow + strLabelSuffix,

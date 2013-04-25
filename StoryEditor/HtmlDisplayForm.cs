@@ -87,6 +87,28 @@ namespace OneStoryProjectEditor
 
 			if (e.TabPage == tabPageDisplayChangeReport)
 			{
+				var transliterators = new StoryEditor.Transliterators
+										  {
+											  Vernacular =
+												  (checkBoxLangTransliterateVernacular.Checked)
+													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+															TransliteratorVernacular
+													  : null,
+											  NationalBt =
+												  (checkBoxLangTransliterateNationalBT.Checked)
+													  ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorNationalBt
+													  : null,
+											  InternationalBt =
+												  (checkBoxLangTransliterateInternationalBt.Checked)
+													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+															TransliteratorInternationalBt
+													  : null,
+											  FreeTranslation =
+												  (checkBoxLangTransliterateFreeTranslation.Checked)
+													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+															TransliteratorFreeTranslation
+													  : null
+										  };
 				htmlStoryBtControl.ViewSettings = new VerseData.ViewSettings(
 					htmlStoryBtControl.TheSE.StoryProject.ProjSettings,
 					checkBoxLangVernacular.Checked,
@@ -107,18 +129,7 @@ namespace OneStoryProjectEditor
 					checkBoxGeneralTestingQuestions.Checked,
 					false,  // not using textareas...
 					StoryEditor.TextFields.Undefined,   // ... so the 'editable ones' don't matter
-					(checkBoxLangTransliterateVernacular.Checked)
-						? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorVernacular
-						: null,
-					(checkBoxLangTransliterateNationalBT.Checked)
-						? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorNationalBt
-						: null,
-					(checkBoxLangTransliterateInternationalBt.Checked)
-						? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorInternationalBt
-						: null,
-					(checkBoxLangTransliterateFreeTranslation.Checked)
-						? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorFreeTranslation
-						: null);
+					transliterators);
 
 				htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
 				htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);

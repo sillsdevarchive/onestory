@@ -1979,7 +1979,7 @@ function CallTextareaOnSelect(textarea)
   </data>
   <data name="HTML_StyleDefinition" xml:space="preserve">
     <value>&lt;style type="text/css"&gt;
-  body    {{ margin:0 }}
+  body    {{ margin:0; padding: 0; }}
   textarea {{ 
       width:100%; 
       overflow:visible;
@@ -2307,5 +2307,8 @@ eater Panorama
   </data>
   <data name="jquery_autosize_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\js\jquery.autosize-min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="jquery_elastic_source" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\js\jquery.elastic.source.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>
