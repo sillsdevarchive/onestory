@@ -37,8 +37,8 @@ namespace OneStoryProjectEditor
 				//  handles that for us)
 				for (int i = 0; i <= StoryData.Verses.Count; i++)
 				{
-					ConsultNotesDataConverter aCNsDC = DataConverter(i);
-					foreach (ConsultNoteDataConverter dc in aCNsDC)
+					var aCNsDC = DataConverter(i);
+					foreach (var dc in aCNsDC)
 						aCNsDC.InsureExtraBox(dc, TheSE.TheCurrentStory,
 								TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
 				}
@@ -756,8 +756,8 @@ namespace OneStoryProjectEditor
 
 		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
 		{
-			VerseData verse = GetVerseData(nVerseIndex);
-			ConsultNotesDataConverter aCNsDC = verse.ConsultantNotes;
+			var verse = GetVerseData(nVerseIndex);
+			var aCNsDC = verse.ConsultantNotes;
 			return aCNsDC;
 		}
 
@@ -800,8 +800,8 @@ namespace OneStoryProjectEditor
 
 		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
 		{
-			VerseData verse = GetVerseData(nVerseIndex);
-			ConsultNotesDataConverter aCNsDC = verse.CoachNotes;
+			var verse = GetVerseData(nVerseIndex);
+			var aCNsDC = verse.CoachNotes;
 			return aCNsDC;
 		}
 

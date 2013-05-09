@@ -1404,12 +1404,26 @@ namespace OneStoryProjectEditor
 			if (Localizer.Default.LocLanguage.Font != null)
 				StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
 
-			htmlConsultantNotesControl.TheSE = this;
-			htmlConsultantNotesControl.StoryData = TheCurrentStory;
-			htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
-			htmlCoachNotesControl.TheSE = this;
-			htmlCoachNotesControl.StoryData = TheCurrentStory;
-			htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
+			switch(_displayTechnology)
+			{
+				case DisplayTechnology.GeckoFxWebBrowser:
+					geckoConsultantNotesControl.TheSe = this;
+					geckoConsultantNotesControl.StoryData = TheCurrentStory;
+					geckoConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
+					geckoCoachNotesControl.TheSe = this;
+					geckoCoachNotesControl.StoryData = TheCurrentStory;
+					geckoCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
+					break;
+
+				default:
+					htmlConsultantNotesControl.TheSE = this;
+					htmlConsultantNotesControl.StoryData = TheCurrentStory;
+					htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
+					htmlCoachNotesControl.TheSE = this;
+					htmlCoachNotesControl.StoryData = TheCurrentStory;
+					htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
+					break;
+			}
 
 			SuspendLayout();
 
@@ -1417,6 +1431,8 @@ namespace OneStoryProjectEditor
 			{
 				case DisplayTechnology.IeWebBrowser:
 					htmlStoryBtControl.LoadDocument();
+					htmlConsultantNotesControl.LoadDocument();
+					htmlCoachNotesControl.LoadDocument();
 					break;
 
 				case DisplayTechnology.DotNetControls:
@@ -1441,16 +1457,17 @@ namespace OneStoryProjectEditor
 					}
 
 					flowLayoutPanelVerses.ResumeLayout(true);
+					htmlConsultantNotesControl.LoadDocument();
+					htmlCoachNotesControl.LoadDocument();
 					break;
 
 				default:
 					geckoStoryBtDisplay.LoadDocument();
+					geckoConsultantNotesControl.LoadDocument();
+					geckoCoachNotesControl.LoadDocument();
 					break;
 			}
 
-			// ConNotes are not done in one swell-foop via an Html control
-			htmlConsultantNotesControl.LoadDocument();
-			htmlCoachNotesControl.LoadDocument();
 			ResumeLayout(true);
 
 			if (IsStoryBtPaneHtml)
@@ -1471,6 +1488,11 @@ namespace OneStoryProjectEditor
 		public bool IsStoryBtPaneHtml
 		{
 			get { return (_displayTechnology != DisplayTechnology.DotNetControls); }
+		}
+
+		public bool IsGeckoHtml
+		{
+			get { return (_displayTechnology == DisplayTechnology.GeckoFxWebBrowser); }
 		}
 
 		public class Transliterators
@@ -1691,12 +1713,18 @@ namespace OneStoryProjectEditor
 			// the ConNote controls have a zeroth line, so the index is one greater
 			if (viewConsultantNotesMenu.Checked && bSyncConsultantNotePane)
 			{
-				htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
+				if (IsGeckoHtml)
+					geckoConsultantNotesControl.ScrollToVerse(nVerseIndex);
+				else
+					htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
 			}
 
 			if (viewCoachNotesMenu.Checked && bSyncCoachNotePane)
 			{
-				htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
+				if (IsGeckoHtml)
+					geckoCoachNotesControl.ScrollToVerse(nVerseIndex);
+				else
+					htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
 			}
 		}
 
@@ -2033,14 +2061,20 @@ namespace OneStoryProjectEditor
 				if (!viewCoachNotesMenu.Checked)
 					viewCoachNotesMenu.Checked = true;
 
-				htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				if (IsGeckoHtml)
+					geckoCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				else
+					htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 			else
 			{
 				if (!viewConsultantNotesMenu.Checked)
 					viewConsultantNotesMenu.Checked = true;
 
-				htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				if (IsGeckoHtml)
+					geckoConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				else
+					htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 		}
 
@@ -2383,21 +2417,25 @@ namespace OneStoryProjectEditor
 			{
 				case DisplayTechnology.IeWebBrowser:
 					htmlStoryBtControl.ResetDocument();
+					htmlConsultantNotesControl.ResetDocument();
+					htmlCoachNotesControl.ResetDocument();
 					break;
 
 				case DisplayTechnology.GeckoFxWebBrowser:
 					geckoStoryBtDisplay.ResetDocument();
+					geckoConsultantNotesControl.ResetDocument();
+					geckoCoachNotesControl.ResetDocument();
 					break;
 
 				case DisplayTechnology.DotNetControls:
 					flowLayoutPanelVerses.Clear();
+					htmlConsultantNotesControl.ResetDocument();
+					htmlCoachNotesControl.ResetDocument();
 					break;
 			}
 
 			buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = linkLabelVerseBT.Visible = false;
 
-			htmlConsultantNotesControl.ResetDocument();
-			htmlCoachNotesControl.ResetDocument();
 			Application.DoEvents(); // give them time to actually empty the webcontrols
 		}
 
@@ -5648,14 +5686,24 @@ namespace OneStoryProjectEditor
 		{
 			var ll = sender as LinkLabel;
 			if ((ll != null) && (e.Button == MouseButtons.Left))
-				htmlConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
+			{
+				if (IsGeckoHtml)
+					geckoConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
+				else
+					htmlConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
+			}
 		}
 
 		private void linkLabelCoachNotes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			var ll = sender as LinkLabel;
 			if ((ll != null) && (e.Button == MouseButtons.Left))
-				htmlCoachNotesControl.OnVerseLineJump((int)ll.Tag);
+			{
+				if (IsGeckoHtml)
+					geckoCoachNotesControl.OnVerseLineJump((int)ll.Tag);
+				else
+					htmlCoachNotesControl.OnVerseLineJump((int)ll.Tag);
+			}
 		}
 
 		private void linkLabelVerseBT_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -6547,18 +6595,36 @@ namespace OneStoryProjectEditor
 			{
 				case DisplayTechnology.IeWebBrowser:
 					advancedStoryBtUseInternetExplorerMenu.Checked = true;
-					flowLayoutPanelVerses.Visible = geckoStoryBtDisplay.Visible = false;
-					htmlStoryBtControl.Visible = true;
+					flowLayoutPanelVerses.Visible =
+						geckoStoryBtDisplay.Visible =
+						geckoConsultantNotesControl.Visible =
+						geckoCoachNotesControl.Visible = false;
+					htmlStoryBtControl.Visible =
+						htmlConsultantNotesControl.Visible =
+						htmlCoachNotesControl.Visible = true;
 					break;
 				case DisplayTechnology.DotNetControls:
 					advancedStoryBtUseDotNetControlsMenu.Checked = true;
-					htmlStoryBtControl.Visible = geckoStoryBtDisplay.Visible = false;
-					flowLayoutPanelVerses.Visible = true;
+					htmlStoryBtControl.Visible =
+						geckoStoryBtDisplay.Visible =
+						geckoConsultantNotesControl.Visible =
+						geckoCoachNotesControl.Visible = false;
+					flowLayoutPanelVerses.Visible =
+						htmlConsultantNotesControl.Visible =
+						htmlCoachNotesControl.Visible = true;
+					break;
+				case DisplayTechnology.GeckoFxWebBrowser:
+					advancedStoryBtUseFirefoxMenu.Checked = true;
+					flowLayoutPanelVerses.Visible =
+						htmlStoryBtControl.Visible =
+						htmlConsultantNotesControl.Visible =
+						htmlCoachNotesControl.Visible = false;
+					geckoStoryBtDisplay.Visible =
+						geckoConsultantNotesControl.Visible =
+						geckoCoachNotesControl.Visible = true;
 					break;
 				default:
-					advancedStoryBtUseFirefoxMenu.Checked = true;
-					flowLayoutPanelVerses.Visible = htmlStoryBtControl.Visible = false;
-					geckoStoryBtDisplay.Visible = true;
+					Debug.Assert(false);
 					break;
 			}
 		}

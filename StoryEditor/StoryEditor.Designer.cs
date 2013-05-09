@@ -177,23 +177,11 @@ namespace OneStoryProjectEditor
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainerLeftRight = new System.Windows.Forms.SplitContainer();
-            this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
-            this.buttonMoveToNextLine = new System.Windows.Forms.Button();
-            this.buttonMoveToPrevLine = new System.Windows.Forms.Button();
-            this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
-            this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.contextMenuStripVerseList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
-            this.geckoStoryBtDisplay = new OneStoryProjectEditor.GeckoStoryBtDisplayControl();
-            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
-            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
             this.splitContainerMentorNotes = new System.Windows.Forms.SplitContainer();
             this.linkLabelConsultantNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
             this.textBoxConsultantNotesTable = new System.Windows.Forms.TextBox();
             this.linkLabelCoachNotes = new System.Windows.Forms.LinkLabel();
-            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
             this.textBoxCoachNotes = new System.Windows.Forms.TextBox();
             this.helpProvider = new System.Windows.Forms.HelpProvider();
             this.toolStripRecordNavigation = new System.Windows.Forms.ToolStrip();
@@ -205,21 +193,35 @@ namespace OneStoryProjectEditor
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.splitContainerUpDown = new OneStoryProjectEditor.MinimizableSplitterContainer();
+            this.buttonMoveToNextLine = new System.Windows.Forms.Button();
+            this.buttonMoveToPrevLine = new System.Windows.Forms.Button();
+            this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
+            this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
+            this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
+            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.geckoStoryBtDisplay = new OneStoryProjectEditor.GeckoStoryBtDisplayControl();
+            this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
+            this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
+            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
+            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
+            this.geckoConsultantNotesControl = new OneStoryProjectEditor.GeckoConsultantNotesControl();
+            this.geckoCoachNotesControl = new OneStoryProjectEditor.GeckoCoachNotesControl();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
             this.splitContainerLeftRight.Panel2.SuspendLayout();
             this.splitContainerLeftRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).BeginInit();
-            this.splitContainerUpDown.Panel1.SuspendLayout();
-            this.splitContainerUpDown.Panel2.SuspendLayout();
-            this.splitContainerUpDown.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMentorNotes)).BeginInit();
             this.splitContainerMentorNotes.Panel1.SuspendLayout();
             this.splitContainerMentorNotes.Panel2.SuspendLayout();
             this.splitContainerMentorNotes.SuspendLayout();
             this.toolStripRecordNavigation.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).BeginInit();
+            this.splitContainerUpDown.Panel1.SuspendLayout();
+            this.splitContainerUpDown.Panel2.SuspendLayout();
+            this.splitContainerUpDown.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -1502,160 +1504,11 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight.SplitterDistance = 453;
             this.splitContainerLeftRight.TabIndex = 2;
             // 
-            // splitContainerUpDown
-            // 
-            this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainerUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerUpDown.Name = "splitContainerUpDown";
-            this.splitContainerUpDown.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerUpDown.Panel1
-            // 
-            this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToNextLine);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToPrevLine);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.geckoStoryBtDisplay);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
-            // 
-            // splitContainerUpDown.Panel2
-            // 
-            this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
-            this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
-            this.splitContainerUpDown.SplitterDistance = 391;
-            this.splitContainerUpDown.TabIndex = 2;
-            // 
-            // buttonMoveToNextLine
-            // 
-            this.buttonMoveToNextLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToNextLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
-            this.buttonMoveToNextLine.Location = new System.Drawing.Point(428, 0);
-            this.buttonMoveToNextLine.Name = "buttonMoveToNextLine";
-            this.buttonMoveToNextLine.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToNextLine.TabIndex = 6;
-            this.buttonMoveToNextLine.UseVisualStyleBackColor = true;
-            this.buttonMoveToNextLine.Visible = false;
-            this.buttonMoveToNextLine.Click += new System.EventHandler(this.ButtonMoveToNextLineClick);
-            // 
-            // buttonMoveToPrevLine
-            // 
-            this.buttonMoveToPrevLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonMoveToPrevLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
-            this.buttonMoveToPrevLine.Location = new System.Drawing.Point(405, 0);
-            this.buttonMoveToPrevLine.Name = "buttonMoveToPrevLine";
-            this.buttonMoveToPrevLine.Size = new System.Drawing.Size(23, 23);
-            this.buttonMoveToPrevLine.TabIndex = 7;
-            this.buttonMoveToPrevLine.UseVisualStyleBackColor = true;
-            this.buttonMoveToPrevLine.Visible = false;
-            this.buttonMoveToPrevLine.Click += new System.EventHandler(this.ButtonMoveToPrevLineClick);
-            // 
-            // linkLabelTasks
-            // 
-            this.linkLabelTasks.AutoSize = true;
-            this.linkLabelTasks.Location = new System.Drawing.Point(63, 5);
-            this.linkLabelTasks.Name = "linkLabelTasks";
-            this.linkLabelTasks.Size = new System.Drawing.Size(36, 13);
-            this.linkLabelTasks.TabIndex = 4;
-            this.linkLabelTasks.TabStop = true;
-            this.linkLabelTasks.Tag = 1;
-            this.linkLabelTasks.Text = "Tasks";
-            this.linkLabelTasks.Visible = false;
-            this.linkLabelTasks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTasks_LinkClicked);
-            // 
-            // linkLabelVerseBT
-            // 
-            this.linkLabelVerseBT.AutoSize = true;
-            this.linkLabelVerseBT.ContextMenuStrip = this.contextMenuStripVerseList;
-            this.helpProvider.SetHelpString(this.linkLabelVerseBT, "Click here to jump to the indicated line number. You can also right-click on this" +
-        " to get a list of all lines to jump to.");
-            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 5);
-            this.linkLabelVerseBT.Name = "linkLabelVerseBT";
-            this.helpProvider.SetShowHelp(this.linkLabelVerseBT, true);
-            this.linkLabelVerseBT.Size = new System.Drawing.Size(31, 13);
-            this.linkLabelVerseBT.TabIndex = 4;
-            this.linkLabelVerseBT.TabStop = true;
-            this.linkLabelVerseBT.Tag = 1;
-            this.linkLabelVerseBT.Text = "Ln: 1";
-            this.linkLabelVerseBT.Visible = false;
-            this.linkLabelVerseBT.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVerseBT_LinkClicked);
-            // 
             // contextMenuStripVerseList
             // 
             this.contextMenuStripVerseList.Name = "contextMenuStripVerseList";
             this.contextMenuStripVerseList.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStripVerseList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripVerseList_Opening);
-            // 
-            // flowLayoutPanelVerses
-            // 
-            this.flowLayoutPanelVerses.AutoScroll = true;
-            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelVerses.LastControlIntoView = null;
-            this.flowLayoutPanelVerses.LineNumberLink = null;
-            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
-            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
-            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
-            this.flowLayoutPanelVerses.TabIndex = 1;
-            this.flowLayoutPanelVerses.WrapContents = false;
-            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
-            // 
-            // htmlStoryBtControl
-            // 
-            this.htmlStoryBtControl.AllowWebBrowserDrop = false;
-            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 366);
-            this.htmlStoryBtControl.StoryData = null;
-            this.htmlStoryBtControl.TabIndex = 5;
-            this.htmlStoryBtControl.TheSE = null;
-            this.htmlStoryBtControl.ViewSettings = null;
-            // 
-            // geckoStoryBtDisplay
-            // 
-            this.geckoStoryBtDisplay.DisableWmImeSetContext = false;
-            this.geckoStoryBtDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoStoryBtDisplay.Location = new System.Drawing.Point(0, 23);
-            this.geckoStoryBtDisplay.Name = "geckoStoryBtDisplay";
-            this.geckoStoryBtDisplay.ParentStory = null;
-            this.geckoStoryBtDisplay.Size = new System.Drawing.Size(451, 366);
-            this.geckoStoryBtDisplay.StoryData = null;
-            this.geckoStoryBtDisplay.TabIndex = 0;
-            this.geckoStoryBtDisplay.TheSe = null;
-            this.geckoStoryBtDisplay.UseHttpActivityObserver = false;
-            this.geckoStoryBtDisplay.ViewSettings = null;
-            // 
-            // textBoxStoryVerse
-            // 
-            this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxStoryVerse.Enabled = false;
-            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
-            this.textBoxStoryVerse.Name = "textBoxStoryVerse";
-            this.textBoxStoryVerse.ReadOnly = true;
-            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
-            this.textBoxStoryVerse.TabIndex = 3;
-            this.textBoxStoryVerse.TabStop = false;
-            this.textBoxStoryVerse.Text = "Story/BT";
-            this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // netBibleViewer
-            // 
-            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.netBibleViewer.JumpTarget = null;
-            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
-            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
-            this.netBibleViewer.Name = "netBibleViewer";
-            this.netBibleViewer.ScriptureReference = "Gen 1:1";
-            this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
-            this.netBibleViewer.TabIndex = 0;
             // 
             // splitContainerMentorNotes
             // 
@@ -1669,12 +1522,14 @@ namespace OneStoryProjectEditor
             // 
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.linkLabelConsultantNotes);
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.htmlConsultantNotesControl);
+            this.splitContainerMentorNotes.Panel1.Controls.Add(this.geckoConsultantNotesControl);
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.textBoxConsultantNotesTable);
             // 
             // splitContainerMentorNotes.Panel2
             // 
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.linkLabelCoachNotes);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.htmlCoachNotesControl);
+            this.splitContainerMentorNotes.Panel2.Controls.Add(this.geckoCoachNotesControl);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
             this.splitContainerMentorNotes.Size = new System.Drawing.Size(424, 613);
             this.splitContainerMentorNotes.SplitterDistance = 356;
@@ -1696,19 +1551,6 @@ namespace OneStoryProjectEditor
             this.linkLabelConsultantNotes.Text = "Story (Ln: 0)";
             this.linkLabelConsultantNotes.Visible = false;
             this.linkLabelConsultantNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelConsultantNotes_LinkClicked);
-            // 
-            // htmlConsultantNotesControl
-            // 
-            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
-            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
-            this.htmlConsultantNotesControl.StoryData = null;
-            this.htmlConsultantNotesControl.TabIndex = 2;
-            this.htmlConsultantNotesControl.TheSE = null;
             // 
             // textBoxConsultantNotesTable
             // 
@@ -1741,19 +1583,6 @@ namespace OneStoryProjectEditor
             this.linkLabelCoachNotes.Text = "Story (Ln: 0)";
             this.linkLabelCoachNotes.Visible = false;
             this.linkLabelCoachNotes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCoachNotes_LinkClicked);
-            // 
-            // htmlCoachNotesControl
-            // 
-            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
-            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
-            this.htmlCoachNotesControl.StoryData = null;
-            this.htmlCoachNotesControl.TabIndex = 3;
-            this.htmlCoachNotesControl.TheSE = null;
             // 
             // textBoxCoachNotes
             // 
@@ -1872,6 +1701,205 @@ namespace OneStoryProjectEditor
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
             // 
+            // splitContainerUpDown
+            // 
+            this.splitContainerUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainerUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerUpDown.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerUpDown.Name = "splitContainerUpDown";
+            this.splitContainerUpDown.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerUpDown.Panel1
+            // 
+            this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToNextLine);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.buttonMoveToPrevLine);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.geckoStoryBtDisplay);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
+            // 
+            // splitContainerUpDown.Panel2
+            // 
+            this.splitContainerUpDown.Panel2.Controls.Add(this.netBibleViewer);
+            this.splitContainerUpDown.Size = new System.Drawing.Size(453, 613);
+            this.splitContainerUpDown.SplitterDistance = 391;
+            this.splitContainerUpDown.TabIndex = 2;
+            // 
+            // buttonMoveToNextLine
+            // 
+            this.buttonMoveToNextLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToNextLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillDownHS;
+            this.buttonMoveToNextLine.Location = new System.Drawing.Point(428, 0);
+            this.buttonMoveToNextLine.Name = "buttonMoveToNextLine";
+            this.buttonMoveToNextLine.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToNextLine.TabIndex = 6;
+            this.buttonMoveToNextLine.UseVisualStyleBackColor = true;
+            this.buttonMoveToNextLine.Visible = false;
+            this.buttonMoveToNextLine.Click += new System.EventHandler(this.ButtonMoveToNextLineClick);
+            // 
+            // buttonMoveToPrevLine
+            // 
+            this.buttonMoveToPrevLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonMoveToPrevLine.Image = global::OneStoryProjectEditor.Properties.Resources.FillUpHS;
+            this.buttonMoveToPrevLine.Location = new System.Drawing.Point(405, 0);
+            this.buttonMoveToPrevLine.Name = "buttonMoveToPrevLine";
+            this.buttonMoveToPrevLine.Size = new System.Drawing.Size(23, 23);
+            this.buttonMoveToPrevLine.TabIndex = 7;
+            this.buttonMoveToPrevLine.UseVisualStyleBackColor = true;
+            this.buttonMoveToPrevLine.Visible = false;
+            this.buttonMoveToPrevLine.Click += new System.EventHandler(this.ButtonMoveToPrevLineClick);
+            // 
+            // linkLabelTasks
+            // 
+            this.linkLabelTasks.AutoSize = true;
+            this.linkLabelTasks.Location = new System.Drawing.Point(63, 5);
+            this.linkLabelTasks.Name = "linkLabelTasks";
+            this.linkLabelTasks.Size = new System.Drawing.Size(36, 13);
+            this.linkLabelTasks.TabIndex = 4;
+            this.linkLabelTasks.TabStop = true;
+            this.linkLabelTasks.Tag = 1;
+            this.linkLabelTasks.Text = "Tasks";
+            this.linkLabelTasks.Visible = false;
+            this.linkLabelTasks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelTasks_LinkClicked);
+            // 
+            // linkLabelVerseBT
+            // 
+            this.linkLabelVerseBT.AutoSize = true;
+            this.linkLabelVerseBT.ContextMenuStrip = this.contextMenuStripVerseList;
+            this.helpProvider.SetHelpString(this.linkLabelVerseBT, "Click here to jump to the indicated line number. You can also right-click on this" +
+        " to get a list of all lines to jump to.");
+            this.linkLabelVerseBT.Location = new System.Drawing.Point(11, 5);
+            this.linkLabelVerseBT.Name = "linkLabelVerseBT";
+            this.helpProvider.SetShowHelp(this.linkLabelVerseBT, true);
+            this.linkLabelVerseBT.Size = new System.Drawing.Size(31, 13);
+            this.linkLabelVerseBT.TabIndex = 4;
+            this.linkLabelVerseBT.TabStop = true;
+            this.linkLabelVerseBT.Tag = 1;
+            this.linkLabelVerseBT.Text = "Ln: 1";
+            this.linkLabelVerseBT.Visible = false;
+            this.linkLabelVerseBT.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVerseBT_LinkClicked);
+            // 
+            // flowLayoutPanelVerses
+            // 
+            this.flowLayoutPanelVerses.AutoScroll = true;
+            this.flowLayoutPanelVerses.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelVerses.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelVerses.LastControlIntoView = null;
+            this.flowLayoutPanelVerses.LineNumberLink = null;
+            this.flowLayoutPanelVerses.Location = new System.Drawing.Point(0, 23);
+            this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
+            this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
+            this.flowLayoutPanelVerses.TabIndex = 1;
+            this.flowLayoutPanelVerses.WrapContents = false;
+            this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
+            // 
+            // htmlStoryBtControl
+            // 
+            this.htmlStoryBtControl.AllowWebBrowserDrop = false;
+            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
+            this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
+            this.htmlStoryBtControl.ParentStory = null;
+            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 366);
+            this.htmlStoryBtControl.StoryData = null;
+            this.htmlStoryBtControl.TabIndex = 5;
+            this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.ViewSettings = null;
+            // 
+            // geckoStoryBtDisplay
+            // 
+            this.geckoStoryBtDisplay.DisableWmImeSetContext = false;
+            this.geckoStoryBtDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geckoStoryBtDisplay.Location = new System.Drawing.Point(0, 23);
+            this.geckoStoryBtDisplay.Name = "geckoStoryBtDisplay";
+            this.geckoStoryBtDisplay.ParentStory = null;
+            this.geckoStoryBtDisplay.Size = new System.Drawing.Size(451, 366);
+            this.geckoStoryBtDisplay.StoryData = null;
+            this.geckoStoryBtDisplay.TabIndex = 0;
+            this.geckoStoryBtDisplay.TheSe = null;
+            this.geckoStoryBtDisplay.UseHttpActivityObserver = false;
+            this.geckoStoryBtDisplay.ViewSettings = null;
+            // 
+            // textBoxStoryVerse
+            // 
+            this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxStoryVerse.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxStoryVerse.Enabled = false;
+            this.textBoxStoryVerse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxStoryVerse.Location = new System.Drawing.Point(0, 0);
+            this.textBoxStoryVerse.Name = "textBoxStoryVerse";
+            this.textBoxStoryVerse.ReadOnly = true;
+            this.textBoxStoryVerse.Size = new System.Drawing.Size(451, 23);
+            this.textBoxStoryVerse.TabIndex = 3;
+            this.textBoxStoryVerse.TabStop = false;
+            this.textBoxStoryVerse.Text = "Story/BT";
+            this.textBoxStoryVerse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // netBibleViewer
+            // 
+            this.netBibleViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.netBibleViewer.JumpTarget = null;
+            this.netBibleViewer.Location = new System.Drawing.Point(0, 0);
+            this.netBibleViewer.Margin = new System.Windows.Forms.Padding(0);
+            this.netBibleViewer.Name = "netBibleViewer";
+            this.netBibleViewer.ScriptureReference = "Gen 1:1";
+            this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
+            this.netBibleViewer.TabIndex = 0;
+            // 
+            // htmlConsultantNotesControl
+            // 
+            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
+            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
+            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
+            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
+            this.htmlConsultantNotesControl.StoryData = null;
+            this.htmlConsultantNotesControl.TabIndex = 2;
+            this.htmlConsultantNotesControl.TheSE = null;
+            // 
+            // geckoConsultantNotesControl
+            // 
+            this.geckoConsultantNotesControl.DisableWmImeSetContext = false;
+            this.geckoConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geckoConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.geckoConsultantNotesControl.Name = "geckoConsultantNotesControl";
+            this.geckoConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
+            this.geckoConsultantNotesControl.StoryData = null;
+            this.geckoConsultantNotesControl.TabIndex = 4;
+            this.geckoConsultantNotesControl.TheSe = null;
+            this.geckoConsultantNotesControl.UseHttpActivityObserver = false;
+            // 
+            // htmlCoachNotesControl
+            // 
+            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
+            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
+            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
+            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
+            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
+            this.htmlCoachNotesControl.StoryData = null;
+            this.htmlCoachNotesControl.TabIndex = 3;
+            this.htmlCoachNotesControl.TheSE = null;
+            // 
+            // geckoCoachNotesControl
+            // 
+            this.geckoCoachNotesControl.DisableWmImeSetContext = false;
+            this.geckoCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.geckoCoachNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.geckoCoachNotesControl.Name = "geckoCoachNotesControl";
+            this.geckoCoachNotesControl.Size = new System.Drawing.Size(422, 228);
+            this.geckoCoachNotesControl.StoryData = null;
+            this.geckoCoachNotesControl.TabIndex = 5;
+            this.geckoCoachNotesControl.TheSe = null;
+            this.geckoCoachNotesControl.UseHttpActivityObserver = false;
+            // 
             // StoryEditor
             // 
             this.ClientSize = new System.Drawing.Size(881, 666);
@@ -1891,11 +1919,6 @@ namespace OneStoryProjectEditor
             this.splitContainerLeftRight.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).EndInit();
             this.splitContainerLeftRight.ResumeLayout(false);
-            this.splitContainerUpDown.Panel1.ResumeLayout(false);
-            this.splitContainerUpDown.Panel1.PerformLayout();
-            this.splitContainerUpDown.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).EndInit();
-            this.splitContainerUpDown.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.ResumeLayout(false);
             this.splitContainerMentorNotes.Panel1.PerformLayout();
             this.splitContainerMentorNotes.Panel2.ResumeLayout(false);
@@ -1906,6 +1929,11 @@ namespace OneStoryProjectEditor
             this.toolStripRecordNavigation.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.splitContainerUpDown.Panel1.ResumeLayout(false);
+            this.splitContainerUpDown.Panel1.PerformLayout();
+            this.splitContainerUpDown.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUpDown)).EndInit();
+            this.splitContainerUpDown.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1992,6 +2020,8 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewShowHideFieldsMenu;
         internal HtmlConsultantNotesControl htmlConsultantNotesControl;
         internal HtmlCoachNotesControl htmlCoachNotesControl;
+        private GeckoConsultantNotesControl geckoConsultantNotesControl;
+        private GeckoCoachNotesControl geckoCoachNotesControl;
         private ToolStripMenuItem viewTransliterationsToolStripMenu;
         internal ToolStripMenuItem viewTransliterationVernacular;
         internal ToolStripMenuItem viewTransliterationNationalBT;

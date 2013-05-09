@@ -253,10 +253,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ExegeticalHelpNotesData.cs" />
+    <Compile Include="GeckoConNotesDisplayControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GeckoStoryBtDisplayControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GeckoStoryDisplayControl.cs">
+    <Compile Include="GeckoDisplayControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GeckoTestForm.cs">
