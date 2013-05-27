@@ -465,7 +465,7 @@ namespace OneStoryProjectEditor
             this.htmlStoryBtControl.Size = new System.Drawing.Size(863, 553);
             this.htmlStoryBtControl.StoryData = null;
             this.htmlStoryBtControl.TabIndex = 0;
-            this.htmlStoryBtControl.TheSE = null;
+            this.htmlStoryBtControl.TheSe = null;
             this.htmlStoryBtControl.ViewSettings = null;
             // 
             // backgroundWorkerCheckRevisions

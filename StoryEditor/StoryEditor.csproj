@@ -256,6 +256,7 @@
     <Compile Include="GeckoConNotesDisplayControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GeckoFxInitializer.cs" />
     <Compile Include="GeckoStoryBtDisplayControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -319,6 +320,7 @@
     <Compile Include="InstallerClass.Designer.cs">
       <DependentUpon>InstallerClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="IWebBrowsers.cs" />
     <Compile Include="LineFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -492,6 +494,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebBrowserAdaptor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WebBrowserAdaptor.Designer.cs">
+      <DependentUpon>WebBrowserAdaptor.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AdaptItConfigControl.resx">
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -688,6 +696,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="WebBrowserAdaptor.resx">
+      <DependentUpon>WebBrowserAdaptor.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

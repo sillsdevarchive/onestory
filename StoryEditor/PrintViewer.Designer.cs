@@ -106,7 +106,7 @@ namespace OneStoryProjectEditor
             this.webBrowser.Size = new System.Drawing.Size(432, 207);
             this.webBrowser.StoryData = null;
             this.webBrowser.TabIndex = 0;
-            this.webBrowser.TheSE = null;
+            this.webBrowser.TheSe = null;
             this.webBrowser.ViewSettings = null;
             // 
             // PrintViewer

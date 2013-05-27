@@ -8,11 +8,16 @@ using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
-	public class GeckoStoryBtDisplayControl : GeckoDisplayControl
+	public class GeckoStoryBtDisplayControl : GeckoDisplayControl, IWebBrowserDisplayStoryBt
 	{
 		public static StoryEditor.Transliterators Transliterators { get; set; }
 		public VerseData.ViewSettings ViewSettings { get; set; }
 		public StoryData ParentStory { get; set; }
+
+		public StringTransfer GetStringTransferOfLastTextAreaInFocus
+		{
+			get { throw new NotImplementedException(); }
+		}
 
 		public override void LoadDocument()
 		{
@@ -31,8 +36,23 @@ namespace OneStoryProjectEditor
 			NavigateToString(strHtml, "StoryBtPane.html");
 		}
 
-		private static string _lastTextareaInFocusId;
-		public static string LastTextareaInFocusId
+		public void TriggerChangeUpdate()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool CheckShowErrorOnFieldNotEditable(StringTransfer stringTransfer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
+		{
+			throw new NotImplementedException();
+		}
+
+		private string _lastTextareaInFocusId;
+		public string LastTextareaInFocusId
 		{
 			get { return _lastTextareaInFocusId; }
 			set
@@ -63,7 +83,7 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		internal void GetSelectedLanguageText(out string strVernacular, out string strNationalBt, out string strInternationalBt, out string strFreeTranslation)
+		public void GetSelectedLanguageText(out string strVernacular, out string strNationalBt, out string strInternationalBt, out string strFreeTranslation)
 		{
 			strVernacular = strNationalBt = strInternationalBt = strFreeTranslation = null;
 #if ToDo

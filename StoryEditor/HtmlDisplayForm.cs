@@ -76,14 +76,14 @@ namespace OneStoryProjectEditor
 				Program.ShowException(ex);
 			}
 
-			htmlStoryBtControl.TheSE = theSE;
+			htmlStoryBtControl.TheSe = theSE;
 		}
 
 		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
 		{
-			System.Diagnostics.Debug.Assert((htmlStoryBtControl.TheSE != null)
-				&& (htmlStoryBtControl.TheSE.StoryProject != null)
-				&& (htmlStoryBtControl.TheSE.StoryProject.ProjSettings != null));
+			System.Diagnostics.Debug.Assert((htmlStoryBtControl.TheSe != null)
+				&& (htmlStoryBtControl.TheSe.StoryProject != null)
+				&& (htmlStoryBtControl.TheSe.StoryProject.ProjSettings != null));
 
 			if (e.TabPage == tabPageDisplayChangeReport)
 			{
@@ -91,26 +91,26 @@ namespace OneStoryProjectEditor
 										  {
 											  Vernacular =
 												  (checkBoxLangTransliterateVernacular.Checked)
-													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
 															TransliteratorVernacular
 													  : null,
 											  NationalBt =
 												  (checkBoxLangTransliterateNationalBT.Checked)
-													  ? htmlStoryBtControl.TheSE.LoggedOnMember.TransliteratorNationalBt
+													  ? htmlStoryBtControl.TheSe.LoggedOnMember.TransliteratorNationalBt
 													  : null,
 											  InternationalBt =
 												  (checkBoxLangTransliterateInternationalBt.Checked)
-													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
 															TransliteratorInternationalBt
 													  : null,
 											  FreeTranslation =
 												  (checkBoxLangTransliterateFreeTranslation.Checked)
-													  ? htmlStoryBtControl.TheSE.LoggedOnMember.
+													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
 															TransliteratorFreeTranslation
 													  : null
 										  };
 				htmlStoryBtControl.ViewSettings = new VerseData.ViewSettings(
-					htmlStoryBtControl.TheSE.StoryProject.ProjSettings,
+					htmlStoryBtControl.TheSe.StoryProject.ProjSettings,
 					checkBoxLangVernacular.Checked,
 					checkBoxLangNationalBT.Checked,
 					checkBoxLangInternationalBT.Checked,

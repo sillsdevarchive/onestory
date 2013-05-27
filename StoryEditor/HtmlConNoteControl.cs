@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
 		{
 			set
 			{
-				System.Diagnostics.Debug.Assert((value == null) || (TheSE != null));
+				System.Diagnostics.Debug.Assert((value == null) || (TheSe != null));
 				base.StoryData = value;
 				if (value == null)
 					return;
@@ -39,8 +39,8 @@ namespace OneStoryProjectEditor
 				{
 					var aCNsDC = DataConverter(i);
 					foreach (var dc in aCNsDC)
-						aCNsDC.InsureExtraBox(dc, TheSE.TheCurrentStory,
-								TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
+						aCNsDC.InsureExtraBox(dc, TheSe.TheCurrentStory,
+								TheSe.LoggedOnMember, TheSe.StoryProject.TeamMembers);
 				}
 			}
 		}
@@ -280,14 +280,14 @@ namespace OneStoryProjectEditor
 			else
 			{
 				// just in case we need to have an open box now
-				theCNsDC.InsureExtraBox(theCNDC, TheSE.TheCurrentStory,
-					TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers);
+				theCNsDC.InsureExtraBox(theCNDC, TheSe.TheCurrentStory,
+					TheSe.LoggedOnMember, TheSe.StoryProject.TeamMembers);
 			}
 
 			if (String.IsNullOrEmpty(StrIdToScrollTo))
 			{
-				if (theCNDC.IsEditable(TheSE.LoggedOnMember, TheSE.StoryProject.TeamMembers,
-					TheSE.TheCurrentStory))
+				if (theCNDC.IsEditable(TheSe.LoggedOnMember, TheSe.StoryProject.TeamMembers,
+					TheSe.TheCurrentStory))
 					StrIdToScrollTo = ConsultNoteDataConverter.TextareaId(nVerseIndex, nConversationIndex);
 				else
 					StrIdToScrollTo = ConsultNoteDataConverter.TextareaReadonlyRowId(nVerseIndex, nConversationIndex,
@@ -340,7 +340,7 @@ namespace OneStoryProjectEditor
 				HtmlElement elem = doc.GetElementById(strId);
 				if (elem != null)
 				{
-					elem.InnerText += TheSE.GetNetBibleScriptureReference;
+					elem.InnerText += TheSe.GetNetBibleScriptureReference;
 					aCI.SetValue(elem.InnerText);
 					elem.Focus();
 				}
@@ -398,7 +398,7 @@ namespace OneStoryProjectEditor
 			theCNDC = theCNsDC[nConversationIndex];
 
 			// this always leads to the document being modified
-			TheSE.Modified = true;
+			TheSe.Modified = true;
 
 			return true;
 		}
@@ -406,7 +406,7 @@ namespace OneStoryProjectEditor
 		protected bool CheckForProperEditToken(ConsultNotesDataConverter theCNsDC,
 			out StoryEditor theSE)
 		{
-			theSE = TheSE;  // (StoryEditor)FindForm();
+			theSE = TheSe;  // (StoryEditor)FindForm();
 			try
 			{
 				if (theSE == null)
@@ -495,7 +495,7 @@ namespace OneStoryProjectEditor
 
 		public void DoFind(string strId)
 		{
-			if (TheSE.IsStoryBtPaneHtml)
+			if (TheSe.IsStoryBtPaneHtml)
 				return;
 
 			int nVerseIndex, nConversationIndex, nCommentIndex;
@@ -507,7 +507,7 @@ namespace OneStoryProjectEditor
 			ConsultNoteDataConverter theCNDC = theCNsDC[nConversationIndex];
 			System.Diagnostics.Debug.Assert((theCNDC != null) && (theCNDC.Count > nCommentIndex));
 			SearchForm.LastStringTransferSearched = theCNDC[nCommentIndex];
-			TheSE.LaunchSearchForm();
+			TheSe.LaunchSearchForm();
 		}
 
 		private const string CstrParagraphHighlightBegin = "<span style=\"background-color:Blue; color: White\">";
@@ -714,7 +714,7 @@ namespace OneStoryProjectEditor
 #endif
 
 			// var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
-			TheSE.SendNoteToCorrectPane(nLineNumber, strReferringText, null, bNoteToSelf);
+			TheSe.SendNoteToCorrectPane(nLineNumber, strReferringText, null, bNoteToSelf);
 		}
 
 		private ContextMenuStrip contextMenu;
@@ -735,16 +735,16 @@ namespace OneStoryProjectEditor
 	}
 
 	[ComVisible(true)]
-	public class HtmlConsultantNotesControl : HtmlConNoteControl
+	public class HtmlConsultantNotesControl : HtmlConNoteControl, IWebBrowserDisplayConNote
 	{
 		public override void LoadDocument()
 		{
 			var strHtml = StoryData.ConsultantNotesHtml(this,
-														TheSE.StoryProject.ProjSettings,
-														TheSE.LoggedOnMember,
-														TheSE.StoryProject.TeamMembers,
-														TheSE.viewHiddenVersesMenu.Checked,
-														TheSE.viewOnlyOpenConversationsMenu.Checked);
+														TheSe.StoryProject.ProjSettings,
+														TheSe.LoggedOnMember,
+														TheSe.StoryProject.TeamMembers,
+														TheSe.viewHiddenVersesMenu.Checked,
+														TheSe.viewOnlyOpenConversationsMenu.Checked);
 			DocumentText = strHtml;
 			LineNumberLink.Visible = true;
 		}
@@ -768,7 +768,7 @@ namespace OneStoryProjectEditor
 
 		public void OnVerseLineJump(int nVerseIndex)
 		{
-			TheSE.FocusOnVerse(nVerseIndex, false, true);
+			TheSe.FocusOnVerse(nVerseIndex, false, true);
 		}
 
 		// this only applies to the Consultant Note pane
@@ -779,16 +779,16 @@ namespace OneStoryProjectEditor
 	}
 
 	[ComVisible(true)]
-	public class HtmlCoachNotesControl : HtmlConNoteControl
+	public class HtmlCoachNotesControl : HtmlConNoteControl, IWebBrowserDisplayConNote
 	{
 		public override void LoadDocument()
 		{
 			var strHtml = StoryData.CoachNotesHtml(this,
-												   TheSE.StoryProject.ProjSettings,
-												   TheSE.LoggedOnMember,
-												   TheSE.StoryProject.TeamMembers,
-												   TheSE.viewHiddenVersesMenu.Checked,
-												   TheSE.viewOnlyOpenConversationsMenu.Checked);
+												   TheSe.StoryProject.ProjSettings,
+												   TheSe.LoggedOnMember,
+												   TheSe.StoryProject.TeamMembers,
+												   TheSe.viewHiddenVersesMenu.Checked,
+												   TheSe.viewOnlyOpenConversationsMenu.Checked);
 			DocumentText = strHtml;
 			LineNumberLink.Visible = true;
 		}
@@ -812,7 +812,7 @@ namespace OneStoryProjectEditor
 
 		public void OnVerseLineJump(int nVerseIndex)
 		{
-			TheSE.FocusOnVerse(nVerseIndex, true, false);
+			TheSe.FocusOnVerse(nVerseIndex, true, false);
 		}
 	}
 }

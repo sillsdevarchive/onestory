@@ -14,7 +14,7 @@ namespace OneStoryProjectEditor
 		public const string CstrParagraphPrefix = "tp";
 		public const string CstrButtonPrefix = "btn";
 
-		internal LinkLabel LineNumberLink;
+		public LinkLabel LineNumberLink { get; set; }
 
 		internal string StrIdToScrollTo;
 

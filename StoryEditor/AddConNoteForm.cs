@@ -27,7 +27,7 @@ namespace OneStoryProjectEditor
 			this.SuspendLayout();
 			var pane = Activator.CreateInstance(typeConNotePane) as HtmlConNoteControl;
 			System.Diagnostics.Debug.Assert(pane != null);
-			pane.TheSE = theSe;
+			pane.TheSe = theSe;
 			pane.StoryData = storyData;
 			pane.Dock = DockStyle.Fill;
 			tableLayoutPanel.Controls.Add(pane, 0, 1);

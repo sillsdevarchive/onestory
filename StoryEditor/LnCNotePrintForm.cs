@@ -8,7 +8,7 @@ namespace OneStoryProjectEditor
 		public LnCNotePrintForm(StoryEditor theSe)
 		{
 			InitializeComponent();
-			printViewer.webBrowser.TheSE = theSe;
+			printViewer.webBrowser.TheSe = theSe;
 			printViewer.saveFileDialog.FileName = String.Format("{0} LnCNotes.html",
 																theSe.StoryProject.ProjSettings.ProjectName);
 			var strHtmlInner = theSe.StoryProject.LnCNotes.PresentationHtml;

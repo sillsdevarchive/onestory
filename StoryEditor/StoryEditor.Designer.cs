@@ -199,14 +199,11 @@ namespace OneStoryProjectEditor
             this.linkLabelTasks = new System.Windows.Forms.LinkLabel();
             this.linkLabelVerseBT = new System.Windows.Forms.LinkLabel();
             this.flowLayoutPanelVerses = new OneStoryProjectEditor.VerseBtLineFlowLayoutPanel();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
-            this.geckoStoryBtDisplay = new OneStoryProjectEditor.GeckoStoryBtDisplayControl();
+            this.storyBtControl = new OneStoryProjectEditor.WebBrowserAdaptorStoryBt();
             this.textBoxStoryVerse = new System.Windows.Forms.TextBox();
             this.netBibleViewer = new OneStoryProjectEditor.NetBibleViewer();
-            this.htmlConsultantNotesControl = new OneStoryProjectEditor.HtmlConsultantNotesControl();
-            this.htmlCoachNotesControl = new OneStoryProjectEditor.HtmlCoachNotesControl();
-            this.geckoConsultantNotesControl = new OneStoryProjectEditor.GeckoConsultantNotesControl();
-            this.geckoCoachNotesControl = new OneStoryProjectEditor.GeckoCoachNotesControl();
+            this.consultantNotesControl = new OneStoryProjectEditor.WebBrowserAdaptorConsultantNotes();
+            this.coachNotesControl = new OneStoryProjectEditor.WebBrowserAdaptorCoachNotes();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeftRight)).BeginInit();
             this.splitContainerLeftRight.Panel1.SuspendLayout();
@@ -1521,15 +1518,13 @@ namespace OneStoryProjectEditor
             // splitContainerMentorNotes.Panel1
             // 
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.linkLabelConsultantNotes);
-            this.splitContainerMentorNotes.Panel1.Controls.Add(this.htmlConsultantNotesControl);
-            this.splitContainerMentorNotes.Panel1.Controls.Add(this.geckoConsultantNotesControl);
+            this.splitContainerMentorNotes.Panel1.Controls.Add(this.consultantNotesControl);
             this.splitContainerMentorNotes.Panel1.Controls.Add(this.textBoxConsultantNotesTable);
             // 
             // splitContainerMentorNotes.Panel2
             // 
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.linkLabelCoachNotes);
-            this.splitContainerMentorNotes.Panel2.Controls.Add(this.htmlCoachNotesControl);
-            this.splitContainerMentorNotes.Panel2.Controls.Add(this.geckoCoachNotesControl);
+            this.splitContainerMentorNotes.Panel2.Controls.Add(this.coachNotesControl);
             this.splitContainerMentorNotes.Panel2.Controls.Add(this.textBoxCoachNotes);
             this.splitContainerMentorNotes.Size = new System.Drawing.Size(424, 613);
             this.splitContainerMentorNotes.SplitterDistance = 356;
@@ -1716,8 +1711,7 @@ namespace OneStoryProjectEditor
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelTasks);
             this.splitContainerUpDown.Panel1.Controls.Add(this.linkLabelVerseBT);
             this.splitContainerUpDown.Panel1.Controls.Add(this.flowLayoutPanelVerses);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.htmlStoryBtControl);
-            this.splitContainerUpDown.Panel1.Controls.Add(this.geckoStoryBtDisplay);
+            this.splitContainerUpDown.Panel1.Controls.Add(this.storyBtControl);
             this.splitContainerUpDown.Panel1.Controls.Add(this.textBoxStoryVerse);
             // 
             // splitContainerUpDown.Panel2
@@ -1795,35 +1789,6 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
             // 
-            // htmlStoryBtControl
-            // 
-            this.htmlStoryBtControl.AllowWebBrowserDrop = false;
-            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlStoryBtControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(451, 366);
-            this.htmlStoryBtControl.StoryData = null;
-            this.htmlStoryBtControl.TabIndex = 5;
-            this.htmlStoryBtControl.TheSE = null;
-            this.htmlStoryBtControl.ViewSettings = null;
-            // 
-            // geckoStoryBtDisplay
-            // 
-            this.geckoStoryBtDisplay.DisableWmImeSetContext = false;
-            this.geckoStoryBtDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoStoryBtDisplay.Location = new System.Drawing.Point(0, 23);
-            this.geckoStoryBtDisplay.Name = "geckoStoryBtDisplay";
-            this.geckoStoryBtDisplay.ParentStory = null;
-            this.geckoStoryBtDisplay.Size = new System.Drawing.Size(451, 366);
-            this.geckoStoryBtDisplay.StoryData = null;
-            this.geckoStoryBtDisplay.TabIndex = 0;
-            this.geckoStoryBtDisplay.TheSe = null;
-            this.geckoStoryBtDisplay.UseHttpActivityObserver = false;
-            this.geckoStoryBtDisplay.ViewSettings = null;
-            // 
             // textBoxStoryVerse
             // 
             this.textBoxStoryVerse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1849,56 +1814,6 @@ namespace OneStoryProjectEditor
             this.netBibleViewer.ScriptureReference = "Gen 1:1";
             this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
             this.netBibleViewer.TabIndex = 0;
-            // 
-            // htmlConsultantNotesControl
-            // 
-            this.htmlConsultantNotesControl.AllowWebBrowserDrop = false;
-            this.htmlConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlConsultantNotesControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlConsultantNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlConsultantNotesControl.Name = "htmlConsultantNotesControl";
-            this.htmlConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
-            this.htmlConsultantNotesControl.StoryData = null;
-            this.htmlConsultantNotesControl.TabIndex = 2;
-            this.htmlConsultantNotesControl.TheSE = null;
-            // 
-            // geckoConsultantNotesControl
-            // 
-            this.geckoConsultantNotesControl.DisableWmImeSetContext = false;
-            this.geckoConsultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoConsultantNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.geckoConsultantNotesControl.Name = "geckoConsultantNotesControl";
-            this.geckoConsultantNotesControl.Size = new System.Drawing.Size(422, 331);
-            this.geckoConsultantNotesControl.StoryData = null;
-            this.geckoConsultantNotesControl.TabIndex = 4;
-            this.geckoConsultantNotesControl.TheSe = null;
-            this.geckoConsultantNotesControl.UseHttpActivityObserver = false;
-            // 
-            // htmlCoachNotesControl
-            // 
-            this.htmlCoachNotesControl.AllowWebBrowserDrop = false;
-            this.htmlCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlCoachNotesControl.IsWebBrowserContextMenuEnabled = false;
-            this.htmlCoachNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.htmlCoachNotesControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlCoachNotesControl.Name = "htmlCoachNotesControl";
-            this.htmlCoachNotesControl.Size = new System.Drawing.Size(422, 228);
-            this.htmlCoachNotesControl.StoryData = null;
-            this.htmlCoachNotesControl.TabIndex = 3;
-            this.htmlCoachNotesControl.TheSE = null;
-            // 
-            // geckoCoachNotesControl
-            // 
-            this.geckoCoachNotesControl.DisableWmImeSetContext = false;
-            this.geckoCoachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoCoachNotesControl.Location = new System.Drawing.Point(0, 23);
-            this.geckoCoachNotesControl.Name = "geckoCoachNotesControl";
-            this.geckoCoachNotesControl.Size = new System.Drawing.Size(422, 228);
-            this.geckoCoachNotesControl.StoryData = null;
-            this.geckoCoachNotesControl.TabIndex = 5;
-            this.geckoCoachNotesControl.TheSe = null;
-            this.geckoCoachNotesControl.UseHttpActivityObserver = false;
             // 
             // StoryEditor
             // 
@@ -2018,10 +1933,8 @@ namespace OneStoryProjectEditor
         internal ToolStripMenuItem viewHiddenVersesMenu;
         private ToolStripMenuItem projectExportToToolboxMenu;
         private ToolStripMenuItem viewShowHideFieldsMenu;
-        internal HtmlConsultantNotesControl htmlConsultantNotesControl;
-        internal HtmlCoachNotesControl htmlCoachNotesControl;
-        private GeckoConsultantNotesControl geckoConsultantNotesControl;
-        private GeckoCoachNotesControl geckoCoachNotesControl;
+        internal WebBrowserAdaptorConsultantNotes consultantNotesControl;
+        internal WebBrowserAdaptorCoachNotes coachNotesControl;
         private ToolStripMenuItem viewTransliterationsToolStripMenu;
         internal ToolStripMenuItem viewTransliterationVernacular;
         internal ToolStripMenuItem viewTransliterationNationalBT;
@@ -2089,8 +2002,7 @@ namespace OneStoryProjectEditor
         private ToolStripMenuItem viewNonBiblicalStoriesMenu;
         private ToolStripSeparator toolStripSeparator16;
         private ToolStripSeparator toolStripSeparator5;
-        private HtmlStoryBtControl htmlStoryBtControl;
-        private GeckoStoryBtDisplayControl geckoStoryBtDisplay;
+        private WebBrowserAdaptorStoryBt storyBtControl;
         internal ToolStripMenuItem advancedUseWordBreaks;
         private ToolStripMenuItem advancedImportHelper;
         private ToolStripMenuItem advancedTransferConNotes;

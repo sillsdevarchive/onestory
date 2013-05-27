@@ -16,11 +16,11 @@ namespace OneStoryProjectEditor
 		public const string CstrParagraphPrefix = "tp";
 		public const string CstrButtonPrefix = "btn";
 
-		internal LinkLabel LineNumberLink;
+		public LinkLabel LineNumberLink { get; set; }
 
 		internal string StrIdToScrollTo;
 
-		public StoryEditor TheSE { get; set; }
+		public StoryEditor TheSe { get; set; }
 		public virtual StoryData StoryData { get; set; }
 
 		protected HtmlVerseControl()
@@ -37,7 +37,7 @@ namespace OneStoryProjectEditor
 
 		public void OnSaveDocument()
 		{
-			TheSE.SaveClicked();
+			TheSe.SaveClicked();
 		}
 
 		public void OnScroll()
@@ -244,7 +244,7 @@ namespace OneStoryProjectEditor
 
 		public bool OnBibRefJump(string strBibRef)
 		{
-			TheSE.SetNetBibleVerse(strBibRef);
+			TheSe.SetNetBibleVerse(strBibRef);
 			return true;
 		}
 
@@ -252,7 +252,7 @@ namespace OneStoryProjectEditor
 
 		protected bool CheckForProperEditToken(out StoryEditor theSE)
 		{
-			theSE = TheSE;  // (StoryEditor)FindForm();
+			theSE = TheSe;  // (StoryEditor)FindForm();
 			try
 			{
 				if (theSE == null)

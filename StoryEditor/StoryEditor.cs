@@ -696,7 +696,7 @@ namespace OneStoryProjectEditor
 		{
 			ClearFlowControls();
 
-			HtmlStoryBtControl.LastTextareaInFocusId = null;
+			storyBtControl.Browser.LastTextareaInFocusId = null;
 			CtrlTextBox._inTextBox = null;
 			TheCurrentStory = null;
 			// turning off in 2.4... StoryStageLogic.stateTransitions = null;
@@ -1328,7 +1328,7 @@ namespace OneStoryProjectEditor
 			SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
 
 			// forget things:
-			HtmlStoryBtControl.LastTextareaInFocusId = null;
+			storyBtControl.Browser.LastTextareaInFocusId = null;
 			CtrlTextBox._nLastVerse = -1;
 
 			if (m_frmFind != null)
@@ -1379,22 +1379,15 @@ namespace OneStoryProjectEditor
 
 			switch(_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.TheSE = this;
-					htmlStoryBtControl.StoryData = TheCurrentStory;
-					htmlStoryBtControl.LineNumberLink = linkLabelVerseBT;
-					htmlStoryBtControl.ViewSettings = CurrentViewSettings;
-					buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = true;
-					break;
 				case DisplayTechnology.DotNetControls:
 					flowLayoutPanelVerses.SuspendLayout();
 					flowLayoutPanelVerses.LineNumberLink = linkLabelVerseBT;
 					break;
 				default:
-					geckoStoryBtDisplay.TheSe = this;
-					geckoStoryBtDisplay.StoryData = TheCurrentStory;
-					geckoStoryBtDisplay.LineNumberLink = linkLabelVerseBT;
-					geckoStoryBtDisplay.ViewSettings = CurrentViewSettings;
+					storyBtControl.Browser.TheSe = this;
+					storyBtControl.Browser.StoryData = TheCurrentStory;
+					storyBtControl.Browser.LineNumberLink = linkLabelVerseBT;
+					storyBtControl.Browser.ViewSettings = CurrentViewSettings;
 					buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = true;
 					break;
 			}
@@ -1404,37 +1397,17 @@ namespace OneStoryProjectEditor
 			if (Localizer.Default.LocLanguage.Font != null)
 				StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
 
-			switch(_displayTechnology)
-			{
-				case DisplayTechnology.GeckoFxWebBrowser:
-					geckoConsultantNotesControl.TheSe = this;
-					geckoConsultantNotesControl.StoryData = TheCurrentStory;
-					geckoConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
-					geckoCoachNotesControl.TheSe = this;
-					geckoCoachNotesControl.StoryData = TheCurrentStory;
-					geckoCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
-					break;
-
-				default:
-					htmlConsultantNotesControl.TheSE = this;
-					htmlConsultantNotesControl.StoryData = TheCurrentStory;
-					htmlConsultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
-					htmlCoachNotesControl.TheSE = this;
-					htmlCoachNotesControl.StoryData = TheCurrentStory;
-					htmlCoachNotesControl.LineNumberLink = linkLabelCoachNotes;
-					break;
-			}
+			consultantNotesControl.Browser.TheSe = this;
+			consultantNotesControl.Browser.StoryData = TheCurrentStory;
+			consultantNotesControl.Browser.LineNumberLink = linkLabelConsultantNotes;
+			coachNotesControl.Browser.TheSe = this;
+			coachNotesControl.Browser.StoryData = TheCurrentStory;
+			coachNotesControl.Browser.LineNumberLink = linkLabelCoachNotes;
 
 			SuspendLayout();
 
 			switch (_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.LoadDocument();
-					htmlConsultantNotesControl.LoadDocument();
-					htmlCoachNotesControl.LoadDocument();
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					// either add the general testing question line (or a button)
 					if (viewGeneralTestingsQuestionMenu.Checked)
@@ -1457,16 +1430,15 @@ namespace OneStoryProjectEditor
 					}
 
 					flowLayoutPanelVerses.ResumeLayout(true);
-					htmlConsultantNotesControl.LoadDocument();
-					htmlCoachNotesControl.LoadDocument();
 					break;
 
 				default:
-					geckoStoryBtDisplay.LoadDocument();
-					geckoConsultantNotesControl.LoadDocument();
-					geckoCoachNotesControl.LoadDocument();
+					storyBtControl.Browser.LoadDocument();
 					break;
 			}
+
+			consultantNotesControl.Browser.LoadDocument();
+			coachNotesControl.Browser.LoadDocument();
 
 			ResumeLayout(true);
 
@@ -1565,20 +1537,6 @@ namespace OneStoryProjectEditor
 		{
 			switch(_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.ViewSettings = CurrentViewSettings;
-					htmlStoryBtControl.LoadDocument();
-					if (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId))
-						htmlStoryBtControl.ScrollToElement(HtmlStoryBtControl.LastTextareaInFocusId, false);
-					break;
-
-				case DisplayTechnology.GeckoFxWebBrowser:
-					geckoStoryBtDisplay.ViewSettings = CurrentViewSettings;
-					geckoStoryBtDisplay.LoadDocument();
-					if (!String.IsNullOrEmpty(GeckoStoryBtDisplayControl.LastTextareaInFocusId))
-						geckoStoryBtDisplay.ScrollToElement(GeckoStoryBtDisplayControl.LastTextareaInFocusId, false);
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					// this sometimes gets called in bad times
 					if ((TheCurrentStory == null) || (TheCurrentStory.Verses.Count == 0))
@@ -1602,7 +1560,7 @@ namespace OneStoryProjectEditor
 					else
 						AddDropTargetToFlowLayout(nVerseIndex++);
 
-					foreach (VerseData aVerse in TheCurrentStory.Verses)
+					foreach (var aVerse in TheCurrentStory.Verses)
 					{
 						if (aVerse.IsVisible || viewHiddenVersesMenu.Checked)
 							InitVerseControls(aVerse, nVerseIndex);
@@ -1618,6 +1576,13 @@ namespace OneStoryProjectEditor
 					FocusOnVerse(nLastVerseInFocus, true, true);
 					if ((stLast != null) && (stLast.TextBox != null))
 						stLast.TextBox.Focus();
+					break;
+
+				default:
+					storyBtControl.Browser.ViewSettings = CurrentViewSettings;
+					storyBtControl.Browser.LoadDocument();
+					if (!String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId))
+						storyBtControl.Browser.ScrollToElement(storyBtControl.Browser.LastTextareaInFocusId, false);
 					break;
 			}
 		}
@@ -1683,14 +1648,6 @@ namespace OneStoryProjectEditor
 			{
 				switch (_displayTechnology)
 				{
-					case DisplayTechnology.IeWebBrowser:
-						htmlStoryBtControl.ScrollToVerse(nVerseIndex);
-						break;
-
-					case DisplayTechnology.GeckoFxWebBrowser:
-						geckoStoryBtDisplay.ScrollToVerse(nVerseIndex);
-						break;
-
 					case DisplayTechnology.DotNetControls:
 						Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
 						if (ctrl == null)
@@ -1707,24 +1664,22 @@ namespace OneStoryProjectEditor
 						else
 							flowLayoutPanelVerses.LastControlIntoView = theVerse;
 						break;
+
+					default:
+						storyBtControl.Browser.ScrollToVerse(nVerseIndex);
+						break;
 				}
 			}
 
 			// the ConNote controls have a zeroth line, so the index is one greater
 			if (viewConsultantNotesMenu.Checked && bSyncConsultantNotePane)
 			{
-				if (IsGeckoHtml)
-					geckoConsultantNotesControl.ScrollToVerse(nVerseIndex);
-				else
-					htmlConsultantNotesControl.ScrollToVerse(nVerseIndex);
+				consultantNotesControl.Browser.ScrollToVerse(nVerseIndex);
 			}
 
 			if (viewCoachNotesMenu.Checked && bSyncCoachNotePane)
 			{
-				if (IsGeckoHtml)
-					geckoCoachNotesControl.ScrollToVerse(nVerseIndex);
-				else
-					htmlCoachNotesControl.ScrollToVerse(nVerseIndex);
+				coachNotesControl.Browser.ScrollToVerse(nVerseIndex);
 			}
 		}
 
@@ -2061,20 +2016,14 @@ namespace OneStoryProjectEditor
 				if (!viewCoachNotesMenu.Checked)
 					viewCoachNotesMenu.Checked = true;
 
-				if (IsGeckoHtml)
-					geckoCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
-				else
-					htmlCoachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				coachNotesControl.Browser.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 			else
 			{
 				if (!viewConsultantNotesMenu.Checked)
 					viewConsultantNotesMenu.Checked = true;
 
-				if (IsGeckoHtml)
-					geckoConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
-				else
-					htmlConsultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				consultantNotesControl.Browser.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 		}
 
@@ -2415,22 +2364,16 @@ namespace OneStoryProjectEditor
 		{
 			switch(_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.ResetDocument();
-					htmlConsultantNotesControl.ResetDocument();
-					htmlCoachNotesControl.ResetDocument();
-					break;
-
-				case DisplayTechnology.GeckoFxWebBrowser:
-					geckoStoryBtDisplay.ResetDocument();
-					geckoConsultantNotesControl.ResetDocument();
-					geckoCoachNotesControl.ResetDocument();
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					flowLayoutPanelVerses.Clear();
-					htmlConsultantNotesControl.ResetDocument();
-					htmlCoachNotesControl.ResetDocument();
+					consultantNotesControl.Browser.ResetDocument();
+					coachNotesControl.Browser.ResetDocument();
+					break;
+
+				default:
+					storyBtControl.Browser.ResetDocument();
+					consultantNotesControl.Browser.ResetDocument();
+					coachNotesControl.Browser.ResetDocument();
 					break;
 			}
 
@@ -2475,7 +2418,7 @@ namespace OneStoryProjectEditor
 		private void TriggerSaveUpdates()
 		{
 			if (_displayTechnology == DisplayTechnology.IeWebBrowser)
-				htmlStoryBtControl.TriggerChangeUpdate();
+				storyBtControl.Browser.TriggerChangeUpdate();
 		}
 
 		protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
@@ -3309,24 +3252,17 @@ namespace OneStoryProjectEditor
 
 			switch (_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					editPasteMenu.Enabled = !String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId);
-
-					editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(HtmlStoryBtControl.LastTextareaInFocusId) &&
-													 (!String.IsNullOrEmpty(htmlStoryBtControl.GetSelectedText)));
-					break;
-
-				case DisplayTechnology.GeckoFxWebBrowser:
-					editPasteMenu.Enabled = !String.IsNullOrEmpty(GeckoStoryBtDisplayControl.LastTextareaInFocusId);
-
-					editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(GeckoStoryBtDisplayControl.LastTextareaInFocusId) &&
-													 (!String.IsNullOrEmpty(geckoStoryBtDisplay.GetSelectedText)));
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					editPasteMenu.Enabled = (CtrlTextBox._inTextBox != null);
 
 					editCopySelectionMenu.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
+					break;
+
+				default:
+					editPasteMenu.Enabled = !String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId);
+
+					editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId) &&
+													 (!String.IsNullOrEmpty(storyBtControl.Browser.GetSelectedText)));
 					break;
 			}
 
@@ -4442,10 +4378,7 @@ namespace OneStoryProjectEditor
 			viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
 			if (IsStoryBtPaneHtml)
-				NavigateTo(TheCurrentStory.Name, viewSettings, true,
-						   ((_displayTechnology == DisplayTechnology.IeWebBrowser)
-								? HtmlStoryBtControl.LastTextareaInFocusId
-								: GeckoStoryBtDisplayControl.LastTextareaInFocusId));
+				NavigateTo(TheCurrentStory.Name, viewSettings, true, storyBtControl.Browser.LastTextareaInFocusId);
 			else
 				NavigateTo(TheCurrentStory.Name, viewSettings, true, CtrlTextBox._inTextBox);
 
@@ -4685,17 +4618,13 @@ namespace OneStoryProjectEditor
 			string strText = null;
 			switch(_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					strText = htmlStoryBtControl.GetSelectedText;
-					break;
-
-				case DisplayTechnology.GeckoFxWebBrowser:
-					strText = geckoStoryBtDisplay.GetSelectedText;
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					if (CtrlTextBox._inTextBox != null)
 						strText = CtrlTextBox._inTextBox.SelectedText;
+					break;
+
+				default:
+					strText = storyBtControl.Browser.GetSelectedText;
 					break;
 			}
 
@@ -4712,8 +4641,8 @@ namespace OneStoryProjectEditor
 			switch(_displayTechnology)
 			{
 				case DisplayTechnology.IeWebBrowser:
-					var st = htmlStoryBtControl.GetStringTransferOfLastTextAreaInFocus;
-					if ((st == null) || !htmlStoryBtControl.CheckShowErrorOnFieldNotEditable(st))
+					var st = storyBtControl.Browser.GetStringTransferOfLastTextAreaInFocus;
+					if ((st == null) || !storyBtControl.Browser.CheckShowErrorOnFieldNotEditable(st))
 						return;
 
 					iData = Clipboard.GetDataObject();
@@ -4722,7 +4651,7 @@ namespace OneStoryProjectEditor
 						{
 							int nNewEndPoint;
 							var strText = (string)iData.GetData(DataFormats.UnicodeText);
-							htmlStoryBtControl.SetSelectedText(st, strText, out nNewEndPoint);
+							storyBtControl.Browser.SetSelectedText(st, strText, out nNewEndPoint);
 						}
 					break;
 
@@ -5076,7 +5005,7 @@ namespace OneStoryProjectEditor
 		{
 			NavigateTo(strStoryName, viewItemToInsureOn, bDoOffToo);
 			if (!String.IsNullOrEmpty(strTextareaToFocus))
-				htmlStoryBtControl.ScrollToElement(strTextareaToFocus, false);
+				storyBtControl.Browser.ScrollToElement(strTextareaToFocus, false);
 		}
 
 		public void NavigateTo(string strStoryName,
@@ -5687,10 +5616,7 @@ namespace OneStoryProjectEditor
 			var ll = sender as LinkLabel;
 			if ((ll != null) && (e.Button == MouseButtons.Left))
 			{
-				if (IsGeckoHtml)
-					geckoConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
-				else
-					htmlConsultantNotesControl.OnVerseLineJump((int)ll.Tag);
+				consultantNotesControl.Browser.OnVerseLineJump((int)ll.Tag);
 			}
 		}
 
@@ -5700,9 +5626,7 @@ namespace OneStoryProjectEditor
 			if ((ll != null) && (e.Button == MouseButtons.Left))
 			{
 				if (IsGeckoHtml)
-					geckoCoachNotesControl.OnVerseLineJump((int)ll.Tag);
-				else
-					htmlCoachNotesControl.OnVerseLineJump((int)ll.Tag);
+					coachNotesControl.Browser.OnVerseLineJump((int)ll.Tag);
 			}
 		}
 
@@ -5813,16 +5737,12 @@ namespace OneStoryProjectEditor
 		{
 			switch(_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.GetSelectedLanguageText(out strVernacular, out strNationalBt, out strInternationalBt, out strFreeTranslation);
-					break;
-
 				case DisplayTechnology.DotNetControls:
 					GetSelectedLanguageTextNetCtrls(ref strVernacular, ref strNationalBt, ref strInternationalBt, ref strFreeTranslation);
 					break;
 
 				default:
-					geckoStoryBtDisplay.GetSelectedLanguageText(out strVernacular, out strNationalBt, out strInternationalBt, out strFreeTranslation);
+					storyBtControl.Browser.GetSelectedLanguageText(out strVernacular, out strNationalBt, out strInternationalBt, out strFreeTranslation);
 					break;
 			}
 		}
@@ -6496,16 +6416,7 @@ namespace OneStoryProjectEditor
 			netBibleViewer.OnLocalizationChange(true);
 			ConsultNoteDataConverter.OnLocalizationChange();
 
-			switch(_displayTechnology)
-			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.ResetContextMenu();
-					break;
-
-				case DisplayTechnology.GeckoFxWebBrowser:
-					geckoStoryBtDisplay.ResetContextMenu();
-					break;
-			}
+			storyBtControl.Browser.ResetContextMenu();
 
 			Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
 			Settings.Default.Save();
@@ -6595,33 +6506,26 @@ namespace OneStoryProjectEditor
 			{
 				case DisplayTechnology.IeWebBrowser:
 					advancedStoryBtUseInternetExplorerMenu.Checked = true;
-					flowLayoutPanelVerses.Visible =
-						geckoStoryBtDisplay.Visible =
-						geckoConsultantNotesControl.Visible =
-						geckoCoachNotesControl.Visible = false;
-					htmlStoryBtControl.Visible =
-						htmlConsultantNotesControl.Visible =
-						htmlCoachNotesControl.Visible = true;
+					flowLayoutPanelVerses.Visible = false;
+					storyBtControl.Visible = true;
+					storyBtControl.SetBrowserToUse(false);
+					consultantNotesControl.SetBrowserToUse(false);
+					coachNotesControl.SetBrowserToUse(false);
 					break;
 				case DisplayTechnology.DotNetControls:
 					advancedStoryBtUseDotNetControlsMenu.Checked = true;
-					htmlStoryBtControl.Visible =
-						geckoStoryBtDisplay.Visible =
-						geckoConsultantNotesControl.Visible =
-						geckoCoachNotesControl.Visible = false;
-					flowLayoutPanelVerses.Visible =
-						htmlConsultantNotesControl.Visible =
-						htmlCoachNotesControl.Visible = true;
+					storyBtControl.Visible = false;
+					flowLayoutPanelVerses.Visible = true;
+					consultantNotesControl.SetBrowserToUse(false);
+					coachNotesControl.SetBrowserToUse(false);
 					break;
 				case DisplayTechnology.GeckoFxWebBrowser:
 					advancedStoryBtUseFirefoxMenu.Checked = true;
-					flowLayoutPanelVerses.Visible =
-						htmlStoryBtControl.Visible =
-						htmlConsultantNotesControl.Visible =
-						htmlCoachNotesControl.Visible = false;
-					geckoStoryBtDisplay.Visible =
-						geckoConsultantNotesControl.Visible =
-						geckoCoachNotesControl.Visible = true;
+					flowLayoutPanelVerses.Visible = false;
+					storyBtControl.Visible = true;
+					storyBtControl.SetBrowserToUse(true);
+					consultantNotesControl.SetBrowserToUse(true);
+					coachNotesControl.SetBrowserToUse(true);
 					break;
 				default:
 					Debug.Assert(false);
@@ -6633,14 +6537,12 @@ namespace OneStoryProjectEditor
 		{
 			switch (_displayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					htmlStoryBtControl.ResetDocument();
-					break;
 				case DisplayTechnology.DotNetControls:
 					flowLayoutPanelVerses.Controls.Clear();
 					break;
+
 				default:
-					geckoStoryBtDisplay.ResetDocument();
+					storyBtControl.Browser.ResetDocument();
 					break;
 			}
 		}

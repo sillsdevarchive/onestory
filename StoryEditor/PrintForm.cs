@@ -24,7 +24,7 @@ namespace OneStoryProjectEditor
 			InitializeComponent();
 			Localizer.Ctrl(this);
 
-			printViewer.webBrowser.TheSE = theSE;  // so it can do anchor jumps
+			printViewer.webBrowser.TheSe = theSE;  // so it can do anchor jumps
 			printViewer.saveFileDialog.FileName = theSE.StoryProject.ProjSettings.ProjectName;
 
 			foreach (StoryData aStory in _theSE.TheCurrentStoriesSet)
