@@ -1786,8 +1786,17 @@ namespace OneStoryProjectEditor
             this.flowLayoutPanelVerses.Name = "flowLayoutPanelVerses";
             this.flowLayoutPanelVerses.Size = new System.Drawing.Size(451, 366);
             this.flowLayoutPanelVerses.TabIndex = 1;
+            this.flowLayoutPanelVerses.Visible = false;
             this.flowLayoutPanelVerses.WrapContents = false;
             this.flowLayoutPanelVerses.MouseMove += new System.Windows.Forms.MouseEventHandler(this.CheckBiblePaneCursorPositionMouseMove);
+            // 
+            // storyBtControl
+            // 
+            this.storyBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.storyBtControl.Location = new System.Drawing.Point(0, 23);
+            this.storyBtControl.Name = "storyBtControl";
+            this.storyBtControl.Size = new System.Drawing.Size(451, 366);
+            this.storyBtControl.TabIndex = 8;
             // 
             // textBoxStoryVerse
             // 
@@ -1814,6 +1823,22 @@ namespace OneStoryProjectEditor
             this.netBibleViewer.ScriptureReference = "Gen 1:1";
             this.netBibleViewer.Size = new System.Drawing.Size(451, 216);
             this.netBibleViewer.TabIndex = 0;
+            // 
+            // consultantNotesControl
+            // 
+            this.consultantNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.consultantNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.consultantNotesControl.Name = "consultantNotesControl";
+            this.consultantNotesControl.Size = new System.Drawing.Size(422, 331);
+            this.consultantNotesControl.TabIndex = 4;
+            // 
+            // coachNotesControl
+            // 
+            this.coachNotesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.coachNotesControl.Location = new System.Drawing.Point(0, 23);
+            this.coachNotesControl.Name = "coachNotesControl";
+            this.coachNotesControl.Size = new System.Drawing.Size(422, 228);
+            this.coachNotesControl.TabIndex = 5;
             // 
             // StoryEditor
             // 
