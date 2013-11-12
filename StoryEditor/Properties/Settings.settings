@@ -361,5 +361,14 @@ DoAdaptingBeforeGlossing_InVerticalEdit	1</Value>
     <Setting Name="DisplayTech" Type="System.String" Scope="User">
       <Value Profile="(Default)">Undefined</Value>
     </Setting>
+    <Setting Name="ProjectNameToLastStoryWorkedOn" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ProjectNameToLastMemberLogin" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ProjectNameToLastUserType" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

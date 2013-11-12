@@ -954,18 +954,21 @@ namespace OneStoryProjectEditor
 				// get the data into another structure that we use internally (more flexible)
 				StoryProject = GetOldStoryProjectData(projFile, projSettings);
 
-				string strStoryToLoad = null;
 				if (TheCurrentStoriesSet.Count > 0)
-				{
 					LoadComboBox();
-					strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
-				}
 
 				Debug.Assert(LoggedOnMember != null);
 
 				// check for project settings that might have been saved from a previous session
-				if (!String.IsNullOrEmpty(Settings.Default.LastStoryWorkedOn) && comboBoxStorySelector.Items.Contains(Settings.Default.LastStoryWorkedOn))
-					strStoryToLoad = Settings.Default.LastStoryWorkedOn;
+				string strStoryToLoad;
+				if (!Program.MapProjectNameToLastStoryWorkedOn.TryGetValue(projSettings.ProjectName, out strStoryToLoad))
+				{
+					if (!String.IsNullOrEmpty(Settings.Default.LastStoryWorkedOn))
+						strStoryToLoad = Settings.Default.LastStoryWorkedOn;
+				}
+
+				if ((TheCurrentStoriesSet.Count > 0) && (String.IsNullOrEmpty(strStoryToLoad) || !comboBoxStorySelector.Items.Contains(strStoryToLoad)))
+					strStoryToLoad = TheCurrentStoriesSet[0].Name;    // default
 
 				UpdateUiMenusAfterProjectOpen();
 
@@ -1305,6 +1308,13 @@ namespace OneStoryProjectEditor
 			Debug.Assert(TheCurrentStory != null);
 			if (IsInStoriesSet)
 			{
+				Debug.Assert(StoryProject != null, "StoryProject != null");
+				if (!String.IsNullOrEmpty(StoryProject.ProjSettings.ProjectName))
+				{
+					Program.MapProjectNameToLastStoryWorkedOn[StoryProject.ProjSettings.ProjectName] = TheCurrentStory.Name;
+					Settings.Default.ProjectNameToLastStoryWorkedOn = Program.DictionaryToArray(Program.MapProjectNameToLastStoryWorkedOn);
+				}
+
 				Settings.Default.LastStoryWorkedOn = TheCurrentStory.Name;
 				Settings.Default.Save();
 
@@ -2127,6 +2137,8 @@ namespace OneStoryProjectEditor
 					firstNote.SetValue(strNote +
 									   Environment.NewLine +
 									   firstNote);
+
+				conNote.guid = Guid.NewGuid().ToString();   // just in case someone else changes it and it comes back and becomes a duplicate
 				conNotesTo.Add(conNote);
 			}
 			conNotesFrom.Clear();
@@ -2484,6 +2496,7 @@ namespace OneStoryProjectEditor
 		{
 			try
 			{
+#if TurnOnQueryStoryPurpose
 				// let's see if the UNS entered the purpose and resources used on this story
 				if (TheCurrentStory != null)
 				{
@@ -2495,7 +2508,7 @@ namespace OneStoryProjectEditor
 						|| String.IsNullOrEmpty(TheCurrentStory.CraftingInfo.ResourcesUsed)))
 						QueryStoryPurpose();
 				}
-
+#endif
 				if (File.Exists(strFilename) && (_dateTimeLastSaved == DateTime.MinValue))
 				{
 					LocalizableMessageBox.Show(

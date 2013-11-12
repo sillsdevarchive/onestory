@@ -133,20 +133,29 @@ namespace OneStoryProjectEditor
 			}
 
 			System.Diagnostics.Debug.Assert(flowLayoutPanel.Controls.Count > 0);
-			var gc = (GlossingControl) flowLayoutPanel.Controls[0];
-			string strTargetSentence = gc.InBetweenBeforeTarget +
-				gc.TargetWord + gc.InBetweenAfterTarget;
 
-			for (int i = 1; i < flowLayoutPanel.Controls.Count; i++)
-			{
-				gc = (GlossingControl)flowLayoutPanel.Controls[i];
-				strTargetSentence += " " + gc.InBetweenBeforeTarget +
-					gc.TargetWord + gc.InBetweenAfterTarget;
-			}
+			TargetSentence = GetFullSentence(gc => gc.TargetWord);
+			SourceSentence = GetFullSentence(gc => gc.SourceWord);
 
-			TargetSentence = strTargetSentence;
 			DialogResult = DialogResult.OK;
 			Close();
+		}
+
+		private delegate string GetWordValue(GlossingControl gc);
+
+		private string GetFullSentence(GetWordValue pValue)
+		{
+			var gc = (GlossingControl) flowLayoutPanel.Controls[0];
+			var strTargetSentence = gc.InBetweenBeforeTarget +
+									   pValue(gc) + gc.InBetweenAfterTarget;
+
+			for (var i = 1; i < flowLayoutPanel.Controls.Count; i++)
+			{
+				gc = (GlossingControl) flowLayoutPanel.Controls[i];
+				strTargetSentence += " " + gc.InBetweenBeforeTarget +
+									 pValue(gc) + gc.InBetweenAfterTarget;
+			}
+			return strTargetSentence;
 		}
 
 		public void MergeWithNext(GlossingControl control)
@@ -154,10 +163,15 @@ namespace OneStoryProjectEditor
 			int nIndex = flowLayoutPanel.Controls.IndexOf(control);
 			// add the contents of this one to the next one
 			var theNextGc = (GlossingControl)flowLayoutPanel.Controls[nIndex + 1];
-			theNextGc.SourceWord = String.Format("{0}{1}{2}",
-				control.SourceWord,
-				(_bUseWordBreakIterator) ? "" : " ",    // if word breaking, on join, we don't want the space
-				theNextGc.SourceWord);
+			var newSourceWord = String.Format("{0}{1}{2}",
+											  control.SourceWord,
+											  (_bUseWordBreakIterator) ? "" : " ",    // if word breaking, on join, we don't want the space
+											  theNextGc.SourceWord);
+
+			if (_bUseWordBreakIterator)
+				Update(theNextGc, newSourceWord);    // this function also updates the SourceSentence field, without which we won't re-write the StoryBtPane with this now missing space combined word
+			else
+				theNextGc.SourceWord = newSourceWord;
 
 			// as a general rule, the target form would just be the concatenation of the two
 			//  target forms.
@@ -264,7 +278,8 @@ namespace OneStoryProjectEditor
 
 		public void Update(GlossingControl theGc, string strNewSourceWord)
 		{
-			SourceSentence = SourceSentence.Replace(theGc.SourceWord, strNewSourceWord);
+			// UPDATE: this was causing 'man' => to 'mant' also change 'woman' to 'womant'... So just do this during 'onOk'
+			// SourceSentence = SourceSentence.Replace(theGc.SourceWord, strNewSourceWord);
 			theGc.SourceWord = strNewSourceWord;
 			string strNewTarget = SafeConvert(theGc.SourceWord);
 			theGc.TargetWord = strNewTarget;

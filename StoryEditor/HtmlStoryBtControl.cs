@@ -563,6 +563,10 @@ namespace OneStoryProjectEditor
 
 		public void AddScriptureReference(string strId)
 		{
+			StoryEditor theSe;
+			if (!CheckForProperEditToken(out theSe))
+				return;
+
 			int nLineIndex;
 			if (!GetIndicesFromId(strId, out nLineIndex))
 				return;
@@ -1535,7 +1539,7 @@ namespace OneStoryProjectEditor
 		private static string GetSpanInnerText(IEnumerable<HtmlElement> spans, string strId)
 		{
 			return (from span in spans
-					where (span.Parent != null) && (span.Parent.Id == strId)
+					where (span != null) && (span.Parent != null) && (span.Parent.Id == strId)
 					select span.InnerText).FirstOrDefault();
 		}
 
