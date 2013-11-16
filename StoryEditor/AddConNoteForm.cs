@@ -25,7 +25,7 @@ namespace OneStoryProjectEditor
 
 			this.tableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
-			var pane = Activator.CreateInstance(typeConNotePane) as HtmlConNoteControl;
+			var pane = Activator.CreateInstance(typeConNotePane) as WebBrowserAdaptorConNote;
 			System.Diagnostics.Debug.Assert(pane != null);
 			pane.TheSe = theSe;
 			pane.StoryData = storyData;
@@ -33,7 +33,9 @@ namespace OneStoryProjectEditor
 			tableLayoutPanel.Controls.Add(pane, 0, 1);
 			tableLayoutPanel.SetColumnSpan(pane, 2);
 			textBoxConNotes.Text = pane.PaneLabel();
-			pane.DocumentText = strHtmlNote;
+
+			pane.Browser.LoadDocument(strHtmlNote);
+
 			this.tableLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 		}

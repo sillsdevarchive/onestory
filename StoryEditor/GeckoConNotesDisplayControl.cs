@@ -9,30 +9,12 @@ namespace OneStoryProjectEditor
 {
 	public abstract class GeckoConNotesDisplayControl : GeckoDisplayControl
 	{
-		public override StoryData StoryData
+		internal WebBrowserAdaptorConNote AdaptorConNote;
+
+		protected override WebBrowserAdaptor Adaptor
 		{
-			set
-			{
-				System.Diagnostics.Debug.Assert((value == null) || (TheSe != null));
-				base.StoryData = value;
-				if (value == null)
-					return;
-
-				// for ConNotes, we also have to do the 'insure extra box' thingy
-				//  (there are actually one more verses than 'Count', but DataConverter(i)
-				//  handles that for us)
-				for (int i = 0; i <= StoryData.Verses.Count; i++)
-				{
-					var aCNsDC = DataConverter(i);
-					foreach (var dc in aCNsDC)
-						aCNsDC.InsureExtraBox(dc, TheSe.TheCurrentStory,
-								TheSe.LoggedOnMember, TheSe.StoryProject.TeamMembers);
-				}
-			}
+			get { return AdaptorConNote; }
 		}
-
-		public abstract string PaneLabel();
-		public abstract ConsultNotesDataConverter DataConverter(int nVerseIndex);
 
 		public void OnAddNote(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
 		{
@@ -40,71 +22,61 @@ namespace OneStoryProjectEditor
 			throw new NotImplementedException();
 #endif
 		}
+
+		public void ClearSelection(StringTransfer stringTransfer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SetSelection(StringTransfer stringTransfer, int nFoundIndex, int nLengthToSelect)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetTopRowId
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public bool RemoveHtmlNodeById(string strId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetSelectedText(StringTransfer stringTransfer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 
-	public class GeckoConsultantNotesControl : GeckoConNotesDisplayControl
+	public class GeckoConsultantNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplayConNote
 	{
-		public override void LoadDocument()
+		public void LoadDocument(string strHtml)
 		{
-			var strHtml = StoryData.ConsultantNotesHtml(this,
-											TheSe.StoryProject.ProjSettings,
-											TheSe.LoggedOnMember,
-											TheSe.StoryProject.TeamMembers,
-											TheSe.viewHiddenVersesMenu.Checked,
-											TheSe.viewOnlyOpenConversationsMenu.Checked);
-
 			NavigateToString(strHtml, "ConsultantNotesPane.html");
-			LineNumberLink.Visible = true;
-		}
-
-		public override string PaneLabel()
-		{
-			return Localizer.Str("Consultant Notes");
-		}
-
-		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
-		{
-			var verse = GetVerseData(nVerseIndex);
-			var aCNsDC = verse.ConsultantNotes;
-			return aCNsDC;
 		}
 
 		public void OnVerseLineJump(int nVerseIndex)
 		{
-			TheSe.FocusOnVerse(nVerseIndex, false, true);
+			AdaptorConNote.TheSe.FocusOnVerse(nVerseIndex, false, true);
 		}
 	}
 
-	public class GeckoCoachNotesControl : GeckoConNotesDisplayControl
+	public class GeckoCoachNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplayConNote
 	{
-		public override void LoadDocument()
+		public void LoadDocument(string strHtml)
 		{
-			var strHtml = StoryData.CoachNotesHtml(this,
-								TheSe.StoryProject.ProjSettings,
-								TheSe.LoggedOnMember,
-								TheSe.StoryProject.TeamMembers,
-								TheSe.viewHiddenVersesMenu.Checked,
-								TheSe.viewOnlyOpenConversationsMenu.Checked);
-
 			NavigateToString(strHtml, "CoachNotesPane.html");
-			LineNumberLink.Visible = true;
-		}
-
-		public override string PaneLabel()
-		{
-			return Localizer.Str("Coach Notes");
-		}
-
-		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
-		{
-			var verse = GetVerseData(nVerseIndex);
-			var aCNsDC = verse.CoachNotes;
-			return aCNsDC;
 		}
 
 		public void OnVerseLineJump(int nVerseIndex)
 		{
-			TheSe.FocusOnVerse(nVerseIndex, true, false);
+			AdaptorConNote.TheSe.FocusOnVerse(nVerseIndex, true, false);
 		}
 	}
 }

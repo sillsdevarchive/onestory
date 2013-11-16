@@ -58,7 +58,7 @@ namespace OneStoryProjectEditor
             this.dataGridViewRevisions = new System.Windows.Forms.DataGridView();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tabPageDisplayChangeReport = new System.Windows.Forms.TabPage();
-            this.htmlStoryBtControl = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.storyBtControl = new OneStoryProjectEditor.WebBrowserAdaptorStoryBt();
             this.backgroundWorkerCheckRevisions = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ColumnOldParent = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -446,7 +446,7 @@ namespace OneStoryProjectEditor
             // 
             // tabPageDisplayChangeReport
             // 
-            this.tabPageDisplayChangeReport.Controls.Add(this.htmlStoryBtControl);
+            this.tabPageDisplayChangeReport.Controls.Add(this.storyBtControl);
             this.tabPageDisplayChangeReport.Location = new System.Drawing.Point(4, 22);
             this.tabPageDisplayChangeReport.Name = "tabPageDisplayChangeReport";
             this.tabPageDisplayChangeReport.Padding = new System.Windows.Forms.Padding(3);
@@ -455,18 +455,13 @@ namespace OneStoryProjectEditor
             this.tabPageDisplayChangeReport.Text = "View changes";
             this.tabPageDisplayChangeReport.UseVisualStyleBackColor = true;
             // 
-            // htmlStoryBtControl
+            // storyBtControl
             // 
-            this.htmlStoryBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.htmlStoryBtControl.Location = new System.Drawing.Point(3, 3);
-            this.htmlStoryBtControl.MinimumSize = new System.Drawing.Size(20, 20);
-            this.htmlStoryBtControl.Name = "htmlStoryBtControl";
-            this.htmlStoryBtControl.ParentStory = null;
-            this.htmlStoryBtControl.Size = new System.Drawing.Size(863, 553);
-            this.htmlStoryBtControl.StoryData = null;
-            this.htmlStoryBtControl.TabIndex = 0;
-            this.htmlStoryBtControl.TheSe = null;
-            this.htmlStoryBtControl.ViewSettings = null;
+            this.storyBtControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.storyBtControl.Location = new System.Drawing.Point(3, 3);
+            this.storyBtControl.Name = "storyBtControl";
+            this.storyBtControl.Size = new System.Drawing.Size(863, 553);
+            this.storyBtControl.TabIndex = 0;
             // 
             // backgroundWorkerCheckRevisions
             // 
@@ -543,7 +538,7 @@ namespace OneStoryProjectEditor
 
         #endregion
 
-        private HtmlStoryBtControl htmlStoryBtControl;
+        private WebBrowserAdaptorStoryBt storyBtControl;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageSelectReportOptions;
         private System.Windows.Forms.TabPage tabPageDisplayChangeReport;

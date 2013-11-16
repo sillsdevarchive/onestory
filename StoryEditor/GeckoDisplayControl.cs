@@ -10,32 +10,13 @@ namespace OneStoryProjectEditor
 {
 	public abstract class GeckoDisplayControl : OseGeckoWebBrowser
 	{
-		public const string CstrTextAreaPrefix = "ta";
-		public const string CstrParagraphPrefix = "tp";
-		public const string CstrButtonPrefix = "btn";
-
-		public LinkLabel LineNumberLink { get; set; }
-
-		internal string StrIdToScrollTo;
-
-		public StoryEditor TheSe { get; set; }
-		public virtual StoryData StoryData { get; set; }
-
-		public abstract void LoadDocument();
+		protected abstract WebBrowserAdaptor Adaptor { get; }
 
 		protected void NavigateToString(string strHtml, string strPaneName)
 		{
 			var filePath = Path.Combine(Environment.CurrentDirectory, strPaneName);
 			File.WriteAllText(filePath, strHtml, Encoding.UTF8);
 			Navigate("file://" + filePath);
-		}
-
-		protected VerseData GetVerseData(int nLineIndex)
-		{
-			Debug.Assert(StoryData.Verses.Count > (nLineIndex - 1));
-			return (nLineIndex == 0)
-					   ? StoryData.Verses.FirstVerse
-					   : StoryData.Verses[nLineIndex - 1];
 		}
 
 		public void ScrollToElement(String strElemName, bool bAlignWithTop)
@@ -66,13 +47,6 @@ namespace OneStoryProjectEditor
 				Document.OpenNew(true);
 #endif
 			}
-		}
-
-		public virtual void ScrollToVerse(int nVerseIndex)
-		{
-			StrIdToScrollTo = VersesData.LineId(nVerseIndex);
-			if (!String.IsNullOrEmpty(StrIdToScrollTo))
-				ScrollToElement(StrIdToScrollTo, true);
 		}
 	}
 }

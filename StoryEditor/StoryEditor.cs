@@ -137,7 +137,7 @@ namespace OneStoryProjectEditor
 			Everything = Languages | Fields
 		}
 
-		public enum DisplayTechnology
+		public enum DisplayTechnologyEnum
 		{
 			Undefined = 0,
 			IeWebBrowser,
@@ -235,15 +235,15 @@ namespace OneStoryProjectEditor
 			InitializeComponent();
 			Localizer.Ctrl(this);
 
-			DisplayTechnology eDisplayTech;
+			DisplayTechnologyEnum eDisplayTech;
 			if (!Enum.TryParse(Settings.Default.DisplayTech, out eDisplayTech))
-				eDisplayTech = DisplayTechnology.Undefined;
+				eDisplayTech = DisplayTechnologyEnum.Undefined;
 
-			if (eDisplayTech == DisplayTechnology.Undefined)
+			if (eDisplayTech == DisplayTechnologyEnum.Undefined)
 			{
 				eDisplayTech = Settings.Default.UsingHtmlForStoryBtPane
-								   ? DisplayTechnology.IeWebBrowser
-								   : DisplayTechnology.DotNetControls;
+								   ? DisplayTechnologyEnum.IeWebBrowser
+								   : DisplayTechnologyEnum.DotNetControls;
 			}
 			InitStoryBtPaneControl(eDisplayTech);
 
@@ -696,7 +696,7 @@ namespace OneStoryProjectEditor
 		{
 			ClearFlowControls();
 
-			storyBtControl.Browser.LastTextareaInFocusId = null;
+			storyBtControl.LastTextareaInFocusId = null;
 			CtrlTextBox._inTextBox = null;
 			TheCurrentStory = null;
 			// turning off in 2.4... StoryStageLogic.stateTransitions = null;
@@ -1286,7 +1286,7 @@ namespace OneStoryProjectEditor
 				return;
 			}
 
-			if (_displayTechnology == DisplayTechnology.DotNetControls)
+			if (DisplayTechnology == DisplayTechnologyEnum.DotNetControls)
 			{
 				// if this happens, it means we didn't save or cleanup the document
 				Debug.Assert(!Modified
@@ -1338,7 +1338,7 @@ namespace OneStoryProjectEditor
 			SetViewBasedOnProjectStage(TheCurrentStory.ProjStage.ProjectStage, true);
 
 			// forget things:
-			storyBtControl.Browser.LastTextareaInFocusId = null;
+			storyBtControl.LastTextareaInFocusId = null;
 			CtrlTextBox._nLastVerse = -1;
 
 			if (m_frmFind != null)
@@ -1349,7 +1349,7 @@ namespace OneStoryProjectEditor
 			InitAllPanes();
 
 			// get the focus off the combo box, so mouse scroll doesn't rip thru the stories!
-			if (_displayTechnology == DisplayTechnology.DotNetControls)
+			if (DisplayTechnology == DisplayTechnologyEnum.DotNetControls)
 				flowLayoutPanelVerses.Focus();
 		}
 
@@ -1387,17 +1387,17 @@ namespace OneStoryProjectEditor
 			// must initialize the transliterators before calling CurrentViewSettings
 			InitializeTransliterators();
 
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					flowLayoutPanelVerses.SuspendLayout();
 					flowLayoutPanelVerses.LineNumberLink = linkLabelVerseBT;
 					break;
 				default:
-					storyBtControl.Browser.TheSe = this;
-					storyBtControl.Browser.StoryData = TheCurrentStory;
-					storyBtControl.Browser.LineNumberLink = linkLabelVerseBT;
-					storyBtControl.Browser.ViewSettings = CurrentViewSettings;
+					storyBtControl.TheSe = this;
+					storyBtControl.StoryData = TheCurrentStory;
+					storyBtControl.LineNumberLink = linkLabelVerseBT;
+					storyBtControl.ViewSettings = CurrentViewSettings;
 					buttonMoveToNextLine.Visible = buttonMoveToPrevLine.Visible = true;
 					break;
 			}
@@ -1407,18 +1407,18 @@ namespace OneStoryProjectEditor
 			if (Localizer.Default.LocLanguage.Font != null)
 				StoryProject.ProjSettings.Localization.FontToUse = Localizer.Default.LocLanguage.Font;
 
-			consultantNotesControl.Browser.TheSe = this;
-			consultantNotesControl.Browser.StoryData = TheCurrentStory;
-			consultantNotesControl.Browser.LineNumberLink = linkLabelConsultantNotes;
-			coachNotesControl.Browser.TheSe = this;
-			coachNotesControl.Browser.StoryData = TheCurrentStory;
-			coachNotesControl.Browser.LineNumberLink = linkLabelCoachNotes;
+			consultantNotesControl.TheSe = this;
+			consultantNotesControl.StoryData = TheCurrentStory;
+			consultantNotesControl.LineNumberLink = linkLabelConsultantNotes;
+			coachNotesControl.TheSe = this;
+			coachNotesControl.StoryData = TheCurrentStory;
+			coachNotesControl.LineNumberLink = linkLabelCoachNotes;
 
 			SuspendLayout();
 
-			switch (_displayTechnology)
+			switch (DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					// either add the general testing question line (or a button)
 					if (viewGeneralTestingsQuestionMenu.Checked)
 						InitVerseControls(theVerses.FirstVerse, nVerseIndex++);
@@ -1443,12 +1443,12 @@ namespace OneStoryProjectEditor
 					break;
 
 				default:
-					storyBtControl.Browser.LoadDocument();
+					storyBtControl.LoadDocument();
 					break;
 			}
 
-			consultantNotesControl.Browser.LoadDocument();
-			coachNotesControl.Browser.LoadDocument();
+			consultantNotesControl.LoadDocument();
+			coachNotesControl.LoadDocument();
 
 			ResumeLayout(true);
 
@@ -1469,12 +1469,12 @@ namespace OneStoryProjectEditor
 
 		public bool IsStoryBtPaneHtml
 		{
-			get { return (_displayTechnology != DisplayTechnology.DotNetControls); }
+			get { return (DisplayTechnology != DisplayTechnologyEnum.DotNetControls); }
 		}
 
 		public bool IsGeckoHtml
 		{
-			get { return (_displayTechnology == DisplayTechnology.GeckoFxWebBrowser); }
+			get { return (DisplayTechnology == DisplayTechnologyEnum.GeckoFxWebBrowser); }
 		}
 
 		public class Transliterators
@@ -1511,16 +1511,13 @@ namespace OneStoryProjectEditor
 								FreeTranslation = free
 							};
 
-			switch (_displayTechnology)
+			switch (DisplayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					HtmlStoryBtControl.Transliterators = trans;
-					break;
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					VerseBtControl.Transliterators = trans;
 					break;
 				default:
-					GeckoStoryBtDisplayControl.Transliterators = trans;
+					WebBrowserAdaptorStoryBt.Transliterators = trans;
 					break;
 			}
 		}
@@ -1545,9 +1542,9 @@ namespace OneStoryProjectEditor
 		// this is for use by the consultant panes if we add or remove or hide a note
 		internal void ReInitVerseControls()
 		{
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					// this sometimes gets called in bad times
 					if ((TheCurrentStory == null) || (TheCurrentStory.Verses.Count == 0))
 						return;
@@ -1589,10 +1586,10 @@ namespace OneStoryProjectEditor
 					break;
 
 				default:
-					storyBtControl.Browser.ViewSettings = CurrentViewSettings;
-					storyBtControl.Browser.LoadDocument();
-					if (!String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId))
-						storyBtControl.Browser.ScrollToElement(storyBtControl.Browser.LastTextareaInFocusId, false);
+					storyBtControl.ViewSettings = CurrentViewSettings;
+					storyBtControl.LoadDocument();
+					if (!String.IsNullOrEmpty(storyBtControl.LastTextareaInFocusId))
+						storyBtControl.Browser.ScrollToElement(storyBtControl.LastTextareaInFocusId, false);
 					break;
 			}
 		}
@@ -1656,9 +1653,9 @@ namespace OneStoryProjectEditor
 			//  line of the ConNotes, then just skip it)
 			if (nVerseIndex >= 0)
 			{
-				switch (_displayTechnology)
+				switch (DisplayTechnology)
 				{
-					case DisplayTechnology.DotNetControls:
+					case DisplayTechnologyEnum.DotNetControls:
 						Control ctrl = flowLayoutPanelVerses.GetControlAtVerseIndex(nVerseIndex);
 						if (ctrl == null)
 							return;
@@ -1676,7 +1673,7 @@ namespace OneStoryProjectEditor
 						break;
 
 					default:
-						storyBtControl.Browser.ScrollToVerse(nVerseIndex);
+						storyBtControl.ScrollToVerse(nVerseIndex);
 						break;
 				}
 			}
@@ -1684,12 +1681,12 @@ namespace OneStoryProjectEditor
 			// the ConNote controls have a zeroth line, so the index is one greater
 			if (viewConsultantNotesMenu.Checked && bSyncConsultantNotePane)
 			{
-				consultantNotesControl.Browser.ScrollToVerse(nVerseIndex);
+				consultantNotesControl.ScrollToVerse(nVerseIndex);
 			}
 
 			if (viewCoachNotesMenu.Checked && bSyncCoachNotePane)
 			{
-				coachNotesControl.Browser.ScrollToVerse(nVerseIndex);
+				coachNotesControl.ScrollToVerse(nVerseIndex);
 			}
 		}
 
@@ -2026,14 +2023,14 @@ namespace OneStoryProjectEditor
 				if (!viewCoachNotesMenu.Checked)
 					viewCoachNotesMenu.Checked = true;
 
-				coachNotesControl.Browser.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				coachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 			else
 			{
 				if (!viewConsultantNotesMenu.Checked)
 					viewConsultantNotesMenu.Checked = true;
 
-				consultantNotesControl.Browser.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				consultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
 			}
 		}
 
@@ -2374,9 +2371,9 @@ namespace OneStoryProjectEditor
 
 		protected void ClearFlowControls()
 		{
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					flowLayoutPanelVerses.Clear();
 					consultantNotesControl.Browser.ResetDocument();
 					coachNotesControl.Browser.ResetDocument();
@@ -2429,8 +2426,8 @@ namespace OneStoryProjectEditor
 		//  so that we'll get the new value of the textarea
 		private void TriggerSaveUpdates()
 		{
-			if (_displayTechnology == DisplayTechnology.IeWebBrowser)
-				storyBtControl.Browser.TriggerChangeUpdate();
+			if (DisplayTechnology == DisplayTechnologyEnum.IeWebBrowser)
+				storyBtControl.TriggerChangeUpdate();
 		}
 
 		protected void SaveXElement(XElement elem, string strFilename, bool bDoReloadTest)
@@ -3263,19 +3260,19 @@ namespace OneStoryProjectEditor
 						&& TheCurrentStory.CraftingInfo.IsBiblicalStory
 						&& bCanEdit);
 
-			switch (_displayTechnology)
+			switch (DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					editPasteMenu.Enabled = (CtrlTextBox._inTextBox != null);
 
 					editCopySelectionMenu.Enabled = ((CtrlTextBox._inTextBox != null) && (!String.IsNullOrEmpty(CtrlTextBox._inTextBox.SelectedText)));
 					break;
 
 				default:
-					editPasteMenu.Enabled = !String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId);
+					editPasteMenu.Enabled = !String.IsNullOrEmpty(storyBtControl.LastTextareaInFocusId);
 
-					editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(storyBtControl.Browser.LastTextareaInFocusId) &&
-													 (!String.IsNullOrEmpty(storyBtControl.Browser.GetSelectedText)));
+					editCopySelectionMenu.Enabled = (!String.IsNullOrEmpty(storyBtControl.LastTextareaInFocusId) &&
+													 (!String.IsNullOrEmpty(storyBtControl.GetSelectedText)));
 					break;
 			}
 
@@ -4391,7 +4388,7 @@ namespace OneStoryProjectEditor
 			viewUseSameSettingsForAllStoriesMenu.Checked = false;
 
 			if (IsStoryBtPaneHtml)
-				NavigateTo(TheCurrentStory.Name, viewSettings, true, storyBtControl.Browser.LastTextareaInFocusId);
+				NavigateTo(TheCurrentStory.Name, viewSettings, true, storyBtControl.LastTextareaInFocusId);
 			else
 				NavigateTo(TheCurrentStory.Name, viewSettings, true, CtrlTextBox._inTextBox);
 
@@ -4420,18 +4417,14 @@ namespace OneStoryProjectEditor
 			get
 			{
 				Transliterators transliterators;
-				switch (_displayTechnology)
+				switch (DisplayTechnology)
 				{
-					case DisplayTechnology.IeWebBrowser:
-						transliterators = HtmlStoryBtControl.Transliterators;
-						break;
-
-					case DisplayTechnology.DotNetControls:
+					case DisplayTechnologyEnum.DotNetControls:
 						transliterators = VerseBtControl.Transliterators;
 						break;
 
 					default:
-						transliterators = GeckoStoryBtDisplayControl.Transliterators;
+						transliterators = WebBrowserAdaptorStoryBt.Transliterators;
 						break;
 				}
 
@@ -4629,15 +4622,15 @@ namespace OneStoryProjectEditor
 		internal void editCopySelectionToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			string strText = null;
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					if (CtrlTextBox._inTextBox != null)
 						strText = CtrlTextBox._inTextBox.SelectedText;
 					break;
 
 				default:
-					strText = storyBtControl.Browser.GetSelectedText;
+					strText = storyBtControl.GetSelectedText;
 					break;
 			}
 
@@ -4651,11 +4644,11 @@ namespace OneStoryProjectEditor
 				return;
 
 			IDataObject iData;
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
-					var st = storyBtControl.Browser.GetStringTransferOfLastTextAreaInFocus;
-					if ((st == null) || !storyBtControl.Browser.CheckShowErrorOnFieldNotEditable(st))
+				case DisplayTechnologyEnum.IeWebBrowser:
+					var st = storyBtControl.GetStringTransferOfLastTextAreaInFocus;
+					if ((st == null) || !storyBtControl.CheckShowErrorOnFieldNotEditable(st))
 						return;
 
 					iData = Clipboard.GetDataObject();
@@ -4668,7 +4661,7 @@ namespace OneStoryProjectEditor
 						}
 					break;
 
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					if (CtrlTextBox._inTextBox != null)
 					{
 						iData = Clipboard.GetDataObject();
@@ -4681,7 +4674,7 @@ namespace OneStoryProjectEditor
 					}
 					break;
 
-				case DisplayTechnology.GeckoFxWebBrowser:
+				case DisplayTechnologyEnum.GeckoFxWebBrowser:
 #if ToDo
 					var st = geckoStoryBtDisplay.GetStringTransferOfLastTextAreaInFocus;
 					if ((st == null) || !geckoStoryBtDisplay.CheckShowErrorOnFieldNotEditable(st))
@@ -5748,9 +5741,9 @@ namespace OneStoryProjectEditor
 
 		private void GetSelectedLanguageText(ref string strVernacular, ref string strNationalBt, ref string strInternationalBt, ref string strFreeTranslation)
 		{
-			switch(_displayTechnology)
+			switch(DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					GetSelectedLanguageTextNetCtrls(ref strVernacular, ref strNationalBt, ref strInternationalBt, ref strFreeTranslation);
 					break;
 
@@ -6429,7 +6422,7 @@ namespace OneStoryProjectEditor
 			netBibleViewer.OnLocalizationChange(true);
 			ConsultNoteDataConverter.OnLocalizationChange();
 
-			storyBtControl.Browser.ResetContextMenu();
+			storyBtControl.ResetContextMenus();
 
 			Settings.Default.LastLocalizationId = Localizer.Default.LanguageId;
 			Settings.Default.Save();
@@ -6511,13 +6504,14 @@ namespace OneStoryProjectEditor
 			return ShouldCopyFileToDropbox(strFilename, bCopyToDropbox, null);
 		}
 
-		private DisplayTechnology _displayTechnology;
-		private void InitStoryBtPaneControl(DisplayTechnology eDisplayTechnology)
+		public DisplayTechnologyEnum DisplayTechnology { get; set; }
+
+		private void InitStoryBtPaneControl(DisplayTechnologyEnum eDisplayTechnology)
 		{
-			_displayTechnology = eDisplayTechnology;
+			DisplayTechnology = eDisplayTechnology;
 			switch(eDisplayTechnology)
 			{
-				case DisplayTechnology.IeWebBrowser:
+				case DisplayTechnologyEnum.IeWebBrowser:
 					advancedStoryBtUseInternetExplorerMenu.Checked = true;
 					flowLayoutPanelVerses.Visible = false;
 					storyBtControl.Visible = true;
@@ -6525,14 +6519,14 @@ namespace OneStoryProjectEditor
 					consultantNotesControl.SetBrowserToUse(false);
 					coachNotesControl.SetBrowserToUse(false);
 					break;
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					advancedStoryBtUseDotNetControlsMenu.Checked = true;
 					storyBtControl.Visible = false;
 					flowLayoutPanelVerses.Visible = true;
 					consultantNotesControl.SetBrowserToUse(false);
 					coachNotesControl.SetBrowserToUse(false);
 					break;
-				case DisplayTechnology.GeckoFxWebBrowser:
+				case DisplayTechnologyEnum.GeckoFxWebBrowser:
 					advancedStoryBtUseFirefoxMenu.Checked = true;
 					flowLayoutPanelVerses.Visible = false;
 					storyBtControl.Visible = true;
@@ -6548,9 +6542,9 @@ namespace OneStoryProjectEditor
 
 		private void ResetDisplayTech()
 		{
-			switch (_displayTechnology)
+			switch (DisplayTechnology)
 			{
-				case DisplayTechnology.DotNetControls:
+				case DisplayTechnologyEnum.DotNetControls:
 					flowLayoutPanelVerses.Controls.Clear();
 					break;
 
@@ -6560,13 +6554,13 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		private void UpdateDisplayTech(DisplayTechnology displayTechNew)
+		private void UpdateDisplayTech(DisplayTechnologyEnum displayTechNew)
 		{
 			// reset what we used to be using...
 			ResetDisplayTech();
 
 			InitStoryBtPaneControl(displayTechNew);
-			Settings.Default.DisplayTech = _displayTechnology.ToString();
+			Settings.Default.DisplayTech = DisplayTechnology.ToString();
 			Settings.Default.Save();
 
 			// repaint with the new one
@@ -6575,17 +6569,17 @@ namespace OneStoryProjectEditor
 
 		private void AdvancedStoryBtUseInternetExplorerMenuClick(object sender, EventArgs e)
 		{
-			UpdateDisplayTech(DisplayTechnology.IeWebBrowser);
+			UpdateDisplayTech(DisplayTechnologyEnum.IeWebBrowser);
 		}
 
 		private void AdvancedStoryBtUseFirefoxMenuClick(object sender, EventArgs e)
 		{
-			UpdateDisplayTech(DisplayTechnology.GeckoFxWebBrowser);
+			UpdateDisplayTech(DisplayTechnologyEnum.GeckoFxWebBrowser);
 		}
 
 		private void AdvancedStoryBtUseDotNetControlsMenuClick(object sender, EventArgs e)
 		{
-			UpdateDisplayTech(DisplayTechnology.DotNetControls);
+			UpdateDisplayTech(DisplayTechnologyEnum.DotNetControls);
 		}
 
 		internal static string CstrAddNoteOnSelected

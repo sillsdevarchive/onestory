@@ -1795,7 +1795,7 @@ namespace OneStoryProjectEditor
 			get { return Localizer.Str("Gen Qs:"); }
 		}
 
-		public string ConsultantNotesHtml(object htmlConNoteCtrl,
+		public string ConsultantNotesHtml(WebBrowserAdaptorConNote conNoteCtrl,
 			TeamMemberData LoggedOnMember, TeamMembersData teamMembers,
 			StoryData theStory, bool bViewHidden, bool bShowOnlyOpenConversations)
 		{
@@ -1809,7 +1809,7 @@ namespace OneStoryProjectEditor
 										LoggedOnMember,
 										theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-				strHtml += FirstVerse.ConsultantNotes.Html(htmlConNoteCtrl,
+				strHtml += FirstVerse.ConsultantNotes.Html(conNoteCtrl,
 														   LoggedOnMember,
 														   teamMembers,
 														   theStory,
@@ -1831,7 +1831,7 @@ namespace OneStoryProjectEditor
 										LoggedOnMember,
 										theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-				strHtml += aVerseData.ConsultantNotes.Html(htmlConNoteCtrl,
+				strHtml += aVerseData.ConsultantNotes.Html(conNoteCtrl,
 														   LoggedOnMember,
 														   teamMembers,
 														   theStory,
@@ -1843,7 +1843,7 @@ namespace OneStoryProjectEditor
 			return String.Format(Properties.Resources.HTML_Table, strHtml);
 		}
 
-		public string CoachNotesHtml(object htmlConNoteCtrl,
+		public string CoachNotesHtml(WebBrowserAdaptorConNote conNoteCtrl,
 			TeamMemberData LoggedOnMember, TeamMembersData teamMembers, StoryData theStory,
 			bool bViewHidden, bool bShowOnlyOpenConversations)
 		{
@@ -1855,7 +1855,7 @@ namespace OneStoryProjectEditor
 									LoggedOnMember,
 									theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-			strHtml += FirstVerse.CoachNotes.Html(htmlConNoteCtrl,
+			strHtml += FirstVerse.CoachNotes.Html(conNoteCtrl,
 												  LoggedOnMember,
 												  teamMembers,
 												  theStory,
@@ -1876,7 +1876,7 @@ namespace OneStoryProjectEditor
 										LoggedOnMember,
 										theStory.CraftingInfo.ProjectFacilitator.MemberId);
 
-				strHtml += aVerseData.CoachNotes.Html(htmlConNoteCtrl,
+				strHtml += aVerseData.CoachNotes.Html(conNoteCtrl,
 													  LoggedOnMember,
 													  teamMembers,
 													  theStory,

@@ -656,11 +656,11 @@ namespace OneStoryProjectEditor
 								 VerseData.HtmlColor(Properties.Settings.Default.AnswersVernacularColor));
 		}
 
-		public string ConNoteHtml(HtmlConNoteControl htmlConNoteCtrl, ProjectSettings projSettings, int nVerseIndex,
+		public string ConNoteHtml(WebBrowserAdaptorConNote conNoteCtrl, ProjectSettings projSettings, int nVerseIndex,
 			int nConversationIndex, TeamMemberData loggedOnMember, TeamMembersData teamMembers,
 			ConsultNoteDataConverter theCnDc)
 		{
-			string strHtml = theCnDc.Html(htmlConNoteCtrl, teamMembers, loggedOnMember, this,
+			string strHtml = theCnDc.Html(conNoteCtrl, teamMembers, loggedOnMember, this,
 										  nVerseIndex,
 										  nConversationIndex);
 
@@ -672,11 +672,11 @@ namespace OneStoryProjectEditor
 
 		}
 
-		public string ConsultantNotesHtml(object htmlConNoteCtrl,
+		public string ConsultantNotesHtml(WebBrowserAdaptorConNote conNoteCtrl,
 			ProjectSettings projSettings, TeamMemberData LoggedOnMember,
 			TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
 		{
-			string strHtml = Verses.ConsultantNotesHtml(htmlConNoteCtrl, LoggedOnMember,
+			string strHtml = Verses.ConsultantNotesHtml(conNoteCtrl, LoggedOnMember,
 				teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
 			return String.Format(Properties.Resources.HTML_Header,
@@ -686,11 +686,11 @@ namespace OneStoryProjectEditor
 								 Properties.Resources.HTML_Script_AddTextareaMouseDown);
 		}
 
-		public string CoachNotesHtml(object htmlConNoteCtrl,
+		public string CoachNotesHtml(WebBrowserAdaptorConNote conNoteCtrl,
 			ProjectSettings projSettings, TeamMemberData LoggedOnMember,
 			TeamMembersData teamMembers, bool bViewHidden, bool bShowOnlyOpenConversations)
 		{
-			string strHtml = Verses.CoachNotesHtml(htmlConNoteCtrl, LoggedOnMember,
+			string strHtml = Verses.CoachNotesHtml(conNoteCtrl, LoggedOnMember,
 				teamMembers, this, bViewHidden, bShowOnlyOpenConversations);
 
 			return String.Format(Properties.Resources.HTML_Header,

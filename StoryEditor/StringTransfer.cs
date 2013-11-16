@@ -135,13 +135,13 @@ namespace OneStoryProjectEditor
 		/// <returns></returns>
 		public static string TextareaId(int nVerseIndex, string strPrefix, int nItemNum, int nSubItemNum, string strFieldTypeName)
 		{
-			return String.Format("{0}_{1}_{2}_{3}_{4}_{5}", HtmlVerseControl.CstrTextAreaPrefix,
+			return String.Format("{0}_{1}_{2}_{3}_{4}_{5}", WebBrowserAdaptor.CstrTextAreaPrefix,
 								 nVerseIndex, strPrefix, nItemNum, nSubItemNum, strFieldTypeName);
 		}
 
 		public static string TextParagraphId(int nVerseIndex, string strPrefix, int nItemNum, string strFieldTypeName)
 		{
-			return String.Format("{0}_{1}_{2}_{3}_{4}", HtmlVerseControl.CstrParagraphPrefix,
+			return String.Format("{0}_{1}_{2}_{3}_{4}", WebBrowserAdaptor.CstrParagraphPrefix,
 								 nVerseIndex, strPrefix, nItemNum, strFieldTypeName);
 		}
 
@@ -211,7 +211,7 @@ namespace OneStoryProjectEditor
 		//  of the element ID it's associated with and the pane, so we can use
 		//  it during 'find'
 		public string HtmlElementId;
-		public object HtmlPane;
+		public WebBrowserAdaptorConNote HtmlPane;
 
 		// make it a little non-obvious how to get the string out so we can benefit from compiler-time errors
 		public override string ToString()

@@ -524,7 +524,7 @@ namespace OneStoryProjectEditor
 		}
 
 		public static void ShowErrorFocus(StoryEditor theSe,
-			IWebBrowserDisplayConNote paneConNote, int nVerseNumber, string strStatusMessage)
+			WebBrowserAdaptorConNote paneConNote, int nVerseNumber, string strStatusMessage)
 		{
 			paneConNote.ScrollToVerse(nVerseNumber);
 			ShowError(theSe, strStatusMessage);
@@ -1040,7 +1040,7 @@ namespace OneStoryProjectEditor
 			StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
 		{
 			return CheckThatMentorAnsweredInVerse(theVerseData, theSE,
-				theSE.consultantNotesControl.Browser, theCurrentStory, theVerseData.ConsultantNotes,
+				theSE.consultantNotesControl, theCurrentStory, theVerseData.ConsultantNotes,
 				VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber);
 		}
 
@@ -1048,12 +1048,12 @@ namespace OneStoryProjectEditor
 			StoryEditor theSE, VerseData theVerseData, ref int nVerseNumber)
 		{
 			return CheckThatMentorAnsweredInVerse(theVerseData, theSE,
-				theSE.coachNotesControl.Browser, theCurrentStory, theVerseData.CoachNotes,
+				theSE.coachNotesControl, theCurrentStory, theVerseData.CoachNotes,
 				VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber);
 		}
 
 		private static bool CheckThatMentorAnsweredInVerse(VerseData theVerseData,
-			StoryEditor theSE, IWebBrowserDisplayConNote htmlControl, StoryData theCurrentStory,
+			StoryEditor theSE, WebBrowserAdaptorConNote htmlControl, StoryData theCurrentStory,
 			ConsultNotesDataConverter dataConNotes,
 			VerseData.ViewSettings.ItemToInsureOn itemToInsureOn, ref int nVerseNumber)
 		{
@@ -1092,7 +1092,7 @@ namespace OneStoryProjectEditor
 			int nVerseNumber = 0;
 			if (theCurrentStory.Verses.FirstVerse.IsVisible)
 				if (!CheckThatMenteeAnsweredMentorsQuestions(theSE,
-						theSE.coachNotesControl.Browser, theCurrentStory.Verses.FirstVerse.CoachNotes,
+						theSE.coachNotesControl, theCurrentStory.Verses.FirstVerse.CoachNotes,
 						theCurrentStory, VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields,
 						ref nVerseNumber))
 					return false;
@@ -1101,7 +1101,7 @@ namespace OneStoryProjectEditor
 			foreach (VerseData aVerseData in theCurrentStory.Verses)
 			{
 				if (aVerseData.IsVisible)
-					if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.coachNotesControl.Browser,
+					if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.coachNotesControl,
 						aVerseData.CoachNotes, theCurrentStory,
 						VerseData.ViewSettings.ItemToInsureOn.CoachNotesFields, ref nVerseNumber))
 						return false;
@@ -1115,7 +1115,7 @@ namespace OneStoryProjectEditor
 		{
 			int nVerseNumber = 0;
 			if (theCurrentStory.Verses.FirstVerse.IsVisible)
-				if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.consultantNotesControl.Browser,
+				if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.consultantNotesControl,
 					theCurrentStory.Verses.FirstVerse.ConsultantNotes, theCurrentStory,
 					VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
 					return false;
@@ -1124,7 +1124,7 @@ namespace OneStoryProjectEditor
 			foreach (VerseData aVerseData in theCurrentStory.Verses)
 			{
 				if (aVerseData.IsVisible)
-					if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.consultantNotesControl.Browser,
+					if (!CheckThatMenteeAnsweredMentorsQuestions(theSE, theSE.consultantNotesControl,
 						aVerseData.ConsultantNotes, theCurrentStory,
 					VerseData.ViewSettings.ItemToInsureOn.ConsultantNoteFields, ref nVerseNumber))
 						return false;
@@ -1135,7 +1135,7 @@ namespace OneStoryProjectEditor
 		}
 
 		static bool CheckThatMentorAnsweredMenteesQuestions(StoryEditor theSE,
-			IWebBrowserDisplayConNote paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC,
+			WebBrowserAdaptorConNote paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC,
 			StoryData theStory, VerseData.ViewSettings.ItemToInsureOn ePane,
 			ref int nVerseNumber)
 		{
@@ -1153,7 +1153,7 @@ namespace OneStoryProjectEditor
 								 viewSettings,
 								 false);
 
-				TeamMemberData theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
+				var theCommentor = theLastCi.Commentor(theSE.StoryProject.TeamMembers);
 				string strErrorMsg = WarnDidntAnswerQuestion(nVerseNumber,
 															 paneConNote.PaneLabel(),
 															 aConNote.MentorLabel(theCommentor,
@@ -1177,7 +1177,7 @@ namespace OneStoryProjectEditor
 		}
 
 		static bool CheckThatMenteeAnsweredMentorsQuestions(StoryEditor theSE,
-			IWebBrowserDisplayConNote paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC,
+			WebBrowserAdaptorConNote paneConNote, IEnumerable<ConsultNoteDataConverter> aCNsDC,
 			StoryData theStory, VerseData.ViewSettings.ItemToInsureOn ePane,
 			ref int nVerseNumber)
 		{

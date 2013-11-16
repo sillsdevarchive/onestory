@@ -24,13 +24,13 @@ namespace OneStoryProjectEditor
 			if (saveFileDialog.ShowDialog() != DialogResult.OK)
 				return;
 
-			string strDocumentText = webBrowser.DocumentText;
+			string strDocumentText = webBrowser.Browser.DocumentText;
 			File.WriteAllText(saveFileDialog.FileName, strDocumentText, Encoding.UTF8);
 		}
 
 		private void ButtonPrintClick(object sender, EventArgs e)
 		{
-			webBrowser.ShowPrintPreviewDialog();
+			webBrowser.Browser.ShowPrintPreviewDialog();
 		}
 
 		private void ButtonCloseClick(object sender, EventArgs e)

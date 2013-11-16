@@ -103,7 +103,7 @@ namespace OneStoryProjectEditor
 											DirectoryOfTheApplicationExecutable);
 				labelInstructions.LinkClicked += (sender, args) =>
 													 {
-														 if (args.Link.LinkData != null);
+														 if (args.Link.LinkData != null)
 															Process.Start(args.Link.LinkData as string);
 													 };
 				return labelInstructions;

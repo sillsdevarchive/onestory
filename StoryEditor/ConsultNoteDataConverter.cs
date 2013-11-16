@@ -506,12 +506,12 @@ namespace OneStoryProjectEditor
 
 		public static string TextareaId(int nVerseIndex, int nConversationIndex)
 		{
-			return String.Format("{0}_{1}_{2}", HtmlVerseControl.CstrTextAreaPrefix, nVerseIndex, nConversationIndex);
+			return String.Format("{0}_{1}_{2}", WebBrowserAdaptor.CstrTextAreaPrefix, nVerseIndex, nConversationIndex);
 		}
 
 		public static string TextParagraphId(int nVerseIndex, int nConversationIndex, int nCommentIndex)
 		{
-			return String.Format("{0}_{1}_{2}_{3}", HtmlVerseControl.CstrParagraphPrefix, nVerseIndex, nConversationIndex, nCommentIndex);
+			return String.Format("{0}_{1}_{2}_{3}", WebBrowserAdaptor.CstrParagraphPrefix, nVerseIndex, nConversationIndex, nCommentIndex);
 		}
 
 		public static string TextareaRowId(int nVerseIndex, int nConversationIndex)
@@ -526,7 +526,7 @@ namespace OneStoryProjectEditor
 
 		public static string ButtonId(int nVerseIndex, int nConversationIndex, int nBtnIndex)
 		{
-			return String.Format("{0}_{1}_{2}_{3}", HtmlVerseControl.CstrButtonPrefix, nVerseIndex, nConversationIndex, nBtnIndex);
+			return String.Format("{0}_{1}_{2}_{3}", WebBrowserAdaptor.CstrButtonPrefix, nVerseIndex, nConversationIndex, nBtnIndex);
 		}
 
 		public const int CnBtnIndexDelete = 0;
@@ -712,7 +712,7 @@ namespace OneStoryProjectEditor
 			_regexBibRef = new Regex(CstrBibRefRegexFormat.Replace("{0}", strLine), RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 		}
 
-		public string Html(object htmlConNoteCtrl,
+		public string Html(WebBrowserAdaptorConNote conNoteCtrl,
 			TeamMembersData theTeamMembers, TeamMemberData loggedOnMember,
 			StoryData theStory, int nVerseIndex, int nConversationIndex)
 		{
@@ -838,7 +838,7 @@ namespace OneStoryProjectEditor
 
 				// keep track of the element id so we can use it during 'Search/Replace' operations
 				aCI.HtmlElementId = strHtmlElementId;
-				aCI.HtmlPane = htmlConNoteCtrl;
+				aCI.HtmlPane = conNoteCtrl;
 			}
 
 			string strEmbeddedTable = String.Format(Resources.HTML_Table,
@@ -1567,19 +1567,19 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		public string Html(object htmlConNoteCtrl, TeamMemberData LoggedOnMember,
+		public string Html(WebBrowserAdaptorConNote conNoteCtrl, TeamMemberData LoggedOnMember,
 			TeamMembersData teamMembers, StoryData theStory, bool bViewHidden,
 			bool bVerseVisible, bool bShowOnlyOpenConversations, int nVerseIndex)
 		{
 			string strHtml = null;
-			for (int i = 0; i < Count; i++)
+			for (var i = 0; i < Count; i++)
 			{
 				ConsultNoteDataConverter aCNDC = this[i];
 				if ((aCNDC.Visible || bViewHidden)
 					&& (!bShowOnlyOpenConversations
 						|| !aCNDC.IsFinished
 						|| ShowOpenConversations))
-					strHtml += aCNDC.Html(htmlConNoteCtrl, teamMembers, LoggedOnMember,
+					strHtml += aCNDC.Html(conNoteCtrl, teamMembers, LoggedOnMember,
 						theStory, nVerseIndex, i);
 			}
 

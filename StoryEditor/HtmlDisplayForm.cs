@@ -76,14 +76,14 @@ namespace OneStoryProjectEditor
 				Program.ShowException(ex);
 			}
 
-			htmlStoryBtControl.TheSe = theSE;
+			storyBtControl.TheSe = theSE;
 		}
 
 		private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
 		{
-			System.Diagnostics.Debug.Assert((htmlStoryBtControl.TheSe != null)
-				&& (htmlStoryBtControl.TheSe.StoryProject != null)
-				&& (htmlStoryBtControl.TheSe.StoryProject.ProjSettings != null));
+			System.Diagnostics.Debug.Assert((storyBtControl.TheSe != null)
+				&& (storyBtControl.TheSe.StoryProject != null)
+				&& (storyBtControl.TheSe.StoryProject.ProjSettings != null));
 
 			if (e.TabPage == tabPageDisplayChangeReport)
 			{
@@ -91,26 +91,26 @@ namespace OneStoryProjectEditor
 										  {
 											  Vernacular =
 												  (checkBoxLangTransliterateVernacular.Checked)
-													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
+													  ? storyBtControl.TheSe.LoggedOnMember.
 															TransliteratorVernacular
 													  : null,
 											  NationalBt =
 												  (checkBoxLangTransliterateNationalBT.Checked)
-													  ? htmlStoryBtControl.TheSe.LoggedOnMember.TransliteratorNationalBt
+													  ? storyBtControl.TheSe.LoggedOnMember.TransliteratorNationalBt
 													  : null,
 											  InternationalBt =
 												  (checkBoxLangTransliterateInternationalBt.Checked)
-													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
+													  ? storyBtControl.TheSe.LoggedOnMember.
 															TransliteratorInternationalBt
 													  : null,
 											  FreeTranslation =
 												  (checkBoxLangTransliterateFreeTranslation.Checked)
-													  ? htmlStoryBtControl.TheSe.LoggedOnMember.
+													  ? storyBtControl.TheSe.LoggedOnMember.
 															TransliteratorFreeTranslation
 													  : null
 										  };
-				htmlStoryBtControl.ViewSettings = new VerseData.ViewSettings(
-					htmlStoryBtControl.TheSe.StoryProject.ProjSettings,
+				storyBtControl.ViewSettings = new VerseData.ViewSettings(
+					storyBtControl.TheSe.StoryProject.ProjSettings,
 					checkBoxLangVernacular.Checked,
 					checkBoxLangNationalBT.Checked,
 					checkBoxLangInternationalBT.Checked,
@@ -131,22 +131,22 @@ namespace OneStoryProjectEditor
 					StoryEditor.TextFields.Undefined,   // ... so the 'editable ones' don't matter
 					transliterators);
 
-				htmlStoryBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
-				htmlStoryBtControl.StoryData = GetStoryForPresentation(_nChildIndex);
+				storyBtControl.ParentStory = GetStoryForPresentation(_nParentIndex);
+				storyBtControl.StoryData = GetStoryForPresentation(_nChildIndex);
 
-				if ((htmlStoryBtControl.ParentStory == null)
-					|| (htmlStoryBtControl.StoryData == null))
+				if ((storyBtControl.ParentStory == null)
+					|| (storyBtControl.StoryData == null))
 				{
 					e.Cancel = true;
 					return;
 				}
 #if DEBUGBOB
 				// throw the results into a file that I can use WinCmp to compare
-				File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", htmlStoryBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
-				File.WriteAllText(@"C:\src\StoryEditor\XMLFile2.xml", htmlStoryBtControl.StoryData.GetXml.ToString(), Encoding.UTF8);
+				File.WriteAllText(@"C:\src\StoryEditor\XMLFile1.xml", storyBtControl.ParentStory.GetXml.ToString(), Encoding.UTF8);
+				File.WriteAllText(@"C:\src\StoryEditor\XMLFile2.xml", storyBtControl.StoryData.GetXml.ToString(), Encoding.UTF8);
 #endif
 
-				htmlStoryBtControl.LoadDocument();
+				storyBtControl.LoadDocument();
 			}
 		}
 
@@ -343,32 +343,5 @@ namespace OneStoryProjectEditor
 			while (backgroundWorkerCheckRevisions.IsBusy)
 				Application.DoEvents();
 		}
-
-		/*
-		private void SetRevision(Revision descriptor)
-		{
-			Cursor.Current = Cursors.WaitCursor;
-			if (descriptor != null)
-			{
-				FileInRevision firParent = new FileInRevision(descriptor.Number.LocalRevisionNumber,
-					htmlStoryBtControl.TheSE.StoryProject.ProjSettings.ProjectFilePath, FileInRevision.Action.Unknown);
-				XmlDocument doc = new XmlDocument();
-				doc.LoadXml(firParent.GetFileContents(_repository));
-				string strXPath = String.Format("/StoryProject/stories[@SetName = 'Stories']/story[@name = '{0}']",
-					htmlStoryBtControl.StoryData.Name);
-				XmlNode parentStoryNode = doc.SelectSingleNode(strXPath);
-				if (parentStoryNode != null)
-				{
-					StoryData parentStory = new StoryData(parentStoryNode);
-					htmlStoryBtControl.ParentStory = parentStory;
-				}
-			}
-			else
-			{
-				htmlStoryBtControl.ParentStory = null;
-			}
-			Cursor.Current = Cursors.Default;
-		}
-		*/
 	}
 }

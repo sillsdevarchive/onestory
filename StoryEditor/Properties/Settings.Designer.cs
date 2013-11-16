@@ -984,6 +984,7 @@ namespace OneStoryProjectEditor.Properties {
             }
             set {
                 this["DisplayTech"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]

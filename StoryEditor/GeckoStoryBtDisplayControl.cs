@@ -10,33 +10,64 @@ namespace OneStoryProjectEditor
 {
 	public class GeckoStoryBtDisplayControl : GeckoDisplayControl, IWebBrowserDisplayStoryBt
 	{
-		public static StoryEditor.Transliterators Transliterators { get; set; }
-		public VerseData.ViewSettings ViewSettings { get; set; }
-		public StoryData ParentStory { get; set; }
+		internal WebBrowserAdaptorStoryBt AdaptorStoryBt;
+
+		protected override WebBrowserAdaptor Adaptor
+		{
+			get { return AdaptorStoryBt; }
+		}
 
 		public StringTransfer GetStringTransferOfLastTextAreaInFocus
 		{
 			get { throw new NotImplementedException(); }
 		}
 
-		public override void LoadDocument()
+		public string GetTopRowId
 		{
-			string strHtml = null;
-			if (ParentStory != null)
-				strHtml = ParentStory.PresentationHtml(ViewSettings,
-													   TheSe.StoryProject.ProjSettings,
-													   TheSe.StoryProject.TeamMembers,
-													   StoryData);
-			else if (StoryData != null)
-				strHtml = StoryData.PresentationHtml(ViewSettings,
-													 TheSe.StoryProject.ProjSettings,
-													 TheSe.StoryProject.TeamMembers,
-													 null);
+			get { throw new NotImplementedException(); }
+		}
 
+		public string GetPrevRowId
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public string GetNextRowId
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public string DocumentText
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public void LoadDocument(string strHtml)
+		{
 			NavigateToString(strHtml, "StoryBtPane.html");
 		}
 
-		public void TriggerChangeUpdate()
+		public void TriggerOnBlur()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool TriggerPreSaveEvents(string strId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool DoesElementIdExist(string strId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AddNote(bool bNoteToSelf)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ShowPrintPreviewDialog()
 		{
 			throw new NotImplementedException();
 		}
@@ -47,6 +78,40 @@ namespace OneStoryProjectEditor
 		}
 
 		public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetSelectedTextByTextareaIdentifier(TextAreaIdentifier textAreaIdentifier, out StoryEditor.TextFields whichLanguage)
+		{
+			throw new NotImplementedException();
+			/*
+			WebBrowserAdaptorStoryBt.GetSiblingId pSiblingId;
+			var spans = GetSelectedTexts(textAreaIdentifier.LineIndex);
+			whichLanguage = textAreaIdentifier.LanguageColumn;
+			switch (whichLanguage)
+			{
+				case StoryEditor.TextFields.Vernacular:
+					pSiblingId = AdaptorStoryBt.GetMyVernacularSibling;
+					break;
+				case StoryEditor.TextFields.NationalBt:
+					pSiblingId = AdaptorStoryBt.GetMyNationalBtSibling;
+					break;
+				case StoryEditor.TextFields.InternationalBt:
+					pSiblingId = AdaptorStoryBt.GetMyInternationalBtSibling;
+					break;
+				case StoryEditor.TextFields.FreeTranslation:
+					pSiblingId = AdaptorStoryBt.GetMyFreeTranslationSibling;
+					break;
+				default:
+					System.Diagnostics.Debug.Fail("wasn't expecting this case");
+					return null;
+			}
+			return GetSpanInnerText(spans, pSiblingId);
+			*/
+		}
+
+		public void MoveSelectedTextToNewLine(VerseData verseData, VerseData verseNew, int nLineIndex)
 		{
 			throw new NotImplementedException();
 		}

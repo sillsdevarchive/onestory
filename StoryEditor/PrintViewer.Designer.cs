@@ -33,7 +33,7 @@ namespace OneStoryProjectEditor
             this.buttonPrint = new System.Windows.Forms.Button();
             this.buttonSaveHtml = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.webBrowser = new OneStoryProjectEditor.HtmlStoryBtControl();
+            this.webBrowser = new WebBrowserAdaptorStoryBt();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,7 +126,7 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonPrint;
-        public HtmlStoryBtControl webBrowser;
+        public WebBrowserAdaptorStoryBt webBrowser;
         private System.Windows.Forms.Button buttonSaveHtml;
         public System.Windows.Forms.SaveFileDialog saveFileDialog;
     }

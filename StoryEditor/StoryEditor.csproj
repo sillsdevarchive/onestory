@@ -500,6 +500,12 @@
     <Compile Include="WebBrowserAdaptor.Designer.cs">
       <DependentUpon>WebBrowserAdaptor.cs</DependentUpon>
     </Compile>
+    <Compile Include="WebBrowserAdaptorConNote.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WebBrowserAdaptorStoryBt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="AdaptItConfigControl.resx">
       <DependentUpon>AdaptItConfigControl.cs</DependentUpon>
       <SubType>Designer</SubType>

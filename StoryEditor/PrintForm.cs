@@ -75,7 +75,8 @@ namespace OneStoryProjectEditor
 																			StoryData.PresentationType.Printing);
 			}
 
-			printViewer.webBrowser.DocumentText = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+			strHtml = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
+			printViewer.webBrowser.Browser.LoadDocument(strHtml);
 		}
 
 		private VerseData.ViewSettings ViewSettings

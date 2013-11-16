@@ -10,55 +10,44 @@ using mshtml;
 namespace OneStoryProjectEditor
 {
 	[ComVisible(true)]
-	public class HtmlVerseControl : WebBrowser
+	public abstract class HtmlVerseControl : WebBrowser
 	{
-		public const string CstrTextAreaPrefix = "ta";
-		public const string CstrParagraphPrefix = "tp";
-		public const string CstrButtonPrefix = "btn";
-
-		public LinkLabel LineNumberLink { get; set; }
-
-		internal string StrIdToScrollTo;
-
-		public StoryEditor TheSe { get; set; }
-		public virtual StoryData StoryData { get; set; }
+		protected abstract WebBrowserAdaptor Adaptor { get; }
 
 		protected HtmlVerseControl()
 		{
 			DocumentCompleted += HtmlConNoteControl_DocumentCompleted;
 		}
 
-		public virtual void ScrollToVerse(int nVerseIndex)
+		public void LoadDocument(string strHtml)
 		{
-			StrIdToScrollTo = VersesData.LineId(nVerseIndex);
-			if (!String.IsNullOrEmpty(StrIdToScrollTo))
-				ScrollToElement(StrIdToScrollTo, true);
+			DocumentText = strHtml;
 		}
 
 		public void OnSaveDocument()
 		{
-			TheSe.SaveClicked();
+			Adaptor.TheSe.SaveClicked();
 		}
 
 		public void OnScroll()
 		{
 			var elemLnPrev = GetTopHtmlElementId("td");
-			if ((elemLnPrev == null) || (LineNumberLink == null))
+			if ((elemLnPrev == null) || (Adaptor.LineNumberLink == null))
 				return;
 
 			if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 											  VersesData.CstrZerothLineNameConNotes,
 											  VersesData.CstrZerothLineNameConNotes.Length))
 			{
-				LineNumberLink.Text = StoryEditor.CstrFirstVerse;
-				LineNumberLink.Tag = 0;
+				Adaptor.LineNumberLink.Text = StoryEditor.CstrFirstVerse;
+				Adaptor.LineNumberLink.Tag = 0;
 			}
 			else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 												   VersesData.CstrZerothLineNameBtPane,
 												   VersesData.CstrZerothLineNameBtPane.Length))
 			{
-				LineNumberLink.Text = VersesData.CstrZerothLineNameBtPane;
-				LineNumberLink.Tag = 0;
+				Adaptor.LineNumberLink.Text = VersesData.CstrZerothLineNameBtPane;
+				Adaptor.LineNumberLink.Tag = 0;
 			}
 			else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 												   VersesData.LinePrefix,
@@ -67,7 +56,7 @@ namespace OneStoryProjectEditor
 				// e.g.
 				//  "Ln: 1" (or for the French localization: "Ln : 1")
 				//  "Ln: 1 (Hidden)"
-				var strLabel = LineNumberLink.Text = elemLnPrev.InnerText;
+				var strLabel = Adaptor.LineNumberLink.Text = elemLnPrev.InnerText;
 
 				// if the 'Hidden' keyword is showing, then strip that off
 				int nIndex;
@@ -81,11 +70,11 @@ namespace OneStoryProjectEditor
 					return;
 
 				var strLineNumber = strLabel.Substring(nIndex + 1);
-				LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
+				Adaptor.LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
 			}
 		}
 
-		protected string GetTopRowId
+		public string GetTopRowId
 		{
 			get
 			{
@@ -94,14 +83,14 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		protected string GetNextRowId
+		public string GetNextRowId
 		{
 			get
 			{
 				var topRow = GetTopRowId;
 				if (topRow != null)
 				{
-					var astr = topRow.Split(AchDelim);
+					var astr = topRow.Split(WebBrowserAdaptorStoryBt.AchDelim);
 					if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
 					{
 						var nextRow = VersesData.LineId(Int32.Parse(astr[1]) + 1);
@@ -113,14 +102,14 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		protected string GetPrevRowId
+		public string GetPrevRowId
 		{
 			get
 			{
 				var topRow = GetTopRowId;
 				if (topRow != null)
 				{
-					var astr = topRow.Split(AchDelim);
+					var astr = topRow.Split(WebBrowserAdaptor.AchDelim);
 					if ((astr.Length == 2) && (astr[0] == VersesData.CstrLinePrefix))
 					{
 						var prevRow = VersesData.LineId(Int32.Parse(astr[1]) - 1);
@@ -192,23 +181,10 @@ namespace OneStoryProjectEditor
 			return elemLnPrev;
 		}
 
-		public virtual void LoadDocument()
-		{
-			Debug.Assert(false);
-		}
-
 		private void HtmlConNoteControl_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
 		{
-			if (!String.IsNullOrEmpty(StrIdToScrollTo))
-				ScrollToElement(StrIdToScrollTo, true);
-		}
-
-		protected VerseData GetVerseData(int nLineIndex)
-		{
-			Debug.Assert(StoryData.Verses.Count > (nLineIndex - 1));
-			return (nLineIndex == 0)
-					   ? StoryData.Verses.FirstVerse
-					   : StoryData.Verses[nLineIndex - 1];
+			if (!String.IsNullOrEmpty(Adaptor.StrIdToScrollTo))
+				ScrollToElement(Adaptor.StrIdToScrollTo, true);
 		}
 
 		public void ScrollToElement(String strElemName, bool bAlignWithTop)
@@ -229,7 +205,7 @@ namespace OneStoryProjectEditor
 
 		public void ForgetWhereYouWere()
 		{
-			StrIdToScrollTo = null;
+			Adaptor.StrIdToScrollTo = null;
 		}
 
 		public void ResetDocument()
@@ -244,33 +220,7 @@ namespace OneStoryProjectEditor
 
 		public bool OnBibRefJump(string strBibRef)
 		{
-			TheSe.SetNetBibleVerse(strBibRef);
-			return true;
-		}
-
-		protected static readonly char[] AchDelim = new[] { '_' };
-
-		protected bool CheckForProperEditToken(out StoryEditor theSE)
-		{
-			theSE = TheSe;  // (StoryEditor)FindForm();
-			try
-			{
-				if (theSE == null)
-					throw new ApplicationException(
-						Localizer.Str("Unable to edit the file! Restart the program and if it persists, contact bob_eaton@sall.com"));
-
-				if (!theSE.IsInStoriesSet)
-					throw theSE.CantEditOldStoriesEx;
-
-				theSE.LoggedOnMember.ThrowIfEditIsntAllowed(theSE.TheCurrentStory);
-			}
-			catch (Exception ex)
-			{
-				if (theSE != null)
-					theSE.SetStatusBar(String.Format(Localizer.Str("Error: {0}"), ex.Message));
-				return false;
-			}
-
+			Adaptor.TheSe.SetNetBibleVerse(strBibRef);
 			return true;
 		}
 
@@ -278,7 +228,7 @@ namespace OneStoryProjectEditor
 		{
 			// this isn't allowed for paragraphs (it could be, but this is only currently called
 			//  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
-			if (IsTextareaElement(stringTransfer.HtmlElementId) && (Document != null))
+			if (Adaptor.IsTextareaElement(stringTransfer.HtmlElementId) && (Document != null))
 			{
 				var doc = Document;
 				var htmlDocument = doc.DomDocument as IHTMLDocument2;
@@ -303,26 +253,11 @@ namespace OneStoryProjectEditor
 			return null;
 		}
 
-		public bool IsParagraphElement(string strHtmlId)
-		{
-			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrParagraphPrefix) == 0));
-		}
-
-		public bool IsTextareaElement(string strHtmlId)
-		{
-			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0));
-		}
-
-		public bool IsButtonElement(string strHtmlId)
-		{
-			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrButtonPrefix) == 0));
-		}
-
 		public bool SetSelectedText(StringTransfer stringTransfer, string strNewValue, out int nNewEndPoint)
 		{
 			// this isn't allowed for paragraphs (it could be, but this is only currently called
 			//  when we want to do 'replace', which isn't allowed for paragraphs (as opposed to textareas)
-			Debug.Assert(IsTextareaElement(stringTransfer.HtmlElementId));
+			Debug.Assert(Adaptor.IsTextareaElement(stringTransfer.HtmlElementId));
 			nNewEndPoint = 0;   // return of 0 means it didn't work.
 			if (Document != null)
 			{
@@ -353,7 +288,7 @@ namespace OneStoryProjectEditor
 			if (Document != null)
 			{
 				HtmlDocument doc = Document;
-				if (IsTextareaElement(stringTransfer.HtmlElementId))
+				if (Adaptor.IsTextareaElement(stringTransfer.HtmlElementId))
 				{
 					IHTMLDocument2 htmlDocument = doc.DomDocument as IHTMLDocument2;
 					if (htmlDocument != null)
@@ -362,7 +297,7 @@ namespace OneStoryProjectEditor
 						selection.empty();
 					}
 				}
-				else if (IsParagraphElement(stringTransfer.HtmlElementId))
+				else if (Adaptor.IsParagraphElement(stringTransfer.HtmlElementId))
 				{
 					HtmlElement elem = doc.GetElementById(stringTransfer.HtmlElementId);
 					if (elem != null)

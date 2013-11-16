@@ -244,8 +244,7 @@ namespace OneStoryProjectEditor
 						if (nLastCharIndex != 0)
 						{
 							nLastCharIndex = 0; // only do that once
-							var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
-							ctrl.ClearSelection(stringTransfer);
+							stringTransfer.HtmlPane.Browser.ClearSelection(stringTransfer);
 						}
 					}
 
@@ -286,9 +285,7 @@ namespace OneStoryProjectEditor
 						else if (stringTransfer.HtmlPane != null)
 						{
 							Application.DoEvents(); // give the html doc a chance to catch up
-							var ctrl = stringTransfer.HtmlPane as HtmlConNoteControl;
-							if (ctrl != null)
-								ctrl.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
+							stringTransfer.HtmlPane.Browser.SetSelection(stringTransfer, nFoundIndex, nLengthToSelect);
 							LastCharIndex = nFoundIndex + nLengthToSelect;
 						}
 
@@ -645,7 +642,7 @@ namespace OneStoryProjectEditor
 			}
 			else if (!String.IsNullOrEmpty(LastStringTransferSearched.HtmlElementId))
 			{
-				var ctrl = LastStringTransferSearched.HtmlPane as HtmlConNoteControl;
+				var ctrl = LastStringTransferSearched.HtmlPane;
 				if (ctrl != null)
 				{
 					if (ctrl.IsParagraphElement(LastStringTransferSearched.HtmlElementId))
@@ -658,12 +655,12 @@ namespace OneStoryProjectEditor
 					}
 
 					int nLastCharIndex;
-					string strSelectedText = ctrl.GetSelectedText(LastStringTransferSearched);
+					string strSelectedText = ctrl.Browser.GetSelectedText(LastStringTransferSearched);
 					if (regex == null)
 					{
 						if (strSelectedText == strFindWhat)
 						{
-							if (ctrl.SetSelectedText(LastStringTransferSearched, strReplaceWith, out nLastCharIndex))
+							if (ctrl.Browser.SetSelectedText(LastStringTransferSearched, strReplaceWith, out nLastCharIndex))
 							{
 								LastCharIndex = nLastCharIndex;
 								TheSE.Modified = true;
@@ -677,7 +674,7 @@ namespace OneStoryProjectEditor
 						{
 							string strReplacedText =
 								regex.Replace(strSelectedText, strReplaceWith);
-							if (ctrl.SetSelectedText(LastStringTransferSearched, strReplacedText, out nLastCharIndex))
+							if (ctrl.Browser.SetSelectedText(LastStringTransferSearched, strReplacedText, out nLastCharIndex))
 							{
 								LastCharIndex = nLastCharIndex;
 								TheSE.Modified = true;

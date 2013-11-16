@@ -1,5 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using NetLoc;
+using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -12,6 +19,11 @@ namespace OneStoryProjectEditor
 			GeckoFx
 		}
 
+		public const string CstrTextAreaPrefix = "ta";
+		public const string CstrParagraphPrefix = "tp";
+		public const string CstrButtonPrefix = "btn";
+		public static readonly char[] AchDelim = new[] { '_' };
+
 		protected WhichBrowser _whichBrowser { get; set; }
 
 		protected GeckoDisplayControl GeckoWebBrowser { get; set; }
@@ -20,11 +32,14 @@ namespace OneStoryProjectEditor
 		protected WebBrowserAdaptor()
 		{
 			InitializeComponent();
-			SetBrowserToUse(ShouldUseGecko);
+			// SetBrowserToUse(ShouldUseGecko);
 		}
 
 		public void SetBrowserToUse(bool shouldUseGecko)
 		{
+			// first remove any existing control, which is going to be replaced in any case
+			Controls.Clear();
+
 			// on linux, only Gecko works (on Windows, either Gecko or IE will work, but using IE saves us from having to redistribute too much)
 			//  so on Linux, prefer Gecko, but on Windows, prefer IE.
 			if (shouldUseGecko)
@@ -58,6 +73,16 @@ namespace OneStoryProjectEditor
 		protected abstract HtmlVerseControl MyIeBrowser { get; }
 		protected abstract GeckoDisplayControl MyGeckoBrowser { get; }
 
+		public IWebBrowserDisplayStoryBt Browser
+		{
+			get
+			{
+				return (_whichBrowser == WhichBrowser.InternetExplorer)
+						   ? (IWebBrowserDisplayStoryBt)IeWebBrowser
+						   : (IWebBrowserDisplayStoryBt)GeckoWebBrowser;
+			}
+		}
+
 		private static bool ShouldUseGecko
 		{
 			get
@@ -66,171 +91,69 @@ namespace OneStoryProjectEditor
 				return GeckoFxInitializer.DoesXulRunnerFolderExist(out xulRunnerPath);
 			}
 		}
-	}
 
-	public class WebBrowserAdaptorStoryBt : WebBrowserAdaptor
-	{
-		public IWebBrowserDisplayStoryBt Browser
+		public virtual void ScrollToVerse(int nVerseIndex)
 		{
-			get
-			{
-				return (_whichBrowser == WhichBrowser.InternetExplorer)
-						   ? (IWebBrowserDisplayStoryBt) IeWebBrowser
-						   : (IWebBrowserDisplayStoryBt) GeckoWebBrowser;
-			}
+			StrIdToScrollTo = VersesData.LineId(nVerseIndex);
+			if (!String.IsNullOrEmpty(StrIdToScrollTo))
+				Browser.ScrollToElement(StrIdToScrollTo, true);
 		}
 
-
-		#region Overrides of WebBrowserAdaptor
-
-		protected override HtmlVerseControl MyIeBrowser
+		public VerseData GetVerseData(int nLineIndex)
 		{
-			get
-			{
-				return new HtmlStoryBtControl
-				{
-					AllowWebBrowserDrop = false,
-					Dock = DockStyle.Fill,
-					IsWebBrowserContextMenuEnabled = false,
-					Location = new Point(0, 23),
-					MinimumSize = new Size(20, 20),
-					Name = "htmlStoryBtControl",
-					ParentStory = null,
-					Size = new Size(451, 366),
-					StoryData = null,
-					TabIndex = 5,
-					TheSe = null,
-					ViewSettings = null
-				};
-			}
+			Debug.Assert(StoryData.Verses.Count > (nLineIndex - 1));
+			return (nLineIndex == 0)
+					   ? StoryData.Verses.FirstVerse
+					   : StoryData.Verses[nLineIndex - 1];
 		}
 
-		protected override GeckoDisplayControl MyGeckoBrowser
+		public bool IsParagraphElement(string strHtmlId)
 		{
-			get
-			{
-				return new GeckoStoryBtDisplayControl
-						   {
-							   DisableWmImeSetContext = false,
-							   Dock = DockStyle.Fill,
-							   Location = new Point(0, 23),
-							   Name = "geckoStoryBtDisplay",
-							   ParentStory = null,
-							   Size = new Size(451, 366),
-							   StoryData = null,
-							   TabIndex = 0,
-							   TheSe = null,
-							   UseHttpActivityObserver = false,
-							   ViewSettings = null,
-						   };
-			}
+			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrParagraphPrefix) == 0));
 		}
 
-		#endregion
-	}
-
-	public abstract class WebBrowserAdaptorConNote : WebBrowserAdaptor
-	{
-		public IWebBrowserDisplayConNote Browser
+		public bool IsTextareaElement(string strHtmlId)
 		{
-			get
-			{
-				return (_whichBrowser == WhichBrowser.InternetExplorer)
-						   ? (IWebBrowserDisplayConNote) IeWebBrowser
-						   : (IWebBrowserDisplayConNote) GeckoWebBrowser;
-			}
-		}
-	}
-
-	public class WebBrowserAdaptorConsultantNotes : WebBrowserAdaptorConNote
-	{
-		#region Overrides of WebBrowserAdaptor
-
-		protected override HtmlVerseControl MyIeBrowser
-		{
-			get
-			{
-				return new HtmlConsultantNotesControl
-						   {
-							   AllowWebBrowserDrop = false,
-							   Dock = DockStyle.Fill,
-							   IsWebBrowserContextMenuEnabled = false,
-							   Location = new Point(0, 23),
-							   MinimumSize = new Size(20, 20),
-							   Name = "htmlConsultantNotesControl",
-							   Size = new Size(422, 331),
-							   StoryData = null,
-							   TabIndex = 2,
-							   TheSe = null
-						   };
-			}
+			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrTextAreaPrefix) == 0));
 		}
 
-		protected override GeckoDisplayControl MyGeckoBrowser
+		public bool IsButtonElement(string strHtmlId)
 		{
-			get
-			{
-				return new GeckoConsultantNotesControl
-						   {
-							   DisableWmImeSetContext = false,
-							   Dock = System.Windows.Forms.DockStyle.Fill,
-							   Location = new System.Drawing.Point(0, 23),
-							   Name = "geckoConsultantNotesControl",
-							   Size = new System.Drawing.Size(422, 331),
-							   StoryData = null,
-							   TabIndex = 4,
-							   TheSe = null,
-							   UseHttpActivityObserver = false
-						   };
-			}
+			return (!String.IsNullOrEmpty(strHtmlId) && (strHtmlId.IndexOf(CstrButtonPrefix) == 0));
 		}
 
-		#endregion
-	}
-
-	public class WebBrowserAdaptorCoachNotes : WebBrowserAdaptorConNote
-	{
-		#region Overrides of WebBrowserAdaptor
-
-		protected override HtmlVerseControl MyIeBrowser
+		public VerseData VerseDataFromLineOptionsButtonId(string strId, out int nLineIndex)
 		{
-			get
+			var astr = strId.Split(AchDelim);
+			if ((astr.Length == 2) && (astr[0] == VersesData.CstrButtonPrefixLineOptionsButton))
 			{
-				return new HtmlCoachNotesControl
-						   {
-							   AllowWebBrowserDrop = false,
-							   Dock = DockStyle.Fill,
-							   IsWebBrowserContextMenuEnabled = false,
-							   Location = new Point(0, 23),
-							   MinimumSize = new Size(20, 20),
-							   Name = "htmlCoachNotesControl",
-							   Size = new Size(422, 228),
-							   StoryData = null,
-							   TabIndex = 3,
-							   TheSe = null
-						   };
+				nLineIndex = Convert.ToInt32(astr[1]);
+				return GetVerseData(nLineIndex);
 			}
+			nLineIndex = -1;
+			return null;
 		}
 
-		protected override GeckoDisplayControl MyGeckoBrowser
+		public VerseData VerseDataFromAnchorButtonId(string strId, out int nLineIndex)
 		{
-			get
+			// if there is no button, this comes in as anc_3 (for line 3 anchor bar), but otherwise, it might be ???
+			var astr = strId.Split(AchDelim);
+			if ((astr[0] == AnchorData.CstrButtonPrefixAnchorButton) || (astr[0] == AnchorData.CstrButtonPrefixAnchorBar))
 			{
-				return new GeckoCoachNotesControl
-						   {
-							   DisableWmImeSetContext = false,
-							   Dock = System.Windows.Forms.DockStyle.Fill,
-							   Location = new System.Drawing.Point(0, 23),
-							   Name = "geckoCoachNotesControl",
-							   Size = new System.Drawing.Size(422, 228),
-							   StoryData = null,
-							   TabIndex = 5,
-							   TheSe = null,
-							   UseHttpActivityObserver = false
-						   };
+				nLineIndex = Convert.ToInt32(astr[1]);
+				return GetVerseData(nLineIndex);
 			}
+
+			nLineIndex = -1;
+			return null;
 		}
 
-		#endregion
+		public abstract void LoadDocument();
+
+		public string StrIdToScrollTo;
+
+		public StoryEditor TheSe { get; set; }
+		public virtual StoryData StoryData { get; set; }
+		public LinkLabel LineNumberLink { get; set; }
 	}
 }
