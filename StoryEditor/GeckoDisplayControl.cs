@@ -39,14 +39,7 @@ namespace OneStoryProjectEditor
 			//reset so we don't jump to a soon-to-be-non-existant (or wrong context) place
 			// update: if you *don't* want to jump there, then clear out StrIdToScrollTo manually. This needs
 			//  to be here (e.g. for DoMove) which wants to go back to the same spot
-			// StrIdToScrollTo = null;
-			if (Document != null)
-			{
-#if ToDo
-				// TODO:
-				Document.OpenNew(true);
-#endif
-			}
+			Adaptor.BrowserDisplay.LoadDocument("<html />");
 		}
 	}
 }

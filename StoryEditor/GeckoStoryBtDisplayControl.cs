@@ -8,7 +8,7 @@ using SilEncConverters40;
 
 namespace OneStoryProjectEditor
 {
-	public class GeckoStoryBtDisplayControl : GeckoDisplayControl, IWebBrowserDisplayStoryBt
+	public class GeckoStoryBtDisplayControl : GeckoDisplayControl, IWebBrowserDisplay, IWebBrowserDisplayStoryBt
 	{
 		internal WebBrowserAdaptorStoryBt AdaptorStoryBt;
 

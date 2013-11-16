@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using NetLoc;
 
@@ -11,7 +8,7 @@ namespace OneStoryProjectEditor
 {
 	public abstract class WebBrowserAdaptorConNote : WebBrowserAdaptor
 	{
-		public new IWebBrowserDisplayConNote Browser
+		public IWebBrowserDisplayConNote Browser
 		{
 			get
 			{
@@ -284,7 +281,7 @@ namespace OneStoryProjectEditor
 			if (!theCNDC.HasData)
 				OnClickDelete(strId);
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			theCNDC.Visible = (theCNDC.Visible) ? false : true;
 
 			// otherwise, we have to reload the document
@@ -313,7 +310,7 @@ namespace OneStoryProjectEditor
 					return true;
 			}
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			bool bRemovedLast = (theCNsDC.IndexOf(theCNDC) == (theCNsDC.Count - 1));
 			theCNsDC.Remove(theCNDC);
 
@@ -350,7 +347,7 @@ namespace OneStoryProjectEditor
 															 eConsultantToProjFacNeedsApproval
 													   : theCNDC.MentorDirection
 												 : theCNDC.MenteeDirection;
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 			return true;
 		}
@@ -407,7 +404,7 @@ namespace OneStoryProjectEditor
 														TheSe.StoryProject.TeamMembers,
 														TheSe.viewHiddenVersesMenu.Checked,
 														TheSe.viewOnlyOpenConversationsMenu.Checked);
-			Browser.LoadDocument(strHtml);
+			BrowserDisplay.LoadDocument(strHtml);
 			LineNumberLink.Visible = true;
 		}
 
@@ -483,7 +480,7 @@ namespace OneStoryProjectEditor
 												   TheSe.viewHiddenVersesMenu.Checked,
 												   TheSe.viewOnlyOpenConversationsMenu.Checked);
 
-			Browser.LoadDocument(strHtml);
+			BrowserDisplay.LoadDocument(strHtml);
 
 			LineNumberLink.Visible = true;
 		}

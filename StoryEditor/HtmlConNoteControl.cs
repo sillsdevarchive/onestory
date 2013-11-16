@@ -359,7 +359,7 @@ namespace OneStoryProjectEditor
 	}
 
 	[ComVisible(true)]
-	public class HtmlConsultantNotesControl : HtmlConNoteControl, IWebBrowserDisplayConNote
+	public class HtmlConsultantNotesControl : HtmlConNoteControl, IWebBrowserDisplay, IWebBrowserDisplayConNote
 	{
 		public void OnVerseLineJump(int nVerseIndex)
 		{
@@ -374,7 +374,7 @@ namespace OneStoryProjectEditor
 	}
 
 	[ComVisible(true)]
-	public class HtmlCoachNotesControl : HtmlConNoteControl, IWebBrowserDisplayConNote
+	public class HtmlCoachNotesControl : HtmlConNoteControl, IWebBrowserDisplay, IWebBrowserDisplayConNote
 	{
 		public void OnVerseLineJump(int nVerseIndex)
 		{

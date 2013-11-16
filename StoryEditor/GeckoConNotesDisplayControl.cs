@@ -54,7 +54,7 @@ namespace OneStoryProjectEditor
 		}
 	}
 
-	public class GeckoConsultantNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplayConNote
+	public class GeckoConsultantNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplay, IWebBrowserDisplayConNote
 	{
 		public void LoadDocument(string strHtml)
 		{
@@ -67,7 +67,7 @@ namespace OneStoryProjectEditor
 		}
 	}
 
-	public class GeckoCoachNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplayConNote
+	public class GeckoCoachNotesControl : GeckoConNotesDisplayControl, IWebBrowserDisplay, IWebBrowserDisplayConNote
 	{
 		public void LoadDocument(string strHtml)
 		{

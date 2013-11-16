@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
@@ -14,7 +12,7 @@ namespace OneStoryProjectEditor
 	{
 		#region Overrides of WebBrowserAdaptor
 
-		public new IWebBrowserDisplayStoryBt Browser
+		public IWebBrowserDisplayStoryBt Browser
 		{
 			get
 			{
@@ -83,7 +81,7 @@ namespace OneStoryProjectEditor
 													 TheSe.StoryProject.TeamMembers,
 													 null);
 
-			Browser.LoadDocument(strHtml);
+			BrowserDisplay.LoadDocument(strHtml);
 		}
 
 		public StringTransfer GetStringTransferEx(TextAreaIdentifier textAreaIdentifier)
@@ -181,7 +179,7 @@ namespace OneStoryProjectEditor
 		private void ReloadAllWindows()
 		{
 			TheSe.Modified = true;
-			var lastTop = Browser.GetTopRowId;
+			var lastTop = BrowserDisplay.GetTopRowId;
 			TheSe.InitAllPanes();
 			StrIdToScrollTo = lastTop;  // because InitAllPanes will have clobbered it
 		}
@@ -501,7 +499,7 @@ namespace OneStoryProjectEditor
 						siblingStringTransfer.SetValue(dlgReorder.ReorderedText);
 				}
 
-				StrIdToScrollTo = Browser.GetTopRowId;
+				StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 				LoadDocument();
 			}
 			catch (Exception ex)
@@ -528,7 +526,7 @@ namespace OneStoryProjectEditor
 			if (dlg.ShowDialog() == DialogResult.OK)
 				st.SetValue(dlg.ReorderedText);
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 		}
 
@@ -557,7 +555,7 @@ namespace OneStoryProjectEditor
 			if (!theSe.AddSingleTestResult(testQuestionData, out theNewAnswer))
 				return;
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 		}
 
@@ -580,7 +578,7 @@ namespace OneStoryProjectEditor
 			answers.Remove(answerToRemove);
 
 			theSe.Modified = true;
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 		}
 
@@ -603,7 +601,7 @@ namespace OneStoryProjectEditor
 
 			theSe.ChangeAnswerBoxUns(testQuestionData, answers, answerToChange);
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 		}
 
@@ -875,7 +873,7 @@ namespace OneStoryProjectEditor
 				theSe.viewStoryTestingQuestionsMenu.Checked = true;
 			else
 			{
-				StrIdToScrollTo = Browser.GetTopRowId;
+				StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 				LoadDocument();
 			}
 		}
@@ -896,7 +894,7 @@ namespace OneStoryProjectEditor
 				theSe.viewExegeticalHelps.Checked = true;
 			else
 			{
-				StrIdToScrollTo = Browser.GetTopRowId;
+				StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 				LoadDocument();
 			}
 		}
@@ -1012,7 +1010,7 @@ namespace OneStoryProjectEditor
 			if (!UserConfirmDeletion)
 				return;
 
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			theSe.DeleteVerse(verseData);
 		}
 
@@ -1150,7 +1148,7 @@ namespace OneStoryProjectEditor
 
 				verseData.Anchors.Remove(anchor);
 
-				StrIdToScrollTo = Browser.GetTopRowId;
+				StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 				LoadDocument();
 
 				_lastAnchorButtonClicked = null;
@@ -1182,7 +1180,7 @@ namespace OneStoryProjectEditor
 				{
 					anchor.ToolTipText = dlg.CommentText;
 					theSe.Modified = true;
-					StrIdToScrollTo = Browser.GetTopRowId;
+					StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 					LoadDocument();
 				}
 			}
@@ -1204,7 +1202,7 @@ namespace OneStoryProjectEditor
 				if (!TryGetAnchorData(_lastAnchorButtonClicked, out nLineIndex, out anchor))
 					return;
 
-				StrIdToScrollTo = Browser.GetTopRowId;
+				StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 
 				var strReferringText = AnchorsData.AnchorLabel + " ";
 				strReferringText += anchor.JumpTarget;
@@ -1235,7 +1233,7 @@ namespace OneStoryProjectEditor
 			// indicate that we've changed something so that we don't exit without offering
 			//  to save.
 			theSe.Modified = true;
-			StrIdToScrollTo = Browser.GetTopRowId;
+			StrIdToScrollTo = BrowserDisplay.GetTopRowId;
 			LoadDocument();
 		}
 

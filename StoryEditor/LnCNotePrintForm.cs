@@ -14,7 +14,7 @@ namespace OneStoryProjectEditor
 			var strHtmlInner = theSe.StoryProject.LnCNotes.PresentationHtml;
 			var strHtml = StoryData.AddHtmlHtmlDocOutside(strHtmlInner,
 														  theSe.StoryProject.ProjSettings);
-			printViewer.webBrowser.Browser.LoadDocument(strHtml);
+			printViewer.webBrowser.BrowserDisplay.LoadDocument(strHtml);
 		}
 	}
 }

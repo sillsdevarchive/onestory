@@ -34,7 +34,7 @@ namespace OneStoryProjectEditor
 			tableLayoutPanel.SetColumnSpan(pane, 2);
 			textBoxConNotes.Text = pane.PaneLabel();
 
-			pane.Browser.LoadDocument(strHtmlNote);
+			pane.BrowserDisplay.LoadDocument(strHtmlNote);
 
 			this.tableLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);

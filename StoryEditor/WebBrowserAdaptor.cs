@@ -1,12 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using NetLoc;
-using Palaso.UI.WindowsForms.Keyboarding;
 
 namespace OneStoryProjectEditor
 {
@@ -73,13 +67,13 @@ namespace OneStoryProjectEditor
 		protected abstract HtmlVerseControl MyIeBrowser { get; }
 		protected abstract GeckoDisplayControl MyGeckoBrowser { get; }
 
-		public IWebBrowserDisplayStoryBt Browser
+		public IWebBrowserDisplay BrowserDisplay
 		{
 			get
 			{
 				return (_whichBrowser == WhichBrowser.InternetExplorer)
-						   ? (IWebBrowserDisplayStoryBt)IeWebBrowser
-						   : (IWebBrowserDisplayStoryBt)GeckoWebBrowser;
+						   ? (IWebBrowserDisplay)IeWebBrowser
+						   : (IWebBrowserDisplay)GeckoWebBrowser;
 			}
 		}
 
@@ -96,7 +90,7 @@ namespace OneStoryProjectEditor
 		{
 			StrIdToScrollTo = VersesData.LineId(nVerseIndex);
 			if (!String.IsNullOrEmpty(StrIdToScrollTo))
-				Browser.ScrollToElement(StrIdToScrollTo, true);
+				BrowserDisplay.ScrollToElement(StrIdToScrollTo, true);
 		}
 
 		public VerseData GetVerseData(int nLineIndex)

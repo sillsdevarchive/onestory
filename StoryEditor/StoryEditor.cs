@@ -1589,7 +1589,7 @@ namespace OneStoryProjectEditor
 					storyBtControl.ViewSettings = CurrentViewSettings;
 					storyBtControl.LoadDocument();
 					if (!String.IsNullOrEmpty(storyBtControl.LastTextareaInFocusId))
-						storyBtControl.Browser.ScrollToElement(storyBtControl.LastTextareaInFocusId, false);
+						storyBtControl.BrowserDisplay.ScrollToElement(storyBtControl.LastTextareaInFocusId, false);
 					break;
 			}
 		}
@@ -2079,6 +2079,8 @@ namespace OneStoryProjectEditor
 		{
 			try
 			{
+				if (TheCurrentStory == null)
+					return;
 				InitAllPanes(TheCurrentStory.Verses);
 				ResetStatusBar();
 			}
@@ -5011,7 +5013,7 @@ namespace OneStoryProjectEditor
 		{
 			NavigateTo(strStoryName, viewItemToInsureOn, bDoOffToo);
 			if (!String.IsNullOrEmpty(strTextareaToFocus))
-				storyBtControl.Browser.ScrollToElement(strTextareaToFocus, false);
+				storyBtControl.BrowserDisplay.ScrollToElement(strTextareaToFocus, false);
 		}
 
 		public void NavigateTo(string strStoryName,

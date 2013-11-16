@@ -11,7 +11,7 @@ using SilEncConverters40;
 namespace OneStoryProjectEditor
 {
 	[ComVisible(true)]
-	public partial class HtmlStoryBtControl : HtmlVerseControl, IWebBrowserDisplayStoryBt
+	public partial class HtmlStoryBtControl : HtmlVerseControl, IWebBrowserDisplay, IWebBrowserDisplayStoryBt
 	{
 		internal WebBrowserAdaptorStoryBt AdaptorStoryBt;
 

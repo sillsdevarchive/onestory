@@ -76,7 +76,7 @@ namespace OneStoryProjectEditor
 			}
 
 			strHtml = StoryData.AddHtmlHtmlDocOutside(strHtml, _theSE.StoryProject.ProjSettings);
-			printViewer.webBrowser.Browser.LoadDocument(strHtml);
+			printViewer.webBrowser.BrowserDisplay.LoadDocument(strHtml);
 		}
 
 		private VerseData.ViewSettings ViewSettings
