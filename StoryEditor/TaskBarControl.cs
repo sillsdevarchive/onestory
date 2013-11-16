@@ -107,7 +107,8 @@ namespace OneStoryProjectEditor
 			else
 				buttonMarkPreliminaryApproval.Visible = true;
 
-			buttonSendToCIT.Visible = true;
+			buttonSendToCIT.Visible =
+				buttonReturnToProjectFacilitator.Visible = true;    // add sending to PF (in case of workshop)
 		}
 
 		private void SetConsultantInTrainingButtons()
@@ -661,8 +662,9 @@ namespace OneStoryProjectEditor
 				TheSe.LoggedOnMember.MemberType,
 				TeamMemberData.UserTypes.EnglishBackTranslator |
 				TeamMemberData.UserTypes.ConsultantInTraining |
-				TeamMemberData.UserTypes.IndependentConsultant)
-											&& (ParentForm != null));
+				TeamMemberData.UserTypes.IndependentConsultant |
+				TeamMemberData.UserTypes.Coach) &&
+											(ParentForm != null));
 
 			ParentForm.Close();
 
@@ -672,6 +674,11 @@ namespace OneStoryProjectEditor
 			{
 				// if it's coming from the CIT/IC
 				if (!CheckIfReadyToReturnToPf())
+					return;
+			}
+			else if (TeamMemberData.IsUser(TheSe.LoggedOnMember.MemberType, TeamMemberData.UserTypes.Coach))
+			{
+				if (!QueryForProjectFacilitatorTasks())
 					return;
 			}
 
@@ -727,6 +734,11 @@ namespace OneStoryProjectEditor
 				}
 			}
 
+			return QueryForProjectFacilitatorTasks();
+		}
+
+		private bool QueryForProjectFacilitatorTasks()
+		{
 			// find out from the consultant what tasks they want to set in the story
 			if (!SetPfTasksForm.EditPfTasks(TheSe, ref TheStory))
 				return false;
@@ -740,7 +752,6 @@ namespace OneStoryProjectEditor
 				TheStory.CountTestingQuestionTests = 1;
 			if (TasksPf.IsTaskOn(TheStory.TasksRequiredPf, TasksPf.TaskSettings.Answers2))
 				TheStory.CountTestingQuestionTests = 2;
-
 			return true;
 		}
 
