@@ -1,3 +1,5 @@
+#define UseInstalledManifest
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,8 +7,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NetLoc;
-using Starksoft.Net.Ftp;
 using devX;
+
+#if !UseInstalledManifest
+using Starksoft.Net.Ftp;
+#endif
 
 namespace OneStoryProjectEditor
 {
@@ -46,7 +51,9 @@ namespace OneStoryProjectEditor
 			_bInCtor = false;
 		}
 
+#if !UseInstalledManifest
 		private FtpClient _ftp = null;
+#endif
 
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
@@ -57,8 +64,10 @@ namespace OneStoryProjectEditor
 				Cursor = Cursors.WaitCursor;
 				try
 				{
+#if !UseInstalledManifest
 					if (_ftp == null)
 						_ftp = FtpClient;
+#endif
 					swordDownloader = AutoUpgrade.CreateSwordDownloader(Properties.Resources.IDS_OSEUpgradeServerSword);
 					swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
 					foreach (var strItem in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices
@@ -223,10 +232,12 @@ namespace OneStoryProjectEditor
 			return true;
 		}
 
+#if !UseInstalledManifest
 		private static void FtpValidateServerCertificate(object sender, ValidateServerCertificateEventArgs e)
 		{
 			e.IsCertificateValid = true;
 		}
+#endif
 
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -236,21 +247,30 @@ namespace OneStoryProjectEditor
 				Cursor = Cursors.WaitCursor;
 				try
 				{
+					checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
+					_mapShortCodes2SwordData.Clear();
+					var bAtLeastOneToInstall = false;
+#if UseInstalledManifest
+					var files = Directory.GetFiles(NetBibleViewer.GetSwordProjectPath);
+					foreach (var file in files)
+					{
+						var strTempFilename = file;
+#else
 					if (_ftp == null)
 						_ftp = FtpClient;
 					var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
-					checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
-					_mapShortCodes2SwordData.Clear();
-					bool bAtLeastOneToInstall = false;
 					foreach (var file in files)
 					{
 						var strTempFilename = Path.GetTempFileName();
 						_ftp.GetFile(file.FullPath, strTempFilename, FileAction.Create);
+#endif
 						SwordModuleData data;
 						if (!GetInformation(strTempFilename, out data))
 							continue;
-						data.ModsDfile = file;  // add for later use
 
+#if !UseInstalledManifest
+						data.ModsDfile = file;  // add for later use
+#endif
 						// don't bother to add it to the list box if it's already installed with the same
 						//  time/date stamp
 						if (!IsAlreadyInstalled(data))
@@ -305,6 +325,8 @@ namespace OneStoryProjectEditor
 		{
 			if (_lstBibleResources.Any(p => p.Name == data.SwordShortCode))
 			{
+#if UseInstalledManifest
+#else
 				var strLocalFilepath = Path.Combine(StoryProjectData.GetRunningFolder,
 													data.ModsDfile.FullPath.Substring(1).Replace('/', '\\'));
 
@@ -315,6 +337,7 @@ namespace OneStoryProjectEditor
 				}
 				// else  it must mean it was in some other SWORD folder, so consider it not installed
 				//  (so that it's displayed in the download list
+#endif
 			}
 			return false;
 		}
@@ -324,7 +347,9 @@ namespace OneStoryProjectEditor
 	{
 		public string SwordShortCode { get; set; }
 		public string SwordDescription { get; set; }
+#if !UseInstalledManifest
 		public FtpItem ModsDfile { get; set; }
+#endif
 		public string ModsTempFilePath { get; set; }
 		public string ModulesDataPath { get; set; }
 		public bool DirectionRtl { get; set; }
