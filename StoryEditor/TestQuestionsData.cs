@@ -177,7 +177,7 @@ namespace OneStoryProjectEditor
 			VerseData.ViewSettings viewSettings,
 			bool bShowVernacular, bool bShowNationalBt, bool bShowEnglishBt,
 			TestInfo astrTesters, TestQuestionsData child,
-			StoryData.PresentationType presentationType, bool bProcessingTheChild, bool bIsFirstVerse)
+			StoryData.PresentationType presentationType, bool bProcessingTheChild, bool bIsFirstVerse, TeamMembersData teamMembersData)
 		{
 			TestQuestionData theChildTQ = null;
 			if (child != null)
@@ -291,7 +291,8 @@ namespace OneStoryProjectEditor
 													 bShowAnswersVernacular,
 													 bShowAnswersNationalBt,
 													 bShowAnswersEnglishBt,
-													 viewSettings);
+													 viewSettings,
+													 teamMembersData);
 			}
 
 			return strTqRow;
@@ -299,7 +300,7 @@ namespace OneStoryProjectEditor
 
 		public string PresentationHtmlAsAddition(int nVerseIndex, int nTQNum, int nNumTestQuestionCols,
 			VerseData.ViewSettings viewSettings, bool bShowVernacular, bool bShowNationalBT, bool bShowEnglishBT,
-			TestInfo astrTesters)
+			TestInfo astrTesters, TeamMembersData teamMembersData)
 		{
 			string strTQRow = null;
 			if (viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.StoryTestingQuestions))
@@ -360,7 +361,8 @@ namespace OneStoryProjectEditor
 															   viewSettings.IsViewItemOn(
 																   VerseData.ViewSettings.ItemToInsureOn.
 																	   AnswersInternationalBT),
-															   viewSettings);
+															   viewSettings,
+															   teamMembersData);
 			}
 
 			return strTQRow;
@@ -369,6 +371,15 @@ namespace OneStoryProjectEditor
 		public void ReplaceUns(string strOldUnsGuid, string strNewUnsGuid)
 		{
 			Answers.ReplaceUns(strOldUnsGuid, strNewUnsGuid);
+		}
+
+		public void SwapColumn(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+		{
+			if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestion))
+				TestQuestionLine.SwapColumns(column1, column2);
+
+			if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestionAnswer))
+				Answers.SwapColumns(column1, column2);
 		}
 	}
 
@@ -478,7 +489,7 @@ namespace OneStoryProjectEditor
 
 		public string PresentationHtml(int nVerseIndex, int nNumCols,
 			VerseData.ViewSettings viewSettings, TestInfo astrTesters,
-			TestQuestionsData child, StoryData.PresentationType presentationType, bool bIsFirstVerse)
+			TestQuestionsData child, StoryData.PresentationType presentationType, bool bIsFirstVerse, TeamMembersData teamMembersData)
 		{
 			// return nothing if there's nothing to do
 			if ((!HasData && ((child == null) || !child.HasData)))
@@ -518,7 +529,7 @@ namespace OneStoryProjectEditor
 				strRow += testQuestionData.PresentationHtml(nVerseIndex, i,
 															nNumTestQuestionCols, viewSettings,
 															bShowVernacular, bShowNationalBT, bShowEnglishBT,
-															astrTesters, child, presentationType, false, bIsFirstVerse);
+															astrTesters, child, presentationType, false, bIsFirstVerse, teamMembersData);
 			}
 
 			if (child != null)
@@ -529,7 +540,7 @@ namespace OneStoryProjectEditor
 																		  nNumTestQuestionCols, viewSettings,
 																		  bShowVernacular, bShowNationalBT,
 																		  bShowEnglishBT,
-																		  astrTesters);
+																		  astrTesters, teamMembersData);
 				}
 
 			// make a sub-table out of all this
@@ -542,7 +553,7 @@ namespace OneStoryProjectEditor
 
 		public string PresentationHtmlAsAddition(int nVerseIndex, int nNumCols,
 			VerseData.ViewSettings viewSettings, TestInfo astrTesters,
-			bool bHasOutsideEnglishBTer)
+			bool bHasOutsideEnglishBTer, TeamMembersData teamMembersData)
 		{
 			// return nothing if there's nothing to do
 			if (!HasData)
@@ -569,7 +580,8 @@ namespace OneStoryProjectEditor
 																	  bShowVernacular,
 																	  bShowNationalBT,
 																	  bShowEnglishBT,
-																	  astrTesters);
+																	  astrTesters,
+																	  teamMembersData);
 			}
 
 			// make a sub-table out of all this
@@ -597,6 +609,11 @@ namespace OneStoryProjectEditor
 		{
 			foreach (var aTq in this)
 				aTq.Answers.RemoveTestResult(strUnsGuid);
+		}
+
+		public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+		{
+			ForEach(tq => tq.SwapColumn(column1, column2, fieldsToSwap));
 		}
 	}
 }
