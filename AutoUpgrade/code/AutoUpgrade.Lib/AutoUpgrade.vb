@@ -1135,6 +1135,29 @@ Namespace devX
 
 		End Function
 
+		Public Function AddModuleToManifest(ftp As FtpClient, strLocalPathToModsdFile As String, strRemoteDataFolder As String) As Boolean
+
+			' add the modsfile
+			Dim strFilename As String = Path.GetFileName(strLocalPathToModsdFile)
+			Dim modsFiles As FtpItemCollection = ftp.GetDirList("/SWORD/mods.d", True)
+			Dim modsFile As FtpItem = Nothing
+			For Each file As FtpItem In modsFiles
+				If file.Name = strFilename Then
+					modsFile = file
+				End If
+			Next
+			AddToManifest(UpgradeDirectory, modsFile)
+
+			' Get the files to it
+			Dim files As FtpItemCollection = ftp.GetDirList(strRemoteDataFolder, True)
+
+			For Each file As FtpItem In files
+				' create the local path for the data files
+				AddToManifest(UpgradeDirectory, file)
+			Next
+
+		End Function
+
 		Private Shared ReadOnly _achPathDelim() As Char = {"/"}
 
 		Private Shared Function GetLocalPath(strSwordPath As String, strModulePath As String) As String
@@ -1149,14 +1172,22 @@ Namespace devX
 		' strRootPath is the path to the upgrade folder (e.g. "C:\...\"
 		' strFilepath is relative to the upgrade folder (e.g. "SWORD\mods.d\bbe.conf")
 		Public Sub AddToManifest(strRootPath As String, ftpFile As FtpItem)
+
+			AddToManifest(strRootPath, ftpFile.FullPath, ftpFile.Size)
+
+		End Sub
+
+		' strRootPath is the path to the upgrade folder (e.g. "C:\...\"
+		' strRelativeFilePath is relative to the upgrade folder (e.g. "SWORD/mods.d/bbe.conf")
+		Public Sub AddToManifest(strRootPath As String, strRelativeFilePath As String, lFileSize As Long)
 			Dim newFileEntry As File = New File()
 			newFileEntry.Action = File.UpgradeAction.copy
 
 			' Store name and path relative to strPath
-			Dim strFile As String = GetLocalPath(strRootPath, ftpFile.FullPath)
+			Dim strFile As String = GetLocalPath(strRootPath, strRelativeFilePath)
 			newFileEntry.Name = strFile.Substring(strRootPath.Length + 1)
 
-			newFileEntry.Size = ftpFile.Size
+			newFileEntry.Size = lFileSize
 
 			newFileEntry.Version = Nothing
 			' GetMd5Hash(strFile) file doesn't exist locally at this point, so can't do this
