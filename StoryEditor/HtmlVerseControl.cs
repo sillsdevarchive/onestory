@@ -32,22 +32,20 @@ namespace OneStoryProjectEditor
 		public void OnScroll()
 		{
 			var elemLnPrev = GetTopHtmlElementId("td");
-			if ((elemLnPrev == null) || (Adaptor.LineNumberLink == null))
+			if ((elemLnPrev == null) || (Adaptor.SetLineNumberLink == null))
 				return;
 
 			if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 											  VersesData.CstrZerothLineNameConNotes,
 											  VersesData.CstrZerothLineNameConNotes.Length))
 			{
-				Adaptor.LineNumberLink.Text = StoryEditor.CstrFirstVerse;
-				Adaptor.LineNumberLink.Tag = 0;
+				Adaptor.SetLineNumberLink(StoryEditor.CstrFirstVerse, 0);
 			}
 			else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 												   VersesData.CstrZerothLineNameBtPane,
 												   VersesData.CstrZerothLineNameBtPane.Length))
 			{
-				Adaptor.LineNumberLink.Text = VersesData.CstrZerothLineNameBtPane;
-				Adaptor.LineNumberLink.Tag = 0;
+				Adaptor.SetLineNumberLink(VersesData.CstrZerothLineNameBtPane, 0);
 			}
 			else if (StoryEditor.IsFirstCharsEqual(elemLnPrev.InnerText,
 												   VersesData.LinePrefix,
@@ -56,7 +54,7 @@ namespace OneStoryProjectEditor
 				// e.g.
 				//  "Ln: 1" (or for the French localization: "Ln : 1")
 				//  "Ln: 1 (Hidden)"
-				var strLabel = Adaptor.LineNumberLink.Text = elemLnPrev.InnerText;
+				var strLabel = elemLnPrev.InnerText;
 
 				// if the 'Hidden' keyword is showing, then strip that off
 				int nIndex;
@@ -70,7 +68,7 @@ namespace OneStoryProjectEditor
 					return;
 
 				var strLineNumber = strLabel.Substring(nIndex + 1);
-				Adaptor.LineNumberLink.Tag = Convert.ToInt32(strLineNumber);
+				Adaptor.SetLineNumberLink(strLabel, Convert.ToInt32(strLineNumber));
 			}
 		}
 

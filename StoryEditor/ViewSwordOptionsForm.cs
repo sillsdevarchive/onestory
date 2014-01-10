@@ -1,3 +1,5 @@
+#define UseInstalledManifest
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +9,10 @@ using System.Windows.Forms;
 using NetLoc;
 using Starksoft.Net.Ftp;
 using devX;
+
+#if !UseInstalledManifest
+using Starksoft.Net.Ftp;
+#endif
 
 namespace OneStoryProjectEditor
 {
@@ -32,21 +38,18 @@ namespace OneStoryProjectEditor
 			Localizer.Ctrl(this);
 
 			_bInCtor = true;
-			for (int i = 0; i < lstBibleResources.Count; i++)
+			for (var i = 0; i < lstBibleResources.Count; i++)
 			{
-				NetBibleViewer.SwordResource aSR = lstBibleResources[i];
-				string strName = aSR.Name;
-				string strDesc = aSR.Description;
-				if (aSR.Name == "NET")
+				var aSwordResource = lstBibleResources[i];
+				var strName = aSwordResource.Name;
+				if (strName == "NET")
 					_nIndexOfNetBible = i;
-				checkedListBoxSwordBibles.Items.Add(String.Format("{0}: {1}", strName, strDesc), aSR.Loaded);
+				checkedListBoxSwordBibles.Items.Add(String.Format("{0}: {1}", strName, aSwordResource.Description), aSwordResource.Loaded);
 			}
 
 			linkLabelLinkToSword.Links.Add(6, 4, CstrSwordLink);
 			_bInCtor = false;
 		}
-
-		private FtpClient _ftp = null;
 
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
@@ -57,8 +60,6 @@ namespace OneStoryProjectEditor
 				Cursor = Cursors.WaitCursor;
 				try
 				{
-					if (_ftp == null)
-						_ftp = FtpClient;
 					swordDownloader = AutoUpgrade.CreateSwordDownloader(Properties.Resources.IDS_OSEUpgradeServerSword);
 					swordDownloader.ApplicationBasePath = StoryProjectData.GetRunningFolder;
 					foreach (var strItem in from int checkedIndex in checkedListBoxDownloadable.CheckedIndices
@@ -67,12 +68,12 @@ namespace OneStoryProjectEditor
 						System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(strItem) && (strItem.IndexOf(':') != -1));
 						var strShortCode = strItem.Substring(0, strItem.IndexOf(':'));
 						var data = _mapShortCodes2SwordData[strShortCode];
-						swordDownloader.AddModuleToManifest(_ftp, data.ModsDfile, data.ModulesDataPath);
-						if (data.DirectionRtl && !Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
-						{
-							Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
-							Properties.Settings.Default.Save();
-						}
+						swordDownloader.AddModuleToManifest(FtpClient, data.ModsDfile, data.ModulesDataPath);
+						if (!data.DirectionRtl || Properties.Settings.Default.ListSwordModuleToRtl.Contains(data.SwordShortCode))
+							continue;
+
+						Properties.Settings.Default.ListSwordModuleToRtl.Add(data.SwordShortCode);
+						Properties.Settings.Default.Save();
 					}
 
 					CloseFtpConnection();
@@ -161,30 +162,37 @@ namespace OneStoryProjectEditor
 
 		private const string CstrPathSwordRemote = "/SWORD/";
 		private const string CstrPathModsD = "mods.d";
-		private static Dictionary<string, SwordModuleData> _mapShortCodes2SwordData = null;
+		private static readonly Dictionary<string, SwordModuleData> _mapShortCodes2SwordData = new Dictionary<string, SwordModuleData>();
 
+		private string SwordModsDFolderPath
+		{
+			get { return Path.Combine(NetBibleViewer.GetSwordProjectPath, CstrPathModsD); }
+		}
+
+		private FtpClient _ftp;
 		private FtpClient FtpClient
 		{
 			get
 			{
-				const string host = "ftp.seedconnect.org";
-				const int port = 21;
-				const string user = "Bob_Eaton";
-				const string pass = "tsc2009";
+				if (_ftp == null)
+				{
+					const string host = "ftp.seedconnect.org";
+					const int port = 21;
+					const string user = "Bob_Eaton";
+					const string pass = "tsc2009";
 
-				if (_mapShortCodes2SwordData == null)
-					_mapShortCodes2SwordData = new Dictionary<string, SwordModuleData>();
+					// create a new ftpclient object with the host and port number to use
+					// set the security protocol to use - in this case we are instructing the FtpClient to use either
+					// the SSL 3.0 protocol or the TLS 1.0 protocol depending on what the FTP server supports
+					_ftp = new FtpClient(host, port, FtpSecurityProtocol.Tls1OrSsl3Explicit);
 
-				// create a new ftpclient object with the host and port number to use
-				// set the security protocol to use - in this case we are instructing the FtpClient to use either
-				// the SSL 3.0 protocol or the TLS 1.0 protocol depending on what the FTP server supports
-				var ftp = new FtpClient(host, port, FtpSecurityProtocol.Tls1OrSsl3Explicit);
+					// register an event hook so that we can view and accept the security certificate that is given by the FTP server
+					_ftp.ValidateServerCertificate += FtpValidateServerCertificate;
+					_ftp.ConnectionClosed += FtpConnectionClosed;
+					_ftp.Open(user, pass);
+				}
 
-				// register an event hook so that we can view and accept the security certificate that is given by the FTP server
-				ftp.ValidateServerCertificate += FtpValidateServerCertificate;
-				ftp.ConnectionClosed += FtpConnectionClosed;
-				ftp.Open(user, pass);
-				return ftp;
+				return _ftp;
 			}
 		}
 
@@ -228,6 +236,8 @@ namespace OneStoryProjectEditor
 			e.IsCertificateValid = true;
 		}
 
+		private const string CstrDownloadableSwordResources = "Downloadable";
+
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (tabControl.SelectedTab == tabPageSeedConnect)
@@ -236,29 +246,44 @@ namespace OneStoryProjectEditor
 				Cursor = Cursors.WaitCursor;
 				try
 				{
-					if (_ftp == null)
-						_ftp = FtpClient;
-					var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
 					checkedListBoxDownloadable.Items.Clear();   // in case it's a repeat
 					_mapShortCodes2SwordData.Clear();
-					bool bAtLeastOneToInstall = false;
+					var bAtLeastOneToInstall = false;
+#if UseInstalledManifest
+					var downloadableFolderPath = Path.Combine(SwordModsDFolderPath, CstrDownloadableSwordResources);
+					var files = Directory.GetFiles(downloadableFolderPath);
 					foreach (var file in files)
 					{
-						var strTempFilename = Path.GetTempFileName();
-						_ftp.GetFile(file.FullPath, strTempFilename, FileAction.Create);
+#else
+						var strTempFilename = file;
+						if (_ftp == null)
+							_ftp = FtpClient;
+						var files = _ftp.GetDirList(CstrPathSwordRemote + CstrPathModsD, true);
+						foreach (var file in files)
+						{
+							var strTempFilename = Path.GetTempFileName();
+							_ftp.GetFile(file.FullPath, strTempFilename, FileAction.Create);
+#endif
 						SwordModuleData data;
-						if (!GetInformation(strTempFilename, out data))
+						if (!GetInformation(file, out data))
 							continue;
+
 						data.ModsDfile = file;  // add for later use
 
 						// don't bother to add it to the list box if it's already installed with the same
 						//  time/date stamp
-						if (!IsAlreadyInstalled(data))
-						{
-							checkedListBoxDownloadable.Items.Add(String.Format("{0}: {1}", data.SwordShortCode, data.SwordDescription), false);
-							_mapShortCodes2SwordData.Add(data.SwordShortCode, data);
-							bAtLeastOneToInstall = true;
-						}
+						bool bInstalledButUpdated;
+						if (IsAlreadyInstalled(data, out bInstalledButUpdated))
+							continue;
+
+						checkedListBoxDownloadable.Items.Add(String.Format("{0}: {1}{2}",
+																		   data.SwordShortCode,
+																		   data.SwordDescription,
+																		   (bInstalledButUpdated)
+																			   ? " (Modified)"
+																			   : String.Empty), false);
+						_mapShortCodes2SwordData.Add(data.SwordShortCode, data);
+						bAtLeastOneToInstall = true;
 					}
 
 					if (!bAtLeastOneToInstall)
@@ -301,21 +326,23 @@ namespace OneStoryProjectEditor
 			get { return Localizer.Str("&Close"); }
 		}
 
-		private bool IsAlreadyInstalled(SwordModuleData data)
+		private bool IsAlreadyInstalled(SwordModuleData data, out bool bInstalledButUpdated)
 		{
 			if (_lstBibleResources.Any(p => p.Name == data.SwordShortCode))
 			{
-				var strLocalFilepath = Path.Combine(StoryProjectData.GetRunningFolder,
-													data.ModsDfile.FullPath.Substring(1).Replace('/', '\\'));
+				var strInstalledVersion = Path.Combine(SwordModsDFolderPath, Path.GetFileName(data.ModsDfile));
 
-				if (File.Exists(strLocalFilepath))
+				if (File.Exists(strInstalledVersion))
 				{
-					var dtLocal = File.GetLastWriteTime(strLocalFilepath);
-					return (Math.Abs((dtLocal - data.ModsDfile.Modified).TotalMinutes) < 3600);
+					bInstalledButUpdated = true;
+					var installedFile = File.ReadAllText(strInstalledVersion);
+					var downloadableFile = File.ReadAllText(data.ModsDfile);
+					return (installedFile == downloadableFile);
 				}
 				// else  it must mean it was in some other SWORD folder, so consider it not installed
 				//  (so that it's displayed in the download list
 			}
+			bInstalledButUpdated = false;
 			return false;
 		}
 	}
@@ -324,7 +351,11 @@ namespace OneStoryProjectEditor
 	{
 		public string SwordShortCode { get; set; }
 		public string SwordDescription { get; set; }
+#if UseInstalledManifest
+		public string ModsDfile { get; set; }
+#else
 		public FtpItem ModsDfile { get; set; }
+#endif
 		public string ModsTempFilePath { get; set; }
 		public string ModulesDataPath { get; set; }
 		public bool DirectionRtl { get; set; }

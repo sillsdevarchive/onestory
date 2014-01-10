@@ -405,7 +405,8 @@ namespace OneStoryProjectEditor
 														TheSe.viewHiddenVersesMenu.Checked,
 														TheSe.viewOnlyOpenConversationsMenu.Checked);
 			BrowserDisplay.LoadDocument(strHtml);
-			LineNumberLink.Visible = true;
+			if (MakeLineNumberLinkVisible != null)
+				MakeLineNumberLinkVisible();
 		}
 
 		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)
@@ -482,7 +483,8 @@ namespace OneStoryProjectEditor
 
 			BrowserDisplay.LoadDocument(strHtml);
 
-			LineNumberLink.Visible = true;
+			if (MakeLineNumberLinkVisible != null)
+				MakeLineNumberLinkVisible();
 		}
 
 		public override ConsultNotesDataConverter DataConverter(int nVerseIndex)

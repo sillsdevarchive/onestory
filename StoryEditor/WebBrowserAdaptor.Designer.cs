@@ -1,3 +1,7 @@
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace OneStoryProjectEditor
 {
     partial class WebBrowserAdaptor
@@ -5,7 +9,7 @@ namespace OneStoryProjectEditor
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -32,10 +36,10 @@ namespace OneStoryProjectEditor
             // 
             // WebBrowserAdaptor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleMode = AutoScaleMode.Font;
             this.Name = "WebBrowserAdaptor";
-            this.Size = new System.Drawing.Size(505, 337);
+            this.Size = new Size(505, 337);
             this.ResumeLayout(false);
 
         }

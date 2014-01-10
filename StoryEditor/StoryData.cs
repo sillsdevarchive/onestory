@@ -608,7 +608,8 @@ namespace OneStoryProjectEditor
 												   (child != null) ? child.Verses : null,
 												   nNumCols,
 												   viewSettings,
-												   teamMembers.HasOutsideEnglishBTer, presentationType);
+												   teamMembers.HasOutsideEnglishBTer, presentationType,
+												   teamMembers);
 			}
 			else
 			{
@@ -797,6 +798,11 @@ namespace OneStoryProjectEditor
 			//  (otherwise, add the coach as well)
 			Verses.ReassignRolesToConNoteComments(CraftingInfo.ProjectFacilitator,
 												  CraftingInfo.Consultant);
+		}
+
+		public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+		{
+			Verses.SwapColumns(column1, column2, fieldsToSwap);
 		}
 	}
 

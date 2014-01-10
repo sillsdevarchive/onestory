@@ -148,6 +148,11 @@ namespace OneStoryProjectEditor
 
 		public StoryEditor TheSe { get; set; }
 		public virtual StoryData StoryData { get; set; }
-		public LinkLabel LineNumberLink { get; set; }
+
+		public delegate void SetLineNumberLinkProc(string strText, int nLineIndex);
+		internal SetLineNumberLinkProc SetLineNumberLink;
+
+		public delegate void MakeLineNumberLinkVisibleProc();
+		internal MakeLineNumberLinkVisibleProc MakeLineNumberLinkVisible;
 	}
 }

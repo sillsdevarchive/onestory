@@ -30,16 +30,42 @@ namespace OneStoryProjectEditor
 
 		public void SetValue(string strLangAttribute, string strValue)
 		{
-			if (strLangAttribute == CstrAttributeLangVernacular)
-				Vernacular.SetValue(strValue);
-			else if (strLangAttribute == CstrAttributeLangNationalBt)
-				NationalBt.SetValue(strValue);
-			else if (strLangAttribute == CstrAttributeLangInternationalBt)
-				InternationalBt.SetValue(strValue);
-			else if (strLangAttribute == CstrAttributeLangFreeTranslation)
-				FreeTranslation.SetValue(strValue);
-			else
-				System.Diagnostics.Debug.Fail("didn't expect this language type");
+			switch (strLangAttribute)
+			{
+				case CstrAttributeLangVernacular:
+					Vernacular.SetValue(strValue);
+					break;
+				case CstrAttributeLangNationalBt:
+					NationalBt.SetValue(strValue);
+					break;
+				case CstrAttributeLangInternationalBt:
+					InternationalBt.SetValue(strValue);
+					break;
+				case CstrAttributeLangFreeTranslation:
+					FreeTranslation.SetValue(strValue);
+					break;
+				default:
+					System.Diagnostics.Debug.Fail("didn't expect this language type");
+					break;
+			}
+		}
+
+		public StringTransfer GetValue(string strLangAttribute)
+		{
+			switch (strLangAttribute)
+			{
+				case CstrAttributeLangVernacular:
+					return Vernacular;
+				case CstrAttributeLangNationalBt:
+					return NationalBt;
+				case CstrAttributeLangInternationalBt:
+					return InternationalBt;
+				case CstrAttributeLangFreeTranslation:
+					return FreeTranslation;
+				default:
+					System.Diagnostics.Debug.Fail("didn't expect this language type");
+					return null;
+			}
 		}
 
 		public bool HasData
@@ -162,6 +188,15 @@ namespace OneStoryProjectEditor
 				whichField | StoryEditor.TextFields.InternationalBt);
 			FreeTranslation = new StringTransfer((rhs.FreeTranslation != null) ? rhs.FreeTranslation.ToString() : null,
 				whichField | StoryEditor.TextFields.FreeTranslation);
+		}
+
+		public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2)
+		{
+			var col1Name = column1.ToString();
+			var col2Name = column2.ToString();
+			var swapValue = GetValue(col1Name).ToString();
+			SetValue(col1Name, GetValue(col2Name).ToString());
+			SetValue(col2Name, swapValue);
 		}
 	}
 
@@ -739,14 +774,16 @@ namespace OneStoryProjectEditor
 			CraftingInfoData craftingInfo,
 			ViewSettings viewSettings,
 			VerseData theChildVerse,
-			StoryData.PresentationType presentationType)
+			StoryData.PresentationType presentationType,
+			TeamMembersData teamMembersData)
 		{
 			var bShowLangVernacular = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.VernacularLangField);
 			var bShowLangNationalBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.NationalBtLangField);
 			var bShowLangEnglishBt = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.InternationalBtField);
 
-			string strRow = null;
-			if (bShowLangVernacular)
+			string strRow = null, strHtml = null;
+			var isGeneralQuestionsLine = (nLineId == 0);
+			if (!isGeneralQuestionsLine && bShowLangVernacular)
 			{
 				strRow += GetHtmlCell(StoryLine.Vernacular,
 									  () => theChildVerse.StoryLine.Vernacular,
@@ -758,7 +795,7 @@ namespace OneStoryProjectEditor
 									  viewSettings.Transliterators.Vernacular);
 			}
 
-			if (bShowLangNationalBt)
+			if (!isGeneralQuestionsLine && bShowLangNationalBt)
 			{
 				strRow += GetHtmlCell(StoryLine.NationalBt,
 									  () => theChildVerse.StoryLine.NationalBt,
@@ -770,7 +807,7 @@ namespace OneStoryProjectEditor
 									  viewSettings.Transliterators.NationalBt);
 			}
 
-			if (bShowLangEnglishBt)
+			if (!isGeneralQuestionsLine && bShowLangEnglishBt)
 			{
 				strRow += GetHtmlCell(StoryLine.InternationalBt,
 									  () => theChildVerse.StoryLine.InternationalBt,
@@ -782,7 +819,7 @@ namespace OneStoryProjectEditor
 									  viewSettings.Transliterators.InternationalBt);
 			}
 
-			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
+			if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.FreeTranslationField))
 			{
 				strRow += GetHtmlCell(StoryLine.FreeTranslation,
 									  () => theChildVerse.StoryLine.FreeTranslation,
@@ -794,9 +831,8 @@ namespace OneStoryProjectEditor
 									  viewSettings.Transliterators.FreeTranslation);
 			}
 
-			string strHtml = null;
 			var astrExegeticalHelpNotes = new List<string>();
-			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
+			if (!isGeneralQuestionsLine && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.AnchorFields))
 			{
 				strHtml += Anchors.PresentationHtml(nLineId,
 													(theChildVerse != null)
@@ -859,7 +895,8 @@ namespace OneStoryProjectEditor
 													   bShowRetellingsVernacular,
 													   bShowRetellingsNationalBt,
 													   bShowRetellingsEnglishBt,
-													   viewSettings);
+													   viewSettings,
+													   teamMembersData);
 			}
 
 			if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -869,7 +906,8 @@ namespace OneStoryProjectEditor
 				strHtml += TestQuestions.PresentationHtml(nLineId, nNumCols, viewSettings,
 														  craftingInfo.TestersToCommentsTqAnswers,
 														  (theChildVerse != null) ? theChildVerse.TestQuestions : null,
-														  presentationType, IsFirstVerse);
+														  presentationType, IsFirstVerse,
+														  teamMembersData);
 			}
 
 			// show the row as hidden if either we're in print preview (and it's hidden)
@@ -948,7 +986,7 @@ namespace OneStoryProjectEditor
 		// for use when the data is to be marked as an addition (i.e. yellow highlight)
 		public string PresentationHtmlAsAddition(int nLineId, int nNumCols,
 			CraftingInfoData craftingInfo, ViewSettings viewSettings,
-			bool bHasOutsideEnglishBTer, bool bUseTextAreas)
+			bool bHasOutsideEnglishBTer, bool bUseTextAreas, TeamMembersData teamMembersData)
 		{
 			string strRow = null;
 			if (viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.VernacularLangField))
@@ -1022,7 +1060,8 @@ namespace OneStoryProjectEditor
 																 viewSettings.IsViewItemOn(
 																	 ViewSettings.ItemToInsureOn.
 																		 RetellingsInternationalBT),
-																 viewSettings);
+																 viewSettings,
+																 teamMembersData);
 			}
 
 			if ((!IsFirstVerse && viewSettings.IsViewItemOn(ViewSettings.ItemToInsureOn.StoryTestingQuestions |
@@ -1031,7 +1070,8 @@ namespace OneStoryProjectEditor
 			{
 				strHtml += TestQuestions.PresentationHtmlAsAddition(nLineId, nNumCols, viewSettings,
 																	craftingInfo.TestersToCommentsTqAnswers,
-																	bHasOutsideEnglishBTer);
+																	bHasOutsideEnglishBTer,
+																	teamMembersData);
 			}
 
 			return FinishPresentationHtml(strRow, strHtml, !IsVisible, viewSettings, nLineId);
@@ -1162,6 +1202,18 @@ namespace OneStoryProjectEditor
 		{
 			// for now, this just applies to the Consultant notes pane
 			ConsultantNotes.ReassignRolesToConNoteComments(projectFacilitator, consultant);
+		}
+
+		public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+		{
+			if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.StoryLine))
+				StoryLine.SwapColumns(column1, column2);
+
+			if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.TestQuestion | StoryEditor.TextFields.TestQuestionAnswer))
+				TestQuestions.SwapColumns(column1, column2, fieldsToSwap);
+
+			if (StoryEditor.IsFieldSet(fieldsToSwap, StoryEditor.TextFields.Retelling))
+				Retellings.SwapColumns(column1, column2);
 		}
 	}
 
@@ -1504,7 +1556,8 @@ namespace OneStoryProjectEditor
 			int nNumCols,
 			VerseData.ViewSettings viewSettings,
 			bool bHasOutsideEnglishBTer,
-			StoryData.PresentationType presentationType)
+			StoryData.PresentationType presentationType,
+			TeamMembersData teamMembersData)
 		{
 			string strHtml = null;
 			bool bUseTextAreas = viewSettings.IsViewItemOn(VerseData.ViewSettings.ItemToInsureOn.UseTextAreas);
@@ -1519,7 +1572,8 @@ namespace OneStoryProjectEditor
 				strHtml += FirstVerse.PresentationHtml(0, nNumCols, craftingInfo,
 													   viewSettings,
 													   theChildFirstVerse,
-													   presentationType);
+													   presentationType,
+													   teamMembersData);
 			}
 
 			int nInsertCount = 0;
@@ -1565,7 +1619,8 @@ namespace OneStoryProjectEditor
 																					 craftingInfo,
 																					 viewSettings,
 																					 bHasOutsideEnglishBTer,
-																					 bUseTextAreas);
+																					 bUseTextAreas,
+																					 teamMembersData);
 								bFoundOne = true;
 								nInsertCount++;
 							}
@@ -1579,7 +1634,8 @@ namespace OneStoryProjectEditor
 														   craftingInfo,
 														   viewSettings,
 														   theChildVerse,
-														   presentationType);
+														   presentationType,
+														   teamMembersData);
 
 					// if there is a child, but we couldn't find the equivalent verse...
 					if ((child != null) && (theChildVerse == null) && (child.Count >= i))
@@ -1593,7 +1649,8 @@ namespace OneStoryProjectEditor
 																				craftingInfo,
 																				viewSettings,
 																				bHasOutsideEnglishBTer,
-																				bUseTextAreas);
+																				bUseTextAreas,
+																				teamMembersData);
 					}
 				}
 
@@ -1615,7 +1672,8 @@ namespace OneStoryProjectEditor
 																		 craftingInfo,
 																		 viewSettings,
 																		 bHasOutsideEnglishBTer,
-																		 bUseTextAreas);
+																		 bUseTextAreas,
+																		 teamMembersData);
 					}
 					i++;
 				}
@@ -1961,6 +2019,13 @@ namespace OneStoryProjectEditor
 		{
 			FirstVerse.ReassignRolesToConNoteComments(projectFacilitator, consultant);
 			ForEach(v => v.ReassignRolesToConNoteComments(projectFacilitator, consultant));
+		}
+
+		public void SwapColumns(StoryEditor.TextFields column1, StoryEditor.TextFields column2, StoryEditor.TextFields fieldsToSwap)
+		{
+			// remove the answers to general questions in ln 0
+			FirstVerse.SwapColumns(column1, column2, fieldsToSwap);
+			ForEach(v => v.SwapColumns(column1, column2, fieldsToSwap));
 		}
 	}
 }
