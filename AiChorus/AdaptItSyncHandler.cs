@@ -30,11 +30,12 @@ namespace AiChorus
 			var strProjectFolder = Path.Combine(AppDataRoot, Project.FolderName);
 			var strProjectName = Project.ProjectId;
 			var uri = new Uri("http://resumable.languagedepot.org");
+			var strPassword = ServerSetting.DecryptedPassword;
 			var strRepoUrl = String.Format("{0}://{1}{2}@{3}/{4}",
 										   uri.Scheme, ServerSetting.Username,
-										   (String.IsNullOrEmpty(ServerSetting.Password))
+										   (String.IsNullOrEmpty(strPassword))
 											   ? null
-											   : ':' + ServerSetting.Password,
+											   : ':' + strPassword,
 										   uri.Host, strProjectName);
 
 			SyncWithAiRepo(strProjectFolder, strProjectName, strRepoUrl);
@@ -42,7 +43,7 @@ namespace AiChorus
 
 		// taken wholesale from OSE (so we don't need to depend on OSE--before we just called OSE to do it)
 		public const string CstrInternetName = "Internet";
-		private static void SyncWithAiRepo(string strProjectFolder, string strProjectName, string strRepoUrl)
+		private void SyncWithAiRepo(string strProjectFolder, string strProjectName, string strRepoUrl)
 		{
 			// AdaptIt creates the xml file in a different way than we'd like (it
 			//  triggers a whole file change set). So before we attempt to merge, let's
@@ -65,7 +66,7 @@ namespace AiChorus
 				}
 			}
 
-			var projectConfig = GetAiProjectFolderConfiguration(strProjectFolder);
+			var projectConfig = GetProjectFolderConfiguration(strProjectFolder);
 
 			using (var dlg = new SyncDialog(projectConfig, SyncUIDialogBehaviors.Lazy, SyncUIFeatures.NormalRecommended))
 			{
@@ -75,18 +76,6 @@ namespace AiChorus
 				dlg.Text = Resources.SynchronizingAdaptItDialogTitle + strProjectName;
 				dlg.ShowDialog();
 			}
-		}
-
-		private static ProjectFolderConfiguration GetAiProjectFolderConfiguration(string strProjectFolder)
-		{
-			// if there's no repo yet, then create one (even if we aren't going
-			//  to ultimately push with an internet repo, we still want one locally)
-			var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
-			projectConfig.IncludePatterns.Add("*.xml"); // AI KB
-			projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
-			projectConfig.IncludePatterns.Add("*.aic");
-			projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
-			return projectConfig;
 		}
 
 		protected override string GetSynchronizeOrOpenProjectLable
@@ -116,6 +105,18 @@ namespace AiChorus
 				_lstJustClonedProjects.FirstOrDefault(
 					aEc => Path.GetFileNameWithoutExtension(aEc.ConverterIdentifier) == Project.FolderName);
 			Program.DisplayKnowledgeBase(theAiEc);
+		}
+
+		public override ProjectFolderConfiguration GetProjectFolderConfiguration(string strProjectFolder)
+		{
+			// if there's no repo yet, then create one (even if we aren't going
+			//  to ultimately push with an internet repo, we still want one locally)
+			var projectConfig = new ProjectFolderConfiguration(strProjectFolder);
+			projectConfig.IncludePatterns.Add("*.xml"); // AI KB
+			projectConfig.IncludePatterns.Add("*.ChorusNotes"); // the new conflict file
+			projectConfig.IncludePatterns.Add("*.aic");
+			projectConfig.IncludePatterns.Add("*.cct"); // possible normalization spellfixer files
+			return projectConfig;
 		}
 	}
 }

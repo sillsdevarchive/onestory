@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using AiChorus.Properties;
@@ -46,6 +47,8 @@ namespace AiChorus
 					ProcessChorusConfigFile((args.Length == 2) ? args[1] : null);
 				else if (args[0] == "/e")
 					DoEdit();
+				else if ((args[0] == "/s") && (args.Length == 2) && (File.Exists(args[1])))
+					SyncChorusProjects(args[1]);
 				else
 					LaunchProgram("Chorus.exe", Settings.Default.LastProjectFolder);
 			}
@@ -55,6 +58,94 @@ namespace AiChorus
 			}
 		}
 
+		private static void SyncChorusProjects(string strPathToProjectFile)
+		{
+			LogMessage(String.Format("Processing the file: '{0}'", strPathToProjectFile));
+			var chorusConfig = ChorusConfigurations.Load(strPathToProjectFile);
+			foreach (var server in chorusConfig.ServerSettings)
+				SyncServer(server);
+		}
+
+		private static void SyncServer(ServerSetting serverSetting)
+		{
+			foreach (var project in serverSetting.Projects)
+			{
+				LogMessage(String.Format("Processing the project: '{0}'", project.ProjectId));
+				SyncProject(project, serverSetting);
+			}
+		}
+
+		private static string _strLogFilepath;
+		private static string LogPath
+		{
+			get {
+				return _strLogFilepath ??
+					   (_strLogFilepath = Path.Combine(Application.UserAppDataPath, "ChorusSync.log"));
+			}
+		}
+
+		private static void LogMessage(string strOutput)
+		{
+			Console.WriteLine(strOutput);
+			var strLine = String.Format("{0}: {1}{2}", DateTime.Now, strOutput, Environment.NewLine);
+
+			// for some reason, if a log file was originally created in a server folder, say by my computer,
+			//  the server doesn't then like to allow a process run on the server itself to update that file.
+			//  (I have no idea why). So a) let's do exception handling around the attempted write to the log
+			//  file so that programs don't fail to run and b) let's try some fall back strategies: 1) try to
+			//  make a backup so we start again and if that fails, 2) let's try a different filename, and if
+			//  that fails, then 3) try to fallback to a known writable folder.
+			try
+			{
+				File.AppendAllText(LogPath, strLine);
+			}
+			catch (Exception)
+			{
+			}
+		}
+
+		private static void SyncProject(Project project, ServerSetting serverSetting)
+		{
+			ApplicationSyncHandler appHandler;
+			if (!GetSyncApplicationHandler(project, serverSetting, project.ApplicationType, out appHandler))
+				return;
+
+			switch (appHandler.ButtonLabel)
+			{
+				case ApplicationSyncHandler.CstrOptionClone:
+					appHandler.DoClone();
+					break;
+				case ApplicationSyncHandler.CstrOptionSendReceive:
+					appHandler.DoSilentSynchronize();
+					break;
+				default:
+					System.Diagnostics.Debug.Assert(false, "Not expecting either Clone or Send/Receive");
+					break;
+			}
+		}
+
+		public static bool GetSyncApplicationHandler(Project project, ServerSetting serverSetting, string strApplicationName,
+			out ApplicationSyncHandler appHandler)
+		{
+			switch (strApplicationName)
+			{
+				case CstrApplicationTypeOse:
+					appHandler = new OseSyncHandler(project, serverSetting);
+					break;
+
+				case CstrApplicationTypeAi:
+					appHandler = new AdaptItSyncHandler(project, serverSetting);
+					break;
+
+				default:
+					MessageBox.Show(String.Format("Sorry, I'm not familiar with the type '{0}", project.ApplicationType),
+						Resources.AiChorusCaption);
+					appHandler = null;
+					return false;
+			}
+			return true;
+		}
+
 		private static int ProjectCount(ChorusConfigurations chorusConfigurations)
 		{
 			return chorusConfigurations.ServerSettings.Sum(serverSetting => serverSetting.Projects.Count);
@@ -62,11 +153,9 @@ namespace AiChorus
 
 		private static void ProcessChorusConfigFile(string strFilePath)
 		{
-			ChorusConfigurations chorusConfig;
-			if (!String.IsNullOrEmpty(strFilePath))
-				chorusConfig = ChorusConfigurations.Load(strFilePath);
-			else
-				chorusConfig = new ChorusConfigurations();
+			var chorusConfig = !String.IsNullOrEmpty(strFilePath)
+									? ChorusConfigurations.Load(strFilePath)
+									: new ChorusConfigurations();
 
 			if (chorusConfig == null)
 			{
@@ -151,7 +240,7 @@ namespace AiChorus
 		internal static bool CloneProject(ServerSetting serverSetting, Project project, string strProjectFolderRoot)
 		{
 			return CloneProject(project.FolderName, serverSetting.ServerName, serverSetting.Username,
-						 strProjectFolderRoot, serverSetting.Password, project.ProjectId);
+						 strProjectFolderRoot, serverSetting.DecryptedPassword, project.ProjectId);
 		}
 
 		private static bool CloneProject(string strLocalFolderName, string strServerName, string strAccountName,
@@ -243,7 +332,8 @@ namespace AiChorus
 				{
 					StartInfo =
 					{
-						FileName = strFilename,
+						UseShellExecute = false,
+						FileName = strProgramPath,
 						Arguments = "\"" + strArguments + "\"",
 						WorkingDirectory = strWorkingDir
 					}

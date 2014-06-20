@@ -1,3 +1,5 @@
+#define DisplayAllLanguageFields
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +14,16 @@ namespace OneStoryProjectEditor
 {
 	public partial class LnCNotesForm : TopForm
 	{
-		private const int CnColumnGloss = 0;
-		private const int CnColumnVernacular = 1;
-		private const int CnColumnNotes = 2;
+		private const int CnColumnVernacular = 0;
+		private const int CnColumnNationalBt = 1;
+		private const int CnColumnEnglish = 2;
+		private const int CnColumnNotes = 3;
 
 		private StoryEditor _theSE;
-		private int _nHeight;
+		private int _nHeight = 11;
+#if !DisplayAllLanguageFields
 		private bool _bUsingInternationalBtForMeaning;
+#endif
 
 		private LnCNotesForm()
 		{
@@ -33,6 +38,7 @@ namespace OneStoryProjectEditor
 
 			_theSE = theSE;
 
+#if !DisplayAllLanguageFields
 			// the problem we have is that the L&C Notes (grid) window shows
 			//  two columns for a) the Story language rendering and b) the gloss,
 			//  so it's good for us to require both. But for the latter, which
@@ -61,11 +67,35 @@ namespace OneStoryProjectEditor
 			ColumnGloss.DefaultCellStyle.Font = (_bUsingInternationalBtForMeaning)
 													? theSE.StoryProject.ProjSettings.InternationalBT.FontToUse
 													: theSE.StoryProject.ProjSettings.NationalBT.FontToUse;
+#endif
 
-			_nHeight = ColumnGloss.DefaultCellStyle.Font.Height;
-			ColumnRenderings.DefaultCellStyle.Font = theSE.StoryProject.ProjSettings.Vernacular.FontToUse;
-			_nHeight = Math.Max(_nHeight, ColumnRenderings.DefaultCellStyle.Font.Height) + 4;
+			var lnCNotesNoteFontName = Properties.Settings.Default.LnCNotesNoteFontName;
+			var lnCNotesNoteFontSize = Properties.Settings.Default.LnCNotesNoteFontSize;
+			ColumnNotes.DefaultCellStyle.Font = new Font(lnCNotesNoteFontName,
+														 lnCNotesNoteFontSize);
+			_nHeight = ColumnNotes.DefaultCellStyle.Font.Height;
+
+			SetColumn(theSE.StoryProject.ProjSettings.Vernacular, ColumnRenderings);
+			SetColumn(theSE.StoryProject.ProjSettings.NationalBT, ColumnNationalBt);
+			SetColumn(theSE.StoryProject.ProjSettings.InternationalBT, ColumnGloss);
+
+			_nHeight += 4;  // give it some extra room
+
 			InitTable(theSE.StoryProject.LnCNotes);
+		}
+
+		private void SetColumn(ProjectSettings.LanguageInfo langInfo, DataGridViewTextBoxColumn column)
+		{
+			if (langInfo.HasData)
+			{
+				column.DefaultCellStyle.Font = langInfo.FontToUse;
+				_nHeight = Math.Max(_nHeight, column.DefaultCellStyle.Font.Height);
+				column.HeaderText = langInfo.LangName;
+			}
+			else
+			{
+				column.Visible = false;
+			}
 		}
 
 		private void InitTable(IEnumerable<LnCNote> lnCNotes)
@@ -79,10 +109,9 @@ namespace OneStoryProjectEditor
 		{
 			var aObjs = new object[]
 							{
-								(_bUsingInternationalBtForMeaning)
-									? aLnCNote.InternationalBtRendering
-									: aLnCNote.NationalBtRendering,
 								aLnCNote.VernacularRendering,
+								aLnCNote.NationalBtRendering,
+								aLnCNote.InternationalBtRendering,
 								aLnCNote.Notes
 							};
 			int nRow = dataGridViewLnCNotes.Rows.Add(aObjs);
@@ -108,9 +137,8 @@ namespace OneStoryProjectEditor
 			if ((dlg.ShowDialog() != DialogResult.OK) || (theLnCNote == null))
 				return;
 
-			theRow.Cells[CnColumnGloss].Value = (_bUsingInternationalBtForMeaning)
-													? theLnCNote.InternationalBtRendering
-													: theLnCNote.NationalBtRendering;
+			theRow.Cells[CnColumnEnglish].Value = theLnCNote.InternationalBtRendering;
+			theRow.Cells[CnColumnNationalBt].Value = theLnCNote.NationalBtRendering;
 			theRow.Cells[CnColumnVernacular].Value = theLnCNote.VernacularRendering;
 			theRow.Cells[CnColumnNotes].Value = theLnCNote.Notes;
 			_theSE.Modified = true;
@@ -119,12 +147,12 @@ namespace OneStoryProjectEditor
 		private void toolStripButtonAddLnCNote_Click(object sender, EventArgs e)
 		{
 			var dlg = new AddLnCNoteForm(_theSE, null, null, null);
-			if (dlg.ShowDialog() == DialogResult.OK)
-			{
-				_theSE.StoryProject.LnCNotes.Add(dlg.TheLnCNote);
-				AddToGrid(dlg.TheLnCNote);
-				_theSE.Modified = true;
-			}
+			if (dlg.ShowDialog() != DialogResult.OK)
+				return;
+
+			_theSE.StoryProject.LnCNotes.Add(dlg.TheLnCNote);
+			AddToGrid(dlg.TheLnCNote);
+			_theSE.Modified = true;
 		}
 
 		private void toolStripButtonEditLnCNote_Click(object sender, EventArgs e)
@@ -133,8 +161,8 @@ namespace OneStoryProjectEditor
 			if (dataGridViewLnCNotes.SelectedCells.Count != 1)
 				return;
 
-			int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
-			DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
+			var nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
+			var theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
 			EditLnCNote(theRow, Localizer.Str("Add L & C Note"));
 		}
 
@@ -144,32 +172,35 @@ namespace OneStoryProjectEditor
 			if (dataGridViewLnCNotes.SelectedCells.Count != 1)
 				return;
 
-			int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
-			if (nSelectedRowIndex <= dataGridViewLnCNotes.Rows.Count - 1)
-			{
-				DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
-				string strValue = (string)theRow.Cells[CnColumnGloss].Value;
-				// make sure the user really wants to do this
-				if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L && C Note:{0}{1}"),
-												  Environment.NewLine,
-												  strValue),
-									StoryEditor.OseCaption,
-									MessageBoxButtons.YesNoCancel)
-					!= DialogResult.Yes)
-					return;
+			var nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
+			if (nSelectedRowIndex > dataGridViewLnCNotes.Rows.Count - 1)
+				return;
 
-				var theLnCNote = theRow.Tag as LnCNote;
-				_theSE.StoryProject.LnCNotes.Remove(theLnCNote);
-				InitTable(_theSE.StoryProject.LnCNotes);
+			var theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
+			var strValue = (string)((ColumnGloss.Visible)
+				? theRow.Cells[CnColumnEnglish].Value
+				: theRow.Cells[CnColumnNationalBt].Value);
 
-				if (nSelectedRowIndex >= dataGridViewLnCNotes.Rows.Count)
-					nSelectedRowIndex--;
+			// make sure the user really wants to do this
+			if (LocalizableMessageBox.Show(String.Format(Localizer.Str("Are you sure you want to delete the L && C Note:{0}{1}"),
+				Environment.NewLine,
+				strValue),
+				StoryEditor.OseCaption,
+				MessageBoxButtons.YesNoCancel)
+				!= DialogResult.Yes)
+				return;
 
-				if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewLnCNotes.Rows.Count))
-					dataGridViewLnCNotes.Rows[nSelectedRowIndex].Selected = true;
+			var theLnCNote = theRow.Tag as LnCNote;
+			_theSE.StoryProject.LnCNotes.Remove(theLnCNote);
+			InitTable(_theSE.StoryProject.LnCNotes);
 
-				_theSE.Modified = true;
-			}
+			if (nSelectedRowIndex >= dataGridViewLnCNotes.Rows.Count)
+				nSelectedRowIndex--;
+
+			if ((nSelectedRowIndex >= 0) && (nSelectedRowIndex < dataGridViewLnCNotes.Rows.Count))
+				dataGridViewLnCNotes.Rows[nSelectedRowIndex].Selected = true;
+
+			_theSE.Modified = true;
 		}
 
 		private void toolStripButtonSearch_Click(object sender, EventArgs e)
@@ -178,17 +209,18 @@ namespace OneStoryProjectEditor
 			if (dataGridViewLnCNotes.SelectedCells.Count != 1)
 				return;
 
-			int nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
-			if (nSelectedRowIndex <= dataGridViewLnCNotes.Rows.Count - 1)
-			{
-				DataGridViewRow theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
-				var theLnCNote = theRow.Tag as LnCNote;
-				System.Diagnostics.Debug.Assert(theLnCNote != null);
-				var dlg = new ConcordanceForm(_theSE, theLnCNote.VernacularRendering,
-					theLnCNote.NationalBtRendering, theLnCNote.InternationalBtRendering,
-					null);
-				dlg.Show();
-				/* can't do this if we use 'Show' and can't not use 'Show' or we can't visit
+			var nSelectedRowIndex = dataGridViewLnCNotes.SelectedCells[0].RowIndex;
+			if (nSelectedRowIndex > dataGridViewLnCNotes.Rows.Count - 1)
+				return;
+
+			var theRow = dataGridViewLnCNotes.Rows[nSelectedRowIndex];
+			var theLnCNote = theRow.Tag as LnCNote;
+			System.Diagnostics.Debug.Assert(theLnCNote != null);
+			var dlg = new ConcordanceForm(_theSE, theLnCNote.VernacularRendering,
+				theLnCNote.NationalBtRendering, theLnCNote.InternationalBtRendering,
+				null);
+			dlg.Show();
+			/* can't do this if we use 'Show' and can't not use 'Show' or we can't visit
 				 * the lines found
 				if ((dlg.VernacularForm != theLnCNote.VernacularRendering)
 					|| (dlg.NationalForm != theLnCNote.NationalBtRendering)
@@ -201,7 +233,6 @@ namespace OneStoryProjectEditor
 					EditLnCNote(theRow, "Would you like to modify this note with the new search pattern?");
 				}
 				*/
-			}
 		}
 
 		private void toolStripButtonPrint_Click(object sender, EventArgs e)

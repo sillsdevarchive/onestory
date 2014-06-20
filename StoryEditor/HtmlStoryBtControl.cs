@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -241,7 +242,7 @@ namespace OneStoryProjectEditor
 
 		public bool TextareaOnBlur(string strId)
 		{
-			KeyboardController.DeactivateKeyboard();
+			Keyboard.Controller.ActivateDefaultKeyboard();
 			return false;
 		}
 
@@ -465,6 +466,8 @@ namespace OneStoryProjectEditor
 			stFrom.RemoveSubstring(strOriginalText);
 		}
 
+			{
+			}
 		private static string GetStoryLineId(int nVerseIndex, string strFieldTypeName)
 		{
 			StoryEditor.LocalizedEnum<StoryEditor.TextFields> field = StoryEditor.TextFields.StoryLine;

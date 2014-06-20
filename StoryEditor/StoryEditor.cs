@@ -18,6 +18,7 @@ using ECInterfaces;
 using Microsoft.Win32;
 using OneStoryProjectEditor.Properties;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 using System.Diagnostics;               // Process
 using Palaso.Reporting;
@@ -2374,7 +2375,7 @@ namespace OneStoryProjectEditor
 				// it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
 				try
 				{
-					KeyboardController.DeactivateKeyboard(); // ... do it manually
+					Keyboard.Controller.ActivateDefaultKeyboard(); // ... do it manually
 				}
 				catch (FileLoadException)
 				{
@@ -6050,6 +6051,8 @@ namespace OneStoryProjectEditor
 			advancedNewProjectMenu.Enabled = IsInStoriesSet;
 			advancedEmailMenu.Checked = Settings.Default.UseMapiPlus;
 			advancedUseWordBreaks.Enabled = BreakIterator.IsAvailable;
+
+			advancedOneStoryProjectMetaData.Enabled = (StoryProject != null) && (StoryProject.ProjSettings != null);
 		}
 
 		private void checkForProgramUpdatesNowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -6100,7 +6103,7 @@ namespace OneStoryProjectEditor
 			catch (Program.RestartException)
 			{
 				// if it returns here without throwing an exception, it means there were no updates
-				LocalizableMessageBox.Show(Localizer.Str("An update has been downloaded and will be installed the next time OneStory Editor is launched"),
+				LocalizableMessageBox.Show(Localizer.Str("OneStory Editor needs to be restarted"),
 								OseCaption);
 
 				_bRestarting = true;
@@ -6387,6 +6390,14 @@ namespace OneStoryProjectEditor
 			// clean up any existing open projects
 			if (!CheckForSaveDirtyFile())
 				return false;
+
+			// see if we should save the OS project meta data
+			if ((StoryProject != null) &&
+				(StoryProject.OsMetaData != null) &&
+				(LoggedOnMember != null))
+			{
+				StoryProject.SaveProjectMetaData(LoggedOnMember);
+			}
 
 			CloseProjectFile();
 			return true;
@@ -7174,6 +7185,19 @@ namespace OneStoryProjectEditor
 			var nextStoryName = _lstToSwap.First();
 			_lstToSwap.Remove(nextStoryName);
 			JumpToStory(nextStoryName);
+		}
+
+		private void advancedOneStoryProjectMetaData_Click(object sender, EventArgs e)
+		{
+			if (LaunchOsMetaDataDialog(StoryProject))
+				StoryProject.SaveProjectMetaData(LoggedOnMember);
+		}
+
+		public static bool LaunchOsMetaDataDialog(StoryProjectData storyProject)
+		{
+
+			var dlg = new OsMetaDataForm(storyProject.OsMetaData ?? storyProject.InitializeMetaData);
+			return (dlg.ShowDialog() == DialogResult.OK);
 		}
 	}
 

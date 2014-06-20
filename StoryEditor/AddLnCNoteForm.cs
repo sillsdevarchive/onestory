@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 
 namespace OneStoryProjectEditor
 {
@@ -131,6 +133,10 @@ namespace OneStoryProjectEditor
 							labelInternationalBT,
 							textBoxInternationalBT);
 
+			var lnCNotesNoteFontName = Properties.Settings.Default.LnCNotesNoteFontName;
+			var lnCNotesNoteFontSize = Properties.Settings.Default.LnCNotesNoteFontSize;
+			textBoxNotes.Font = new Font(lnCNotesNoteFontName,
+										 lnCNotesNoteFontSize);
 			textBoxNotes.Text = theLnC.Notes;
 
 			var strHelpString = Localizer.Str("Enter the word(s) you want to search for. You can search for more than one word at a time by separating them by commas. For all words beginning with \"xyz\" use \"xyz*\" ; ending with \"xyz\" use \"*xyz\"; containing \"xyz\" use \"*xyz*\". Multiple word search phrases are allowed, for example \"John the Baptist\" (enclose in double-quotes)");
@@ -209,12 +215,12 @@ namespace OneStoryProjectEditor
 				return;
 			var li = tb.Tag as ProjectSettings.LanguageInfo;
 			if ((li != null) && (!String.IsNullOrEmpty(li.Keyboard)))
-				KeyboardController.ActivateKeyboard(li.Keyboard);
+				Keyboard.Controller.SetKeyboard(li.Keyboard);
 		}
 
 		private void textBox_Leave(object sender, EventArgs e)
 		{
-			KeyboardController.DeactivateKeyboard();
+			Keyboard.Controller.ActivateDefaultKeyboard();
 		}
 		/*
 		private void buttonKeyTermSelect_Click(object sender, EventArgs e)

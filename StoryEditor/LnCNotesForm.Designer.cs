@@ -32,9 +32,6 @@ namespace OneStoryProjectEditor
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LnCNotesForm));
             this.dataGridViewLnCNotes = new System.Windows.Forms.DataGridView();
-            this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonAddLnCNote = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEditLnCNote = new System.Windows.Forms.ToolStripButton();
@@ -44,6 +41,10 @@ namespace OneStoryProjectEditor
             this.toolStripButtonKeyTermSearch = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonPrint = new System.Windows.Forms.ToolStripButton();
+            this.ColumnRenderings = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNationalBt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnGloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnNotes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLnCNotes)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,10 +53,12 @@ namespace OneStoryProjectEditor
             // 
             this.dataGridViewLnCNotes.AllowUserToAddRows = false;
             this.dataGridViewLnCNotes.AllowUserToResizeRows = false;
+            this.dataGridViewLnCNotes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewLnCNotes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewLnCNotes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnGloss,
             this.ColumnRenderings,
+            this.ColumnNationalBt,
+            this.ColumnGloss,
             this.ColumnNotes});
             this.dataGridViewLnCNotes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewLnCNotes.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
@@ -67,23 +70,6 @@ namespace OneStoryProjectEditor
             this.dataGridViewLnCNotes.Size = new System.Drawing.Size(702, 332);
             this.dataGridViewLnCNotes.TabIndex = 1;
             this.dataGridViewLnCNotes.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewLnCNotes_CellMouseDoubleClick);
-            // 
-            // ColumnGloss
-            // 
-            this.ColumnGloss.HeaderText = "Gloss";
-            this.ColumnGloss.Name = "ColumnGloss";
-            this.ColumnGloss.ReadOnly = true;
-            // 
-            // ColumnRenderings
-            // 
-            this.ColumnRenderings.HeaderText = "Renderings";
-            this.ColumnRenderings.Name = "ColumnRenderings";
-            // 
-            // ColumnNotes
-            // 
-            this.ColumnNotes.HeaderText = "Notes";
-            this.ColumnNotes.Name = "ColumnNotes";
-            this.ColumnNotes.Width = 531;
             // 
             // toolStrip1
             // 
@@ -178,6 +164,35 @@ namespace OneStoryProjectEditor
             this.toolStripButtonPrint.ToolTipText = "Click this button to print the L & C Note";
             this.toolStripButtonPrint.Click += new System.EventHandler(this.toolStripButtonPrint_Click);
             // 
+            // ColumnRenderings
+            // 
+            this.ColumnRenderings.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnRenderings.HeaderText = "Renderings";
+            this.ColumnRenderings.Name = "ColumnRenderings";
+            this.ColumnRenderings.Width = 86;
+            // 
+            // ColumnNationalBt
+            // 
+            this.ColumnNationalBt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnNationalBt.HeaderText = "National BT";
+            this.ColumnNationalBt.Name = "ColumnNationalBt";
+            this.ColumnNationalBt.ReadOnly = true;
+            this.ColumnNationalBt.Width = 88;
+            // 
+            // ColumnGloss
+            // 
+            this.ColumnGloss.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ColumnGloss.HeaderText = "Gloss";
+            this.ColumnGloss.Name = "ColumnGloss";
+            this.ColumnGloss.ReadOnly = true;
+            this.ColumnGloss.Width = 58;
+            // 
+            // ColumnNotes
+            // 
+            this.ColumnNotes.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnNotes.HeaderText = "Notes";
+            this.ColumnNotes.Name = "ColumnNotes";
+            // 
             // LnCNotesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,10 +223,11 @@ namespace OneStoryProjectEditor
         private System.Windows.Forms.ToolStripButton toolStripButtonSearch;
         private System.Windows.Forms.ToolStripButton toolStripButtonDeleteKeyTerm;
         private System.Windows.Forms.ToolStripButton toolStripButtonKeyTermSearch;
-        private DataGridViewTextBoxColumn ColumnGloss;
-        private DataGridViewTextBoxColumn ColumnRenderings;
-        private DataGridViewTextBoxColumn ColumnNotes;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton toolStripButtonPrint;
+        private DataGridViewTextBoxColumn ColumnRenderings;
+        private DataGridViewTextBoxColumn ColumnNationalBt;
+        private DataGridViewTextBoxColumn ColumnGloss;
+        private DataGridViewTextBoxColumn ColumnNotes;
     }
 }
