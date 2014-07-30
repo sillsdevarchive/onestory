@@ -37,7 +37,8 @@ namespace OneStoryProjectEditor
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 
-				Xpcom.Initialize("xulrunner");
+				// done somewhere else, I think....
+				//  Xpcom.Initialize("xulrunner");
 
 				var splashScreen = new SplashScreenForm();
 				splashScreen.Show();

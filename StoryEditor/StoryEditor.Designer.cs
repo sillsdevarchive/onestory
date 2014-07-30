@@ -1248,6 +1248,7 @@ namespace OneStoryProjectEditor
             this.advancedUseWordBreaks,
             this.advancedImportHelper,
             this.advancedTransferConNotes,
+            this.advancedStoryBtPaneDisplayOptionsItem,
             this.advancedSwapDataColumns,
             this.advancedOneStoryProjectMetaData});
             this.advancedToolStripMenu.Name = "advancedToolStripMenu";

@@ -465,9 +465,6 @@ namespace OneStoryProjectEditor
 			stTo.SetValue(strOriginalText);
 			stFrom.RemoveSubstring(strOriginalText);
 		}
-
-			{
-			}
 		private static string GetStoryLineId(int nVerseIndex, string strFieldTypeName)
 		{
 			StoryEditor.LocalizedEnum<StoryEditor.TextFields> field = StoryEditor.TextFields.StoryLine;

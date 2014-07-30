@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using NetLoc;
 using Palaso.UI.WindowsForms.Keyboarding;
+using Palaso.WritingSystems;
 
 namespace OneStoryProjectEditor
 {
@@ -1444,7 +1445,7 @@ namespace OneStoryProjectEditor
 			{
 				var strKeyboardName = textAreaIdentifier.GetLanguageInfo(TheSe.StoryProject.ProjSettings).Keyboard;
 				if (!String.IsNullOrEmpty(strKeyboardName))
-					KeyboardController.ActivateKeyboard(strKeyboardName);
+					Keyboard.Controller.SetKeyboard(strKeyboardName);
 			}
 			return false;
 		}

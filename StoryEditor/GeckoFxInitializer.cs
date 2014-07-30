@@ -94,13 +94,13 @@ namespace OneStoryProjectEditor
 											{
 												Text =
 													cstrLinkPrefix + cstrXulRunnerLink + cstrFolderPrefix +
-													DirectoryOfTheApplicationExecutable,
+													DirectoryOfApplicationOrSolution,
 												Dock = DockStyle.Fill
 											};
 				labelInstructions.Links.Add(cstrLinkPrefix.Length, cstrXulRunnerLink.Length, cstrXulRunnerLink);
-				labelInstructions.Links.Add(labelInstructions.Text.IndexOf(DirectoryOfTheApplicationExecutable),
-											DirectoryOfTheApplicationExecutable.Length,
-											DirectoryOfTheApplicationExecutable);
+				labelInstructions.Links.Add(labelInstructions.Text.IndexOf(DirectoryOfApplicationOrSolution),
+											DirectoryOfApplicationOrSolution.Length,
+											DirectoryOfApplicationOrSolution);
 				labelInstructions.LinkClicked += (sender, args) =>
 													 {
 														 if (args.Link.LinkData != null)

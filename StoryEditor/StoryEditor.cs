@@ -6597,7 +6597,8 @@ namespace OneStoryProjectEditor
 					break;
 
 				default:
-					storyBtControl.Browser.ResetDocument();
+					if (storyBtControl.Browser != null)
+						storyBtControl.Browser.ResetDocument();
 					break;
 			}
 		}
@@ -6973,7 +6974,7 @@ namespace OneStoryProjectEditor
 			var nLineIndex = (int)linkLabelVerseBT.Tag;
 			if (nLineIndex > 0)
 				nLineIndex--;
-			while ((nLineIndex > 0) && !TheCurrentStory.Verses[nLineIndex].IsVisible)
+			while ((nLineIndex > 0) && (TheCurrentStory.Verses.Count > nLineIndex) && !TheCurrentStory.Verses[nLineIndex].IsVisible)
 				nLineIndex--;
 			FocusOnVerse(nLineIndex, true, true);
 		}
