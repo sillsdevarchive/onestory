@@ -718,12 +718,12 @@ namespace OneStoryProjectEditor
 		{
 			// don't show anything if
 			//  a) there's nothing to show
-			//  b) it's someone's note to self and the logged on member is not 'self'
+			//  b) it's someone's note to self and the logged on member is not 'self' (AND it's not the coach of the CIT who initiated it)
 			//  c) it's a note in need of approval, but neither the person who initiated
 			//      the note, nor the one with the ability to approve it, nor one with
 			//      the ability to view such notes is logged on.
 			if ((Count == 0) ||
-					(IsNoteToSelf && !InitiatedConversation(loggedOnMember)) ||
+					(IsNoteToSelf && (!InitiatedConversation(loggedOnMember) && !IsCoachWithCitNoteToSelf(loggedOnMember, theTeamMembers))) ||
 					// (NoteNeedsApproval &&
 					(((Count == 1) && (FinalComment.Direction == CommunicationDirections.eConsultantToProjFacNeedsApproval)) &&
 						!InitiatedConversation(loggedOnMember) &&
@@ -856,6 +856,19 @@ namespace OneStoryProjectEditor
 			return strHtml;
 		}
 
+		private bool IsCoachWithCitNoteToSelf(TeamMemberData loggedOnMember, TeamMembersData theTeamMembers)
+		{
+			// this function is there to allow a coach to see the 'Notes to self' of the CIT on the project (which
+			//  are normally only visible to the CIT, since they are notes to self, but which the Indonesian coaches
+			//  with the approval of Nathan Payne, said they wanted.
+			// return true if a) this is a 'manage with coaching' situation, b) the conversation was initiated by a CIT ,
+			//  (who happens to be the mentor in the Consultant Note pane, where we want this visible), and
+			//  c) the logged in member is the coach.
+			return !theTeamMembers.HasIndependentConsultant &&
+				   IsMentorNoteToSelf(InitialComment) &&
+				   TeamMemberData.IsUser(loggedOnMember.MemberType, TeamMemberData.UserTypes.Coach);
+		}
+
 		private static string SetHyperlinks(string strHyperlinkedText)
 		{
 			if (String.IsNullOrEmpty(strHyperlinkedText))
@@ -976,16 +989,13 @@ namespace OneStoryProjectEditor
 				}
 				else if (!IsStickyNote)
 				{
-					// otherwise, add an 'End Conversation' button (if it's not a sticky note)
-					strRow += String.Format(Resources.HTML_ButtonClass,
-											ButtonId(nVerseIndex, nConversationIndex,
-													 CnBtnIndexEndConversation),
-											StoryData.CstrLangLocalizationStyleClassName,
-											"return window.external.OnClickEndConversation(this.id);",
-											(IsFinished)
-												? CstrButtonLabelConversationReopen
-												: CstrButtonLabelConversationEnd);
+					strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
 				}
+			}
+			// Jock wants mentors to be able to close conversations also
+			else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote && !IsFinished)
+			{
+				strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
 			}
 
 			// add a button if the logged on person has the authority to approve the note (or show it to the person who needs to see it)
@@ -1017,6 +1027,19 @@ namespace OneStoryProjectEditor
 								 ButtonRowId(nVerseIndex, nConversationIndex),
 								 strColor,
 								 strRow);
+		}
+
+		private string GetEndOrOpenConversationButtonHtml(int nVerseIndex, int nConversationIndex)
+		{
+			// otherwise, add an 'End Conversation' button (if it's not a sticky note)
+			return String.Format(Resources.HTML_ButtonClass,
+				ButtonId(nVerseIndex, nConversationIndex,
+					CnBtnIndexEndConversation),
+				StoryData.CstrLangLocalizationStyleClassName,
+				"return window.external.OnClickEndConversation(this.id);",
+				(IsFinished)
+					? CstrButtonLabelConversationReopen
+					: CstrButtonLabelConversationEnd);
 		}
 
 		protected bool InitiatedByCit(TeamMembersData teamMembersData)

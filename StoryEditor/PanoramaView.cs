@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using NetLoc;
 
@@ -172,6 +174,11 @@ namespace OneStoryProjectEditor
 				if (bInLoggedInUsersTurn)
 					aRow.DefaultCellStyle.BackColor = Color.Yellow;
 			}
+		}
+
+		private static bool IsInLoggedInUsersTurn(DataGridViewBand theRow)
+		{
+			return (theRow.DefaultCellStyle.BackColor == Color.Yellow);
 		}
 
 		// override to handle the case were the project state says it's in the
@@ -738,6 +745,32 @@ namespace OneStoryProjectEditor
 
 			var dlg = new TransitionHistoryForm(theSD.TransitionHistory, _storyProject.TeamMembers);
 			dlg.ShowDialog();
+		}
+
+		private void CopyGridToClipboard(IEnumerable dataGridViewRowCollection)
+		{
+			var strHtml = "<tr><th>Story Name</th><th>Purpose</th><th>Who Edits</th><th>Time in Turn</th><th># of Lines</th><th># of TQs</th><th># of Words</th></tr>";
+			foreach (DataGridViewRow aRow in dataGridViewRowCollection)
+			{
+				var strRowHtml = aRow.Cells.Cast<DataGridViewCell>().Aggregate<DataGridViewCell, string>(null, (current, aCell) => current + String.Format("<td>{0}</td>", aCell.Value));
+				strHtml += String.Format("<tr class='{1}'>{0}</tr>",
+										 strRowHtml,
+										 IsInLoggedInUsersTurn(aRow)
+											? "highlight"
+											: "");
+			}
+
+			strHtml = String.Format(@"<table>{0}</table>", strHtml);
+
+			HtmlFragment.CopyToClipboard(strHtml,
+										 String.Format("OneStory Editor: {0}", _storyProject.ProjSettings.ProjectName),
+										 @"<style type=""text/css"">table, th, td { border-style: solid; border-width: 1px; } .highlight { background-color:yellow; }</style>",
+										 null);
+		}
+
+		private void buttonCopyToClipboard_Click(object sender, EventArgs e)
+		{
+			CopyGridToClipboard(dataGridViewPanorama.Rows);
 		}
 
 		#region obsolete code
