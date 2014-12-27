@@ -1346,6 +1346,7 @@ namespace OneStoryProjectEditor
 			// forget things:
 			storyBtControl.LastTextareaInFocusId = null;
 			CtrlTextBox._nLastVerse = -1;
+			linkLabelVerseBT.Tag = 0;
 
 			if (m_frmFind != null)
 				// if the user switches stories, then we need to reindex the search
@@ -1721,8 +1722,7 @@ namespace OneStoryProjectEditor
 		public void AddNoteAbout(VerseControl ctrlParent, bool bNoteToSelf)
 		{
 			Debug.Assert(LoggedOnMember != null);
-			string strNote = null,
-				   strInitials = GetInitials(LoggedOnMember.Name) + StrRegarding;
+			string strNote = null;
 			if (ctrlParent is VerseBtControl)
 			{
 				var ctrl = ctrlParent as VerseBtControl;
@@ -1802,12 +1802,19 @@ namespace OneStoryProjectEditor
 			}
 			strNote += ". ";
 
-			SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, strInitials, bNoteToSelf);
+			SendNoteToCorrectPane(ctrlParent.VerseNumber, strNote, bNoteToSelf);
 		}
 
+		/*
 		public static string StrRegarding
 		{
 			get { return Localizer.Str(": Re: "); }
+		}
+		*/
+
+		public static string DateForConNote
+		{
+			get { return String.Format(" ({0}): ", DateTime.Now.ToString("dd-MMM-yyyy")); }
 		}
 
 		private bool IsInStoryLine(VerseBtControl ctrl)
@@ -2043,7 +2050,7 @@ namespace OneStoryProjectEditor
 			return strInitials;
 		}
 
-		internal void SendNoteToCorrectPane(int nVerseIndex, string strReferringText, string strNote, bool bNoteToSelf)
+		internal bool SendNoteToCorrectPane(int nVerseIndex, string strReferringText, bool bNoteToSelf)
 		{
 			if (TeamMemberData.IsUser(LoggedOnMember.MemberType,
 									  TeamMemberData.UserTypes.Coach))
@@ -2051,14 +2058,14 @@ namespace OneStoryProjectEditor
 				if (!viewCoachNotesMenu.Checked)
 					viewCoachNotesMenu.Checked = true;
 
-				coachNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				return coachNotesControl.OnAddNote(nVerseIndex, strReferringText, bNoteToSelf);
 			}
 			else
 			{
 				if (!viewConsultantNotesMenu.Checked)
 					viewConsultantNotesMenu.Checked = true;
 
-				consultantNotesControl.OnAddNote(nVerseIndex, strReferringText, strNote, bNoteToSelf);
+				return consultantNotesControl.OnAddNote(nVerseIndex, strReferringText, bNoteToSelf);
 			}
 		}
 
@@ -2373,16 +2380,7 @@ namespace OneStoryProjectEditor
 			if (Modified)
 			{
 				// it's annoying that the keyboard doesn't deactivate so I can just type 'y' for "Yes"
-				try
-				{
-					Keyboard.Controller.ActivateDefaultKeyboard(); // ... do it manually
-				}
-				catch (FileLoadException)
-				{
-#if !DEBUG
-					throw;
-#endif
-				}
+				Program.ActivateDefaultKeyboard(); // ... do it manually
 
 				var res = QuerySave();
 				if (res == DialogResult.Cancel)

@@ -137,14 +137,14 @@ namespace OneStoryProjectEditor
 			}
 		}
 
-		protected static Regex FindMultipleAmbiguities = new Regex(@"%\d%", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
+		protected static Regex FindMultipleAmbiguities = new Regex(@"%\d+%", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.Singleline);
 		public string TargetWord
 		{
 			get { return textBoxTargetWord.Text; }
 			set
 			{
 				string strValue = FindMultipleAmbiguities.Replace(value, "");
-				string[] astrTokens = strValue.Split(new[] { '%' }, StringSplitOptions.RemoveEmptyEntries);
+				string[] astrTokens = strValue.Split(_ambiguitySeparator, StringSplitOptions.RemoveEmptyEntries);
 				if (astrTokens.Length > 1)
 				{
 					string strLine = astrTokens[0];
@@ -259,7 +259,7 @@ namespace OneStoryProjectEditor
 
 		void textBoxTargetWord_Leave(object sender, System.EventArgs e)
 		{
-			Keyboard.Controller.ActivateDefaultKeyboard();
+			Program.ActivateDefaultKeyboard();
 		}
 
 		void OnSelectAmbiguity(object sender, EventArgs e)
@@ -289,6 +289,8 @@ namespace OneStoryProjectEditor
 		}
 
 		private List<string> SimilarWords;
+		private static char[] _ambiguitySeparator = { '%' };
+
 		private void contextMenuStripForSplitting_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			const int CnFixedItemsStripForSplitting = 4;
@@ -363,7 +365,7 @@ namespace OneStoryProjectEditor
 				Keyboard.Controller.SetKeyboard(_strSourceKeyboard);
 			if (dlg.ShowDialog() == DialogResult.OK)
 				_parent.Update(this, dlg.CorrectedWord);
-			Keyboard.Controller.ActivateDefaultKeyboard();
+			Program.ActivateDefaultKeyboard();
 		}
 
 		private void retranslateSourceWordToolStripMenuItem_Click(object sender, EventArgs e)

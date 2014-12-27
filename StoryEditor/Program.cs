@@ -19,6 +19,7 @@ using MAPIEx;
 using NetLoc;
 using Palaso.Email;
 using Palaso.Reporting;
+using Palaso.WritingSystems;
 using SilEncConverters40;
 
 namespace OneStoryProjectEditor
@@ -162,6 +163,18 @@ namespace OneStoryProjectEditor
 			finally
 			{
 				Palaso.UI.WindowsForms.Keyboarding.KeyboardController.Shutdown();
+			}
+		}
+
+		public static void ActivateDefaultKeyboard()
+		{
+			try
+			{
+				Keyboard.Controller.ActivateDefaultKeyboard();
+			}
+			catch
+			{
+				// on come computers, this happens all the time and I don't know why... just ignore errors
 			}
 		}
 

@@ -1211,8 +1211,7 @@ namespace OneStoryProjectEditor
 				if (anchor.JumpTarget != anchor.ToolTipText)
 					strReferringText += String.Format(" ({0})", anchor.ToolTipText);
 
-				var strNote = StoryEditor.GetInitials(theSe.LoggedOnMember.Name) + ": ";
-				theSe.SendNoteToCorrectPane(nLineIndex, strReferringText, strNote, false);
+				theSe.SendNoteToCorrectPane(nLineIndex, strReferringText, false);
 			}
 			else
 				LocalizableMessageBox.Show("Right-click on one of the buttons to choose which one to add the comment to", StoryEditor.OseCaption);

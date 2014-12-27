@@ -786,7 +786,7 @@ namespace OneStoryProjectEditor
 				string strReferringHtml = null;
 				if ((i == 0) && (ReferringText != null) && ReferringText.HasData)
 				{
-					strReferringHtml = String.Format("<p>{0}</p>", ReferringText);
+					strReferringHtml = String.Format("<p ondblclick=\"OnDoubleClick()\">{0}</p>", ReferringText);
 				}
 
 				// there are two factors in deciding whether a conversation may be edited.
@@ -993,7 +993,7 @@ namespace OneStoryProjectEditor
 				}
 			}
 			// Jock wants mentors to be able to close conversations also
-			else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote && !IsFinished)
+			else if (IsMentorLoggedOn(loggedOnMember) && loggedOnMember.IsEditAllowed(theStory) && !IsStickyNote)
 			{
 				strRow += GetEndOrOpenConversationButtonHtml(nVerseIndex, nConversationIndex);
 			}

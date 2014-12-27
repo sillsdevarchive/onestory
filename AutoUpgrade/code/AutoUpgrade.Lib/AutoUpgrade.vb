@@ -1139,7 +1139,7 @@ Namespace devX
 			Return downloader
 		End Function
 
-		Public Function AddModuleToManifest(ftp As FtpClient, ftpItemModsD As FtpItem, strRemoteDataFolder As String) As Boolean
+		Public Function AddModuleToManifest(ByVal ftp As FtpClient, ByVal ftpItemModsD As FtpItem, ByVal strRemoteDataFolder As String) As Boolean
 
 			' copy the downloaded (temporary) mods file to the proper path
 			AddToManifest(UpgradeDirectory, ftpItemModsD)

@@ -338,7 +338,7 @@ namespace OneStoryProjectEditor
 #endif
 
 			// var strReferringText = String.Format("<p><i>{0}</i></p><p>{1}</p>", Localizer.Str("Re: ConNote:"), range.htmlText);
-			AdaptorConNote.TheSe.SendNoteToCorrectPane(nLineNumber, strReferringText, null, bNoteToSelf);
+			AdaptorConNote.TheSe.SendNoteToCorrectPane(nLineNumber, strReferringText, bNoteToSelf);
 		}
 
 		private ContextMenuStrip contextMenu;

@@ -242,7 +242,7 @@ namespace OneStoryProjectEditor
 
 		public bool TextareaOnBlur(string strId)
 		{
-			Keyboard.Controller.ActivateDefaultKeyboard();
+			Program.ActivateDefaultKeyboard();
 			return false;
 		}
 
@@ -343,8 +343,7 @@ namespace OneStoryProjectEditor
 			var TheSe = AdaptorStoryBt.TheSe;
 			var nLastSubItemIndex = -1;
 			string strLastFieldReference = null,
-				   strReferringText = null,
-				   strNote = String.Format("{0}: ", StoryEditor.GetInitials(TheSe.LoggedOnMember.Name));
+				   strReferringText = null;
 
 			foreach (var span in GetSelectedTexts(textAreaIdentifier.LineIndex))
 			{
@@ -381,7 +380,7 @@ namespace OneStoryProjectEditor
 				strReferringText = strReferringText.Replace(" readonly", null);
 			}
 
-			TheSe.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, strNote, bNoteToSelf);
+			TheSe.SendNoteToCorrectPane(textAreaIdentifier.LineIndex, strReferringText, bNoteToSelf);
 		}
 
 		protected bool GetIndicesFromId(string strId, out int nLineIndex)
